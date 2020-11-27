@@ -16,9 +16,10 @@ func TestNewConfig(t *testing.T) {
 	cfg := NewConfig()
 
 	expected := &Config{
-		filename:      path.Join(dir, "konstellation-io", "kli", "config.yml"),
-		DefaultServer: "",
-		ServerList:    []ServerConfig{},
+		filename:              path.Join(dir, "konstellation-io", "kli", "config.yml"),
+		DefaultRequestTimeout: DefaultRequestTimeout,
+		DefaultServer:         "",
+		ServerList:            []ServerConfig{},
 	}
 
 	require.Equal(t, cfg, expected)

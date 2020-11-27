@@ -3,6 +3,7 @@ package config
 import (
 	"path"
 	"sync"
+	"time"
 
 	"github.com/OpenPeeDeeP/xdg"
 	"github.com/guumaster/cligger"
@@ -17,11 +18,16 @@ var (
 	cfg  *Config
 )
 
+const (
+	DefaultRequestTimeout = 10 * time.Second
+)
+
 // Config holds the configuration values for the application.
 type Config struct {
-	filename      string
-	DefaultServer string         `yaml:"defaultServer"`
-	ServerList    []ServerConfig `yaml:"servers"`
+	filename              string
+	DefaultRequestTimeout time.Duration
+	DefaultServer         string         `yaml:"defaultServer"`
+	ServerList            []ServerConfig `yaml:"servers"`
 }
 
 type ServerConfig struct {
@@ -46,7 +52,8 @@ func createConfig() {
 	d := xdg.New("konstellation-io", "kli")
 
 	cfg = &Config{
-		filename: path.Join(d.ConfigHome(), "config.yml"),
+		filename:              path.Join(d.ConfigHome(), "config.yml"),
+		DefaultRequestTimeout: DefaultRequestTimeout,
 	}
 
 	err := cfg.readFile()

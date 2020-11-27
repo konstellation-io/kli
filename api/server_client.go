@@ -19,7 +19,8 @@ var ErrResponseEmpty = errors.New("response body is empty")
 
 // ServerClient facilitates making HTTP requests to a Konstellation API.
 type ServerClient struct {
-	cfg    config.ServerConfig
+	cfg    config.Config
+	srv    config.ServerConfig
 	client *graphql.Client
 }
 
@@ -33,8 +34,8 @@ type accessTokenResponse struct {
 }
 
 // NewServerClient initializes a ServerClient for a specific server.
-func NewServerClient(server config.ServerConfig, appVersion string) (ServerClienter, error) {
-	accessToken, err := getAccessToken(server)
+func NewServerClient(cfg *config.Config, server config.ServerConfig, appVersion string) (ServerClienter, error) {
+	accessToken, err := getAccessToken(cfg, server)
 	if err != nil {
 		return nil, err
 	}
@@ -49,18 +50,21 @@ func NewServerClient(server config.ServerConfig, appVersion string) (ServerClien
 	gql := graphql.NewClient(fmt.Sprintf("%s/graphql", server.URL), graphql.WithHTTPClient(c))
 
 	return &ServerClient{
-		cfg:    server,
+		srv:    server,
 		client: gql,
 	}, nil
 }
 
-func getAccessToken(server config.ServerConfig) (string, error) {
+func getAccessToken(cfg *config.Config, server config.ServerConfig) (string, error) {
 	client := &http.Client{}
 	url := fmt.Sprintf("%s/api/v1/auth/token/signin", server.URL)
 
 	postData := bytes.NewBuffer([]byte(fmt.Sprintf(`{"apiToken":"%s"}`, server.APIToken)))
 
-	req, err := http.NewRequestWithContext(context.Background(), "POST", url, postData)
+	ctx, cancel := context.WithTimeout(context.Background(), cfg.DefaultRequestTimeout)
+	defer cancel()
+
+	req, err := http.NewRequestWithContext(ctx, "POST", url, postData)
 	if err != nil {
 		return "", err
 	}

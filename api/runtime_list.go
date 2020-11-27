@@ -29,7 +29,10 @@ func (s *ServerClient) ListRuntimes() (RuntimeList, error) {
 		Runtimes RuntimeList
 	}
 
-	err := s.client.Run(context.Background(), req, &respData)
+	ctx, cancel := context.WithTimeout(context.Background(), s.cfg.DefaultRequestTimeout)
+	defer cancel()
+
+	err := s.client.Run(ctx, req, &respData)
 	if err != nil {
 		return nil, err
 	}

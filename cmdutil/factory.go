@@ -45,7 +45,7 @@ func (f *Factory) ServerClient(serverName string) (api.ServerClienter, error) {
 		return nil, errors.ErrUnknownServerName
 	}
 
-	c, err := api.NewServerClient(*server, f.appVersion)
+	c, err := api.NewServerClient(f.cfg, *server, f.appVersion)
 	if err != nil {
 		return nil, err
 	}
