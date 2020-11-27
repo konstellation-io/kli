@@ -5,7 +5,6 @@ import (
 	"strings"
 )
 
-//nolint: gochecknoglobals
 var (
 	ws = regexp.MustCompile(`\s+`)
 	wt = regexp.MustCompile(`\t+`)

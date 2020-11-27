@@ -7,7 +7,7 @@ import (
 	"github.com/konstellation-io/kli/internal/render"
 )
 
-func NewListCmd(f *cmdutil.Factory) *cobra.Command {
+func NewListCmd(f cmdutil.CmdFactory) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:     "ls",
 		Aliases: []string{"list"},

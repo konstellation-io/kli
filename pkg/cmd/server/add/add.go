@@ -9,7 +9,7 @@ import (
 	"github.com/konstellation-io/kli/internal/render"
 )
 
-func NewAddCmd(f *cmdutil.Factory) *cobra.Command {
+func NewAddCmd(f cmdutil.CmdFactory) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:     "add [name] [url] [token]",
 		Aliases: []string{"set"},

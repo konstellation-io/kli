@@ -19,11 +19,11 @@ func DefaultRenderer(w io.Writer) Renderer {
 	table.SetHeaderAlignment(tablewriter.ALIGN_LEFT)
 	table.SetAlignment(tablewriter.ALIGN_LEFT)
 	table.SetCenterSeparator("")
-	table.SetColumnSeparator("\t")
+	table.SetColumnSeparator(" ")
 	table.SetRowSeparator("")
 	table.SetHeaderLine(false)
 	table.SetBorder(false)
-	table.SetTablePadding("\t") // pad with tabs
+	table.SetTablePadding(" ") // pad with spaces
 	table.SetNoWhiteSpace(true)
 	table.SetBorder(false)
 	table.SetAlignment(tablewriter.ALIGN_LEFT)

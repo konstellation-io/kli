@@ -1,5 +1,7 @@
 package api
 
+//go:generate mockgen -source=${GOFILE} -destination=$PWD/mocks/${GOFILE} -package=mocks
+
 import (
 	"bytes"
 	"context"
@@ -8,9 +10,9 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/konstellation-io/kli/internal/config"
+	"github.com/machinebox/graphql"
 
-	"github.com/shurcooL/graphql"
+	"github.com/konstellation-io/kli/internal/config"
 )
 
 var ErrResponseEmpty = errors.New("response body is empty")
@@ -18,17 +20,21 @@ var ErrResponseEmpty = errors.New("response body is empty")
 // ServerClient facilitates making HTTP requests to a Konstellation API.
 type ServerClient struct {
 	cfg    config.ServerConfig
-	Client *graphql.Client
+	client *graphql.Client
 }
 
-// AccessTokenResponse represents a response from the sign-in API.
-type AccessTokenResponse struct {
+type ServerClienter interface {
+	ListRuntimes() (RuntimeList, error)
+}
+
+// accessTokenResponse represents a response from the sign-in API.
+type accessTokenResponse struct {
 	Token string `json:"access_token"`
 }
 
 // NewServerClient initializes a ServerClient for a specific server.
-func NewServerClient(server config.ServerConfig, appVersion string) (*ServerClient, error) {
-	authToken, err := getAccessToken(server)
+func NewServerClient(server config.ServerConfig, appVersion string) (ServerClienter, error) {
+	accessToken, err := getAccessToken(server)
 	if err != nil {
 		return nil, err
 	}
@@ -38,15 +44,16 @@ func NewServerClient(server config.ServerConfig, appVersion string) (*ServerClie
 	opts = append(opts,
 		addHeader("User-Agent", "Konstellation KLI"),
 		addHeader("KLI-Version", appVersion),
-		addHeader("Authorization", fmt.Sprintf("Bearer %s", authToken)),
+		addHeader("Cache-Control", "no-cache"),
+		addHeader("Authorization", fmt.Sprintf("Bearer %s", accessToken)),
 	)
 
 	c := newHTTPClient(opts...)
-	gql := graphql.NewClient(fmt.Sprintf("%s/graphql", server.URL), c)
+	gql := graphql.NewClient(fmt.Sprintf("%s/graphql", server.URL), graphql.WithHTTPClient(c))
 
 	return &ServerClient{
 		cfg:    server,
-		Client: gql,
+		client: gql,
 	}, nil
 }
 
@@ -73,7 +80,7 @@ func getAccessToken(server config.ServerConfig) (string, error) {
 		return "", ErrResponseEmpty
 	}
 
-	var t AccessTokenResponse
+	var t accessTokenResponse
 
 	err = json.NewDecoder(r.Body).Decode(&t)
 	if err != nil {

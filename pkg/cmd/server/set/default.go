@@ -8,7 +8,7 @@ import (
 	"github.com/konstellation-io/kli/internal/render"
 )
 
-func NewDefaultCmd(f *cmdutil.Factory) *cobra.Command {
+func NewDefaultCmd(f cmdutil.CmdFactory) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "default <server_name>",
 		Short: "Set a default server",

@@ -9,7 +9,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func NewVersionCmd(_ *cmdutil.Factory, version, buildDate string) *cobra.Command {
+func NewVersionCmd(_ cmdutil.CmdFactory, version, buildDate string) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:    "version",
 		Hidden: true,

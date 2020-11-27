@@ -7,13 +7,13 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/stretchr/testify/require"
 
-	"github.com/konstellation-io/kli/cmdutil"
 	"github.com/konstellation-io/kli/internal/config"
+	"github.com/konstellation-io/kli/mocks"
 	"github.com/konstellation-io/kli/run"
 )
 
 func TestServerListCmd(t *testing.T) {
-	r := run.NewRunner(t, func(f *cmdutil.Factory) *cobra.Command {
+	r := run.NewRunner(t, func(f *mocks.MockCmdFactory) *cobra.Command {
 		cfg := f.Config()
 
 		err := cfg.AddServer(config.ServerConfig{
@@ -34,7 +34,7 @@ func TestServerListCmd(t *testing.T) {
 }
 
 func TestServerDefaultCmd(t *testing.T) {
-	r := run.NewRunner(t, func(f *cmdutil.Factory) *cobra.Command {
+	r := run.NewRunner(t, func(f *mocks.MockCmdFactory) *cobra.Command {
 		cfg := f.Config()
 
 		err := cfg.AddServer(config.ServerConfig{
@@ -64,8 +64,9 @@ func TestServerDefaultCmd(t *testing.T) {
 }
 
 func TestServerAddCmd(t *testing.T) {
-	r := run.NewRunner(t, NewServerCmd)
-
+	r := run.NewRunner(t, func(f *mocks.MockCmdFactory) *cobra.Command {
+		return NewServerCmd(f)
+	})
 	r.Run("server add test http://test.local 12345").
 		Contains(heredoc.Doc(`
 			[✔] Server 'test' added.

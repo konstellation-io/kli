@@ -10,7 +10,7 @@ import (
 	"github.com/konstellation-io/kli/pkg/cmd/server/set"
 )
 
-func NewServerCmd(f *cmdutil.Factory) *cobra.Command {
+func NewServerCmd(f cmdutil.CmdFactory) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "server <command>",
 		Short: "Manage servers for kli",

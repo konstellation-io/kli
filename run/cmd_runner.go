@@ -7,36 +7,30 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/golang/mock/gomock"
 	"github.com/guumaster/cligger"
 	"github.com/spf13/cobra"
 	"github.com/stretchr/testify/require"
 
-	"github.com/konstellation-io/kli/cmdutil"
 	"github.com/konstellation-io/kli/internal/config"
-	"github.com/konstellation-io/kli/pkg/iostreams"
+	"github.com/konstellation-io/kli/mocks"
 	"github.com/konstellation-io/kli/text"
 )
 
-type cmd func(f *cmdutil.Factory) *cobra.Command
+type cmd func(f *mocks.MockCmdFactory) *cobra.Command
 
 func NewRunner(t *testing.T, cmd cmd) Runner {
 	t.Helper()
+	ctrl := gomock.NewController(t)
 
 	dir := setupConfigDir(t)
 	defer cleanConfigDir(t, dir)
 
 	cfg := config.NewConfigTest()
 
-	f := &cmdutil.Factory{
-		IOStreams: &iostreams.IOStreams{
-			In:     ioutil.NopCloser(&bytes.Buffer{}),
-			Out:    &bytes.Buffer{},
-			ErrOut: &bytes.Buffer{},
-		},
-		Config: func() *config.Config {
-			return cfg
-		},
-	}
+	f := mocks.NewMockCmdFactory(ctrl)
+
+	f.EXPECT().Config().Return(cfg).AnyTimes()
 
 	return &cmdRunner{t, cmd(f), "", cfg}
 }
