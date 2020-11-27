@@ -39,16 +39,13 @@ func NewServerClient(server config.ServerConfig, appVersion string) (ServerClien
 		return nil, err
 	}
 
-	var opts []ClientOption
-
-	opts = append(opts,
+	c := newHTTPClient([]ClientOption{
 		addHeader("User-Agent", "Konstellation KLI"),
 		addHeader("KLI-Version", appVersion),
 		addHeader("Cache-Control", "no-cache"),
 		addHeader("Authorization", fmt.Sprintf("Bearer %s", accessToken)),
-	)
+	}...)
 
-	c := newHTTPClient(opts...)
 	gql := graphql.NewClient(fmt.Sprintf("%s/graphql", server.URL), graphql.WithHTTPClient(c))
 
 	return &ServerClient{
