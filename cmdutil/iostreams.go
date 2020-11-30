@@ -1,4 +1,4 @@
-package iostreams
+package cmdutil
 
 import (
 	"io"

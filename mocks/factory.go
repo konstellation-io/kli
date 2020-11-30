@@ -7,9 +7,9 @@ package mocks
 import (
 	gomock "github.com/golang/mock/gomock"
 	api "github.com/konstellation-io/kli/api"
+	cmdutil "github.com/konstellation-io/kli/cmdutil"
 	config "github.com/konstellation-io/kli/internal/config"
 	logger "github.com/konstellation-io/kli/internal/logger"
-	iostreams "github.com/konstellation-io/kli/pkg/iostreams"
 	reflect "reflect"
 )
 
@@ -37,10 +37,10 @@ func (m *MockCmdFactory) EXPECT() *MockCmdFactoryMockRecorder {
 }
 
 // IOStreams mocks base method
-func (m *MockCmdFactory) IOStreams() *iostreams.IOStreams {
+func (m *MockCmdFactory) IOStreams() *cmdutil.IOStreams {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "IOStreams")
-	ret0, _ := ret[0].(*iostreams.IOStreams)
+	ret0, _ := ret[0].(*cmdutil.IOStreams)
 	return ret0
 }
 

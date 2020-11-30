@@ -7,11 +7,10 @@ import (
 	"github.com/konstellation-io/kli/internal/config"
 	"github.com/konstellation-io/kli/internal/errors"
 	"github.com/konstellation-io/kli/internal/logger"
-	"github.com/konstellation-io/kli/pkg/iostreams"
 )
 
 type CmdFactory interface {
-	IOStreams() *iostreams.IOStreams
+	IOStreams() *IOStreams
 	Config() *config.Config
 	Logger() logger.Logger
 	ServerClient(string) (api.ServerClienter, error)
@@ -19,13 +18,13 @@ type CmdFactory interface {
 
 type Factory struct {
 	appVersion string
-	ioStreams  *iostreams.IOStreams
+	ioStreams  *IOStreams
 	cfg        *config.Config
 	logger     logger.Logger
 }
 
 func NewCmdFactory(appVersion string) *Factory {
-	io := iostreams.System()
+	io := System()
 
 	return &Factory{
 		appVersion: appVersion,
@@ -35,7 +34,7 @@ func NewCmdFactory(appVersion string) *Factory {
 	}
 }
 
-func (f *Factory) IOStreams() *iostreams.IOStreams {
+func (f *Factory) IOStreams() *IOStreams {
 	return f.ioStreams
 }
 
