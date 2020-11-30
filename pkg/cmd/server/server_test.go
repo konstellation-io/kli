@@ -77,3 +77,14 @@ func TestServerAddCmd(t *testing.T) {
 			test    http://test.local
 		`))
 }
+
+func TestNoServerCmd(t *testing.T) {
+	r := run.NewRunner(t, func(f *mocks.MockCmdFactory) *cobra.Command {
+		return NewServerCmd(f)
+	})
+	r.
+		Run("server ls").
+		Contains(heredoc.Doc(`
+			[ℹ] No servers found.
+		`))
+}
