@@ -2,6 +2,7 @@ package api
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/machinebox/graphql"
 )
@@ -34,7 +35,7 @@ func (s *ServerClient) ListRuntimes() (RuntimeList, error) {
 
 	err := s.client.Run(ctx, req, &respData)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("error calling GraphQL: %s", err)
 	}
 
 	return respData.Runtimes, nil

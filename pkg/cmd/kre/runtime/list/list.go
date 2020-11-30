@@ -12,6 +12,7 @@ import (
 )
 
 func NewListCmd(f cmdutil.CmdFactory) *cobra.Command {
+	log := f.Logger()
 	cmd := &cobra.Command{
 		Use:     "ls",
 		Aliases: []string{"list"},
@@ -37,6 +38,11 @@ func NewListCmd(f cmdutil.CmdFactory) *cobra.Command {
 			list, err := c.ListRuntimes()
 			if err != nil {
 				return err
+			}
+
+			if len(list) == 0 {
+				log.Info("No runtimes found.")
+				return nil
 			}
 
 			r := render.DefaultRenderer(cmd.OutOrStdout())

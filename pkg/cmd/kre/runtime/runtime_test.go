@@ -45,3 +45,29 @@ func TestRuntimeListCmd(t *testing.T) {
 			2 int-tests Integration Tests
 		`))
 }
+func TestRuntimeListEmptyCmd(t *testing.T) {
+	r := run.NewRunner(t, func(f *mocks.MockCmdFactory) *cobra.Command {
+		ctrl := gomock.NewController(t)
+		cfg := f.Config()
+
+		err := cfg.AddServer(config.ServerConfig{
+			Name:     "test",
+			URL:      "http://test.local",
+			APIToken: "12346",
+		})
+		require.NoError(t, err)
+		err = cfg.SetDefaultServer("test")
+		require.NoError(t, err)
+
+		c := mocks.NewMockServerClienter(ctrl)
+		f.EXPECT().ServerClient("test").Return(c, nil)
+		c.EXPECT().ListRuntimes().Return(api.RuntimeList{}, nil)
+
+		return NewRuntimeCmd(f)
+	})
+
+	r.Run("runtime ls").
+		Contains(heredoc.Doc(`
+			[ℹ] No runtimes found.
+		`))
+}
