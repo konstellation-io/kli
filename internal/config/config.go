@@ -25,7 +25,7 @@ const (
 // Config holds the configuration values for the application.
 type Config struct {
 	filename              string
-	DefaultRequestTimeout time.Duration
+	DefaultRequestTimeout time.Duration  `yaml:"defaultRequestTimeout"`
 	DefaultServer         string         `yaml:"defaultServer"`
 	ServerList            []ServerConfig `yaml:"servers"`
 }
