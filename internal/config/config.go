@@ -19,7 +19,7 @@ var (
 )
 
 const (
-	DefaultRequestTimeout = 10 * time.Second
+	DefaultRequestTimeout = 2 * time.Minute
 )
 
 // Config holds the configuration values for the application.
@@ -52,14 +52,17 @@ func createConfig() {
 	d := xdg.New("konstellation-io", "kli")
 
 	cfg = &Config{
-		filename:              path.Join(d.ConfigHome(), "config.yml"),
-		DefaultRequestTimeout: DefaultRequestTimeout,
+		filename: path.Join(d.ConfigHome(), "config.yml"),
 	}
 
 	err := cfg.readFile()
 	if err != nil {
 		cligger.Fatal("error reading config: %s", err)
 	}
+
+	// Add default values
+	cfg.DefaultRequestTimeout = DefaultRequestTimeout
+
 }
 
 func (c *Config) GetByServerName(name string) *ServerConfig {
