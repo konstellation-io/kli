@@ -46,7 +46,7 @@ Example:
 # Output
 SERVER URL                                  
 local* http://api.kre.local                 
-int    https://api.kre-int.konstellation.io 
+int    https://api.your-domain.com 
 ```
 
 
