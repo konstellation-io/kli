@@ -1,7 +1,6 @@
 package set
 
 import (
-	"github.com/guumaster/cligger"
 	"github.com/spf13/cobra"
 
 	"github.com/konstellation-io/kli/cmdutil"
@@ -9,6 +8,7 @@ import (
 )
 
 func NewDefaultCmd(f cmdutil.CmdFactory) *cobra.Command {
+	log := f.Logger()
 	cmd := &cobra.Command{
 		Use:   "default <server_name>",
 		Short: "Set a default server",
@@ -26,7 +26,7 @@ func NewDefaultCmd(f cmdutil.CmdFactory) *cobra.Command {
 			r := render.DefaultRenderer(cmd.OutOrStdout())
 			cfg.RenderServerList(r)
 
-			cligger.Success("Server '%s' is now default.\n", name)
+			log.Success("Server '%s' is now default.\n", name)
 
 			return nil
 		},

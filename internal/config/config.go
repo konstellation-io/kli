@@ -62,7 +62,6 @@ func createConfig() {
 
 	// Add default values
 	cfg.DefaultRequestTimeout = DefaultRequestTimeout
-
 }
 
 func (c *Config) GetByServerName(name string) *ServerConfig {

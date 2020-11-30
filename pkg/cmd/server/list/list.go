@@ -8,12 +8,18 @@ import (
 )
 
 func NewListCmd(f cmdutil.CmdFactory) *cobra.Command {
+	log := f.Logger()
 	cmd := &cobra.Command{
 		Use:     "ls",
 		Aliases: []string{"list"},
 		Short:   "List all available servers",
 		Run: func(cmd *cobra.Command, args []string) {
 			cfg := f.Config()
+
+			if len(cfg.ServerList) == 0 {
+				log.Info("No servers found.")
+				return
+			}
 
 			r := render.DefaultRenderer(cmd.OutOrStdout())
 			cfg.RenderServerList(r)

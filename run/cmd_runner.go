@@ -13,6 +13,7 @@ import (
 	"github.com/stretchr/testify/require"
 
 	"github.com/konstellation-io/kli/internal/config"
+	"github.com/konstellation-io/kli/internal/logger"
 	"github.com/konstellation-io/kli/mocks"
 	"github.com/konstellation-io/kli/text"
 )
@@ -27,12 +28,19 @@ func NewRunner(t *testing.T, cmd cmd) Runner {
 	defer cleanConfigDir(t, dir)
 
 	cfg := config.NewConfigTest()
+	runner := &cmdRunner{t, nil, "", cfg, bytes.NewBufferString("")}
 
 	f := mocks.NewMockCmdFactory(ctrl)
-
 	f.EXPECT().Config().Return(cfg).AnyTimes()
 
-	return &cmdRunner{t, cmd(f), "", cfg}
+	log := cligger.NewLoggerWithWriter(runner.buf)
+	f.EXPECT().Logger().AnyTimes().DoAndReturn(func() logger.Logger {
+		return log
+	})
+
+	runner.root = cmd(f)
+
+	return runner
 }
 
 type Runner interface {
@@ -51,6 +59,11 @@ type cmdRunner struct {
 	root *cobra.Command
 	out  string
 	cfg  *config.Config
+	buf  *bytes.Buffer
+}
+
+func (c *cmdRunner) NewBuffer() *bytes.Buffer {
+	return c.buf
 }
 
 func (c *cmdRunner) Equal(expected string) Runner {
@@ -81,11 +94,10 @@ func (c *cmdRunner) Empty() Runner {
 
 func (c *cmdRunner) Run(cmd string) Runner {
 	assert := require.New(c.t)
-	b := bytes.NewBufferString("")
+	b := c.NewBuffer()
 
 	c.out = ""
 	c.root.SetOut(b)
-	cligger.SetWriter(b)
 
 	args := strings.Split(cmd, " ")
 	args = args[1:]
@@ -109,11 +121,10 @@ func (c *cmdRunner) Runf(format string, args ...interface{}) Runner {
 
 func (c *cmdRunner) RunE(cmd string, expectedErr error) Runner {
 	assert := require.New(c.t)
-	b := bytes.NewBufferString("")
+	b := c.NewBuffer()
 
 	c.out = ""
 	c.root.SetOut(b)
-	cligger.SetWriter(b)
 
 	args := strings.Split(cmd, " ")
 	args = args[1:]
@@ -129,8 +140,4 @@ func (c *cmdRunner) RunE(cmd string, expectedErr error) Runner {
 	c.out = "\n" + string(out)
 
 	return c
-}
-
-func (c *cmdRunner) SetOutput(str string) {
-	c.out = "\n" + text.LinesTrim(str)
 }

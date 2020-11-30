@@ -8,6 +8,7 @@ import (
 	gomock "github.com/golang/mock/gomock"
 	api "github.com/konstellation-io/kli/api"
 	config "github.com/konstellation-io/kli/internal/config"
+	logger "github.com/konstellation-io/kli/internal/logger"
 	iostreams "github.com/konstellation-io/kli/pkg/iostreams"
 	reflect "reflect"
 )
@@ -61,6 +62,20 @@ func (m *MockCmdFactory) Config() *config.Config {
 func (mr *MockCmdFactoryMockRecorder) Config() *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Config", reflect.TypeOf((*MockCmdFactory)(nil).Config))
+}
+
+// Logger mocks base method
+func (m *MockCmdFactory) Logger() logger.Logger {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Logger")
+	ret0, _ := ret[0].(logger.Logger)
+	return ret0
+}
+
+// Logger indicates an expected call of Logger
+func (mr *MockCmdFactoryMockRecorder) Logger() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Logger", reflect.TypeOf((*MockCmdFactory)(nil).Logger))
 }
 
 // ServerClient mocks base method

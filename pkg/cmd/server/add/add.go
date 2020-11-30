@@ -1,7 +1,6 @@
 package add
 
 import (
-	"github.com/guumaster/cligger"
 	"github.com/spf13/cobra"
 
 	"github.com/konstellation-io/kli/cmdutil"
@@ -10,6 +9,7 @@ import (
 )
 
 func NewAddCmd(f cmdutil.CmdFactory) *cobra.Command {
+	log := f.Logger()
 	cmd := &cobra.Command{
 		Use:     "add [name] [url] [token]",
 		Aliases: []string{"set"},
@@ -35,7 +35,7 @@ func NewAddCmd(f cmdutil.CmdFactory) *cobra.Command {
 			r := render.DefaultRenderer(cmd.OutOrStdout())
 			cfg.RenderServerList(r)
 
-			cligger.Success("Server '%s' added.", newServer.Name)
+			log.Success("Server '%s' added.", newServer.Name)
 			return nil
 		},
 	}
