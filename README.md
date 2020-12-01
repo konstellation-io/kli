@@ -50,8 +50,6 @@ int    https://api.your-domain.com
 ```
 
 
-
-
 ## Run tests
 
 ```sh
@@ -71,3 +69,30 @@ To run `golangci-lint` execute:
 ```
 golangci-lint run
 ```
+
+## Creating Releases
+
+The build system automatically compiles cross-platform binaries to any git tag named vX.Y.Z. 
+
+To test out the build system, publish a prerelease tag with a name such as vX.Y.Z-pre.0 or vX.Y.Z-rc.1. 
+Note that such a release will still be public, but it will be marked as a "prerelease", meaning that it won't show up as
+a "latest" release.
+
+
+### Tagging a new release
+
+`git tag v1.2.3 && git push origin v1.2.3`
+
+Wait several minutes for builds to run: https://github.com/konstellation-io/kli/actions
+Verify release is displayed and has correct assets: https://github.com/konstellation-io/kli/releases
+
+(Optional) Delete any pre-releases related to this release
+
+
+### Release locally for debugging
+
+A local release can be created for testing without creating anything official on the release page.
+
+- Make sure GoReleaser is installed
+- `goreleaser --skip-validate --skip-publish --rm-dist`
+- Find the built binaries under dist/ folder.

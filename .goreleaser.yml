@@ -61,6 +61,7 @@ archives:
       - LICENSE
 
 release:
+  prerelease: auto
   name_template: "Konstellation CLI {{.Version}}"
   github:
     owner: konstellation-io
