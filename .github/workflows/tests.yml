@@ -14,7 +14,7 @@ jobs:
     strategy:
       matrix:
         go-version: [1.15.x]
-        platform: [macos-latest, ubuntu-latest] # TODO: enable windows-latest tests.
+        platform: [macos-latest, ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.platform }}
     steps:
       - name: Install Go
@@ -28,7 +28,6 @@ jobs:
       - name: Test
         run: |
           go test -cover -coverprofile=${{ matrix.platform }}_coverage.out ./...
-          go tool cover -func=${{ matrix.platform }}_coverage.out
 
       - name: Upload coverage report
         uses: actions/upload-artifact@v1
