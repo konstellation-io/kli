@@ -27,7 +27,7 @@ jobs:
 
       - name: Test
         run: |
-          go test -coverprofile="${{ matrix.platform }}_coverage.out" -covermode=atomic -coverpkg=./... -cover ./...
+          go test -coverprofile="${{ matrix.platform }}_coverage.out" -covermode=atomic -coverpkg=./... ./...
           go tool cover -func="${{ matrix.platform }}_coverage.out"
 
       - name: Upload coverage report
