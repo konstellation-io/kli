@@ -1,0 +1,6 @@
+.idea
+.vscode
+dist
+*coverage.out
+golangci-report.xml
+kli

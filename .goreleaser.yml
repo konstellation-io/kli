@@ -1,0 +1,80 @@
+# This is an example goreleaser.yaml file with some sane defaults.
+# Make sure to check the documentation at http://goreleaser.com
+project_name: kli
+
+builds:
+  - <<: &build_defaults
+      binary: bin/kli
+      main: cmd/main.go
+      env:
+        - GO111MODULE=on
+        - CGO_ENABLED=0
+      ldflags:
+        - -s -w
+        - -X github.com/konstellation-io/kli/internal/build.Version={{.Version}}
+        - -X github.com/konstellation-io/kli/internal/build.Date={{time "2006-01-02"}}
+
+  - <<: *build_defaults
+    id: macos
+    goos: [darwin]
+    goarch: [amd64]
+
+  - <<: *build_defaults
+    id: linux
+    goos: [linux]
+    goarch: [amd64, arm64]
+
+  - <<: *build_defaults
+    id: windows
+    goos: [windows]
+    goarch: [amd64]
+
+changelog:
+  sort: desc
+  filters:
+    exclude:
+      - '^docs:'
+      - '^test:'
+      - '^tests:'
+      - '^Scoop update'
+      - '^ci:'
+      - Merge pull request
+      - Merge branch
+
+archives:
+  - id: nix
+    builds: [macos, linux]
+    <<: &archive_defaults
+      name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}{{ if .Arm }}v{{ .Arm }}{{ end }}"
+    wrap_in_directory: true
+    replacements:
+      darwin: macOS
+    format: tar.gz
+    files:
+      - LICENSE
+  - id: windows
+    builds: [windows]
+    <<: *archive_defaults
+    wrap_in_directory: false
+    format: zip
+    files:
+      - LICENSE
+
+release:
+  prerelease: auto
+  name_template: "Konstellation CLI {{.Version}}"
+  github:
+    owner: konstellation-io
+    name: kli
+
+nfpms:
+  - id: kli
+    builds:
+      - kli
+    formats:
+      - deb
+      - rpm
+    vendor: Konstellation-io
+    homepage: https://github.com/konstellation-io/kli
+    maintainer: maintainers <maintainers@konstellation.com>
+    description: CLI tool to manage Konstellation
