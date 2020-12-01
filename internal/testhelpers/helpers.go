@@ -24,7 +24,7 @@ func setupConfigDir(t *testing.T) string {
 func makeTempConfigDir(t *testing.T, pattern string) string {
 	t.Helper()
 
-	d, err := ioutil.TempDir("/tmp", pattern)
+	d, err := ioutil.TempDir("", pattern)
 	if err != nil {
 		t.Fatal(err)
 	}
