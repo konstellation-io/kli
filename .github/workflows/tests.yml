@@ -14,7 +14,7 @@ jobs:
     strategy:
       matrix:
         go-version: [1.14.x]
-        platform: [macos-latest, ubuntu-latest, windows-latest]
+        platform: [macos-latest, ubuntu-latest] # TODO: enable windows-latest tests.
     runs-on: ${{ matrix.platform }}
     steps:
       - name: Install Go
