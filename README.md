@@ -93,6 +93,7 @@ Verify release is displayed and has correct assets: https://github.com/konstella
 
 A local release can be created for testing without creating anything official on the release page.
 
-- Make sure GoReleaser is installed
-- `goreleaser --skip-validate --skip-publish --rm-dist`
-- Find the built binaries under dist/ folder.
+- Make sure [GoReleaser](https://goreleaser.com/install/) is installed
+- Run: 
+    `goreleaser --skip-validate --skip-publish --rm-dist`
+- Find the built binaries under `dist/` folder.
