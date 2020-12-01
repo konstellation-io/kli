@@ -6,6 +6,7 @@ import (
 )
 
 var (
+	// ErrResponseEmpty used when response body is empty.
 	ErrResponseEmpty = errors.New("response body is empty")
 )
 

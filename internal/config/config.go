@@ -19,6 +19,7 @@ var (
 )
 
 const (
+	// DefaultRequestTimeout time used to timeout all requests to Konstellation APIs.
 	DefaultRequestTimeout = 2 * time.Minute
 )
 
@@ -30,6 +31,7 @@ type Config struct {
 	ServerList            []ServerConfig `yaml:"servers"`
 }
 
+// ServerConfig contains data to represent a Konstellation server.
 type ServerConfig struct {
 	Name     string `yaml:"name"`
 	URL      string `yaml:"url"`
@@ -43,6 +45,7 @@ func NewConfig() *Config {
 	return cfg
 }
 
+// NewConfigTest same as NewConfig but used during tests to create a new file on each test.
 func NewConfigTest() *Config {
 	createConfig()
 	return cfg
@@ -64,6 +67,7 @@ func createConfig() {
 	cfg.DefaultRequestTimeout = DefaultRequestTimeout
 }
 
+// GetByServerName returns a ServerConfig for the given server name.
 func (c *Config) GetByServerName(name string) *ServerConfig {
 	n := text.Normalize(name)
 	for _, s := range c.ServerList {
@@ -75,6 +79,7 @@ func (c *Config) GetByServerName(name string) *ServerConfig {
 	return nil
 }
 
+// AddServer adds a ServerConfig to the config file.
 func (c *Config) AddServer(server ServerConfig) error {
 	exists := c.GetByServerName(server.Name)
 	if exists != nil {
@@ -86,6 +91,7 @@ func (c *Config) AddServer(server ServerConfig) error {
 	return c.Save()
 }
 
+// SetDefaultServer marks a server name as default to be used when no server parameter is provided.
 func (c *Config) SetDefaultServer(name string) error {
 	n := text.Normalize(name)
 

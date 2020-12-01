@@ -1,4 +1,4 @@
-package runtime
+package runtime_test
 
 import (
 	"testing"
@@ -10,12 +10,13 @@ import (
 
 	"github.com/konstellation-io/kli/api"
 	"github.com/konstellation-io/kli/internal/config"
+	"github.com/konstellation-io/kli/internal/testhelpers"
 	"github.com/konstellation-io/kli/mocks"
-	"github.com/konstellation-io/kli/run"
+	"github.com/konstellation-io/kli/pkg/cmd/kre/runtime"
 )
 
 func TestRuntimeListCmd(t *testing.T) {
-	r := run.NewRunner(t, func(f *mocks.MockCmdFactory) *cobra.Command {
+	r := testhelpers.NewRunner(t, func(f *mocks.MockCmdFactory) *cobra.Command {
 		ctrl := gomock.NewController(t)
 		cfg := f.Config()
 
@@ -35,7 +36,7 @@ func TestRuntimeListCmd(t *testing.T) {
 			{ID: "int-tests", Name: "Integration Tests", Status: ""},
 		}, nil)
 
-		return NewRuntimeCmd(f)
+		return runtime.NewRuntimeCmd(f)
 	})
 
 	r.Run("runtime ls").
@@ -46,7 +47,7 @@ func TestRuntimeListCmd(t *testing.T) {
 		`))
 }
 func TestRuntimeListEmptyCmd(t *testing.T) {
-	r := run.NewRunner(t, func(f *mocks.MockCmdFactory) *cobra.Command {
+	r := testhelpers.NewRunner(t, func(f *mocks.MockCmdFactory) *cobra.Command {
 		ctrl := gomock.NewController(t)
 		cfg := f.Config()
 
@@ -63,7 +64,7 @@ func TestRuntimeListEmptyCmd(t *testing.T) {
 		f.EXPECT().ServerClient("test").Return(c, nil)
 		c.EXPECT().ListRuntimes().Return(api.RuntimeList{}, nil)
 
-		return NewRuntimeCmd(f)
+		return runtime.NewRuntimeCmd(f)
 	})
 
 	r.Run("runtime ls").

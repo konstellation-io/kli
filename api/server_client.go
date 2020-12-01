@@ -11,6 +11,7 @@ import (
 	"github.com/konstellation-io/kli/internal/config"
 )
 
+// ServerClienter interface containing all available methods of the API.
 type ServerClienter interface {
 	ListRuntimes() (RuntimeList, error)
 }

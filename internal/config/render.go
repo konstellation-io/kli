@@ -7,6 +7,7 @@ import (
 	"github.com/konstellation-io/kli/text"
 )
 
+// RenderServerList add server information to the renderer and show it.
 func (c *Config) RenderServerList(r render.Renderer) {
 	r.SetHeader([]string{"Server", "URL"})
 

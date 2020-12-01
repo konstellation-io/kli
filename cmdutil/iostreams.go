@@ -14,6 +14,7 @@ const (
 	spinnerDuration = 400 * time.Millisecond
 )
 
+// IOStreams contains information for input/output used in the CLI.
 type IOStreams struct {
 	In     io.ReadCloser
 	Out    io.Writer
@@ -31,6 +32,7 @@ type IOStreams struct {
 	stderrIsTTY       bool
 }
 
+// System returns an IOStreams object with prepared input/output.
 func System() *IOStreams {
 	stdoutIsTTY := isTerminal(os.Stdout)
 	stderrIsTTY := isTerminal(os.Stderr)
@@ -52,11 +54,13 @@ func System() *IOStreams {
 	return st
 }
 
+// SetStdinTTY marks stdin as TTY.
 func (s *IOStreams) SetStdinTTY(isTTY bool) {
 	s.stdinTTYOverride = true
 	s.stdinIsTTY = isTTY
 }
 
+// IsStdinTTY checks if stdin is a TTY.
 func (s *IOStreams) IsStdinTTY() bool {
 	if s.stdinTTYOverride {
 		return s.stdinIsTTY
@@ -69,11 +73,13 @@ func (s *IOStreams) IsStdinTTY() bool {
 	return false
 }
 
+// SetStdoutTTY marks stdout as TTY.
 func (s *IOStreams) SetStdoutTTY(isTTY bool) {
 	s.stdoutTTYOverride = true
 	s.stdoutIsTTY = isTTY
 }
 
+// IsStdoutTTY checks if stdout is a TTY.
 func (s *IOStreams) IsStdoutTTY() bool {
 	if s.stdoutTTYOverride {
 		return s.stdoutIsTTY
@@ -86,11 +92,13 @@ func (s *IOStreams) IsStdoutTTY() bool {
 	return false
 }
 
+// SetStderrTTY marks stderr as TTY.
 func (s *IOStreams) SetStderrTTY(isTTY bool) {
 	s.stderrTTYOverride = true
 	s.stderrIsTTY = isTTY
 }
 
+// IsStderrTTY checks if stderr is a TTY.
 func (s *IOStreams) IsStderrTTY() bool {
 	if s.stderrTTYOverride {
 		return s.stderrIsTTY
@@ -103,6 +111,7 @@ func (s *IOStreams) IsStderrTTY() bool {
 	return false
 }
 
+// StartProgressIndicator creates a new spinner indicator.
 func (s *IOStreams) StartProgressIndicator() {
 	if !s.progressIndicatorEnabled {
 		return
@@ -113,6 +122,7 @@ func (s *IOStreams) StartProgressIndicator() {
 	s.progressIndicator = sp
 }
 
+// StopProgressIndicator stops the running spinner indicator.
 func (s *IOStreams) StopProgressIndicator() {
 	if s.progressIndicator == nil {
 		return

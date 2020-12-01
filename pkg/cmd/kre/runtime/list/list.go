@@ -11,6 +11,7 @@ import (
 	"github.com/konstellation-io/kli/internal/render"
 )
 
+// NewListCmd creates a new command to list Runtimes.
 func NewListCmd(f cmdutil.CmdFactory) *cobra.Command {
 	log := f.Logger()
 	cmd := &cobra.Command{

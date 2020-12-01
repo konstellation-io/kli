@@ -8,6 +8,7 @@ import (
 	kre "github.com/konstellation-io/kli/pkg/cmd/kre/runtime"
 )
 
+// NewKRECmd creates a new command to handle 'kre' keyword.
 func NewKRECmd(f cmdutil.CmdFactory) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "kre",

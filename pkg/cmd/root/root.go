@@ -9,6 +9,7 @@ import (
 	versionCmd "github.com/konstellation-io/kli/pkg/cmd/version"
 )
 
+// NewRootCmd creates the base command where all subcommands are added.
 func NewRootCmd(f cmdutil.CmdFactory, version, buildDate string) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:           "kli [command] [subcommand] [flags]",

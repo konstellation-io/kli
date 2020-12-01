@@ -7,6 +7,7 @@ import (
 	"github.com/konstellation-io/kli/internal/render"
 )
 
+// NewDefaultCmd creates a new command to handle 'default' keyword.
 func NewDefaultCmd(f cmdutil.CmdFactory) *cobra.Command {
 	log := f.Logger()
 	cmd := &cobra.Command{

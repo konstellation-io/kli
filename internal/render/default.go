@@ -6,12 +6,14 @@ import (
 	"github.com/olekukonko/tablewriter"
 )
 
+// Renderer interface that can be used to render in different formats.
 type Renderer interface {
 	SetHeader([]string)
 	Append([]string)
 	Render()
 }
 
+// DefaultRenderer creates a table renderer used as default for all commands.
 func DefaultRenderer(w io.Writer) Renderer {
 	table := tablewriter.NewWriter(w)
 	table.SetAutoWrapText(false)

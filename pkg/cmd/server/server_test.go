@@ -1,4 +1,4 @@
-package server
+package server_test
 
 import (
 	"testing"
@@ -8,12 +8,13 @@ import (
 	"github.com/stretchr/testify/require"
 
 	"github.com/konstellation-io/kli/internal/config"
+	"github.com/konstellation-io/kli/internal/testhelpers"
 	"github.com/konstellation-io/kli/mocks"
-	"github.com/konstellation-io/kli/run"
+	"github.com/konstellation-io/kli/pkg/cmd/server"
 )
 
 func TestServerListCmd(t *testing.T) {
-	r := run.NewRunner(t, func(f *mocks.MockCmdFactory) *cobra.Command {
+	r := testhelpers.NewRunner(t, func(f *mocks.MockCmdFactory) *cobra.Command {
 		cfg := f.Config()
 
 		err := cfg.AddServer(config.ServerConfig{
@@ -23,7 +24,7 @@ func TestServerListCmd(t *testing.T) {
 		})
 		require.NoError(t, err)
 
-		return NewServerCmd(f)
+		return server.NewServerCmd(f)
 	})
 
 	r.Run("server ls").
@@ -34,7 +35,7 @@ func TestServerListCmd(t *testing.T) {
 }
 
 func TestServerDefaultCmd(t *testing.T) {
-	r := run.NewRunner(t, func(f *mocks.MockCmdFactory) *cobra.Command {
+	r := testhelpers.NewRunner(t, func(f *mocks.MockCmdFactory) *cobra.Command {
 		cfg := f.Config()
 
 		err := cfg.AddServer(config.ServerConfig{
@@ -44,7 +45,7 @@ func TestServerDefaultCmd(t *testing.T) {
 		})
 		require.NoError(t, err)
 
-		return NewServerCmd(f)
+		return server.NewServerCmd(f)
 	})
 
 	r.Run("server ls").
@@ -64,8 +65,8 @@ func TestServerDefaultCmd(t *testing.T) {
 }
 
 func TestServerAddCmd(t *testing.T) {
-	r := run.NewRunner(t, func(f *mocks.MockCmdFactory) *cobra.Command {
-		return NewServerCmd(f)
+	r := testhelpers.NewRunner(t, func(f *mocks.MockCmdFactory) *cobra.Command {
+		return server.NewServerCmd(f)
 	})
 	r.Run("server add test http://test.local 12345").
 		Contains(heredoc.Doc(`
@@ -79,8 +80,8 @@ func TestServerAddCmd(t *testing.T) {
 }
 
 func TestNoServerCmd(t *testing.T) {
-	r := run.NewRunner(t, func(f *mocks.MockCmdFactory) *cobra.Command {
-		return NewServerCmd(f)
+	r := testhelpers.NewRunner(t, func(f *mocks.MockCmdFactory) *cobra.Command {
+		return server.NewServerCmd(f)
 	})
 	r.
 		Run("server ls").

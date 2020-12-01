@@ -1,4 +1,4 @@
-package run
+package testhelpers
 
 import (
 	"bytes"
@@ -20,6 +20,7 @@ import (
 
 type cmd func(f *mocks.MockCmdFactory) *cobra.Command
 
+// NewRunner returns an Runner instance to execute a command and test output.
 func NewRunner(t *testing.T, cmd cmd) Runner {
 	t.Helper()
 	ctrl := gomock.NewController(t)
@@ -34,6 +35,7 @@ func NewRunner(t *testing.T, cmd cmd) Runner {
 	f.EXPECT().Config().Return(cfg).AnyTimes()
 
 	log := cligger.NewLoggerWithWriter(runner.buf)
+
 	f.EXPECT().Logger().AnyTimes().DoAndReturn(func() logger.Logger {
 		return log
 	})
@@ -43,6 +45,7 @@ func NewRunner(t *testing.T, cmd cmd) Runner {
 	return runner
 }
 
+// Runner interface for test command runner.
 type Runner interface {
 	Run(string) Runner
 	RunE(string, error) Runner

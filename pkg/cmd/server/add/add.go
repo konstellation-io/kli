@@ -8,6 +8,7 @@ import (
 	"github.com/konstellation-io/kli/internal/render"
 )
 
+// NewAddCmd creates a new command to add a new server to config file.
 func NewAddCmd(f cmdutil.CmdFactory) *cobra.Command {
 	log := f.Logger()
 	cmd := &cobra.Command{

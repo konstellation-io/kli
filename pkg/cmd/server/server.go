@@ -10,6 +10,7 @@ import (
 	"github.com/konstellation-io/kli/pkg/cmd/server/set"
 )
 
+// NewServerCmd creates a new command to handle 'server' subcommands.
 func NewServerCmd(f cmdutil.CmdFactory) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "server <command>",

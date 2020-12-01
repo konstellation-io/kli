@@ -7,6 +7,7 @@ import (
 	"github.com/konstellation-io/kli/internal/render"
 )
 
+// NewListCmd creates a new command to list servers existing in config file.
 func NewListCmd(f cmdutil.CmdFactory) *cobra.Command {
 	log := f.Logger()
 	cmd := &cobra.Command{
