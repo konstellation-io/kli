@@ -1,3 +1,5 @@
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=kli&metric=coverage)](https://sonarcloud.io/dashboard?id=kli)
+
 # kli
 
 This repo contains a CLI to access, query and manage KRE and KDL.
@@ -5,7 +7,8 @@ This repo contains a CLI to access, query and manage KRE and KDL.
 
 ## Frameworks and libraries
 
-- [spf13/cobra](https://github.com/spf13/cobra) used as CLI framework. 
+- [gomock](https://github.com/golang/mock) a mock library.
+- [spf13/cobra](https://github.com/spf13/cobra) used as CLI framework.
 - [golangci-lint](https://golangci-lint.run/) as linters runner.
 
 
@@ -17,7 +20,7 @@ You can compile the binary with this command:
 go build -o kli cmd/main.go
 ```
 
-And then test run any command: 
+Then run any command: 
 ```bash
 ./kli help
 
@@ -49,8 +52,21 @@ local* http://api.kre.local
 int    https://api.your-domain.com 
 ```
 
+## Testing
 
-## Run tests
+To create new tests install [GoMock](https://github.com/golang/mock). Mocks used on tests are generated with 
+**mockgen**, when you need a new mock, add the following:
+
+```go
+//go:generate mockgen -source=${GOFILE} -destination=$PWD/mocks/${GOFILE} -package=mocks
+```
+
+To generate the mocks execute:
+```sh
+$ go generate ./...
+```
+
+### Run tests
 
 ```sh
 go test ./...
