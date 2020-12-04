@@ -14,6 +14,7 @@ import (
 // ServerClienter interface containing all available methods of the API.
 type ServerClienter interface {
 	ListRuntimes() (RuntimeList, error)
+	ListVersions(runtimeID string) (VersionList, error)
 }
 
 // ServerClient facilitates making HTTP requests to a Konstellation API.

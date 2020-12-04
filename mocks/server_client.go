@@ -47,3 +47,18 @@ func (mr *MockServerClienterMockRecorder) ListRuntimes() *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListRuntimes", reflect.TypeOf((*MockServerClienter)(nil).ListRuntimes))
 }
+
+// ListVersions mocks base method
+func (m *MockServerClienter) ListVersions(runtimeID string) (api.VersionList, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ListVersions", runtimeID)
+	ret0, _ := ret[0].(api.VersionList)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ListVersions indicates an expected call of ListVersions
+func (mr *MockServerClienterMockRecorder) ListVersions(runtimeID interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListVersions", reflect.TypeOf((*MockServerClienter)(nil).ListVersions), runtimeID)
+}
