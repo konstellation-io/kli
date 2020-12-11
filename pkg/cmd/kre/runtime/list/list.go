@@ -7,7 +7,6 @@ import (
 
 	"github.com/konstellation-io/kli/api"
 	"github.com/konstellation-io/kli/cmdutil"
-	"github.com/konstellation-io/kli/internal/errors"
 	"github.com/konstellation-io/kli/internal/render"
 )
 
@@ -18,20 +17,10 @@ func NewListCmd(f cmdutil.CmdFactory) *cobra.Command {
 		Use:     "ls",
 		Aliases: []string{"list"},
 		Short:   "List all available runtimes",
+		Args:    cmdutil.CheckServerFlag,
 		RunE: func(cmd *cobra.Command, args []string) error {
-			cfg := f.Config()
 			s, _ := cmd.Flags().GetString("server")
-
-			if s == "" {
-				s = cfg.DefaultServer
-			}
-
-			server := cfg.GetByServerName(s)
-			if server == nil {
-				return errors.ErrUnknownServerName
-			}
-
-			c, err := f.ServerClient(server.Name)
+			c, err := f.ServerClient(s)
 			if err != nil {
 				return err
 			}

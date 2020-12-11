@@ -24,7 +24,5 @@ func NewKRECmd(f cmdutil.CmdFactory) *cobra.Command {
 		version.NewVersionCmd(f),
 	)
 
-	cmd.PersistentFlags().StringP("server", "s", f.Config().DefaultServer, "KRE server to use")
-
 	return cmd
 }

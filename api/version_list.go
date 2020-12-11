@@ -20,7 +20,7 @@ type VersionList []Version
 // ListVersions calls to KRE API and returns a list of Version entities.
 func (s *ServerClient) ListVersions(runtimeID string) (VersionList, error) {
 	req := graphql.NewRequest(`
-	query GetVersionConfStatus($runtimeId: ID!) {
+	query GetVersions($runtimeId: ID!) {
 		versions(runtimeId: $runtimeId) {
 			id
 			name
@@ -44,14 +44,3 @@ func (s *ServerClient) ListVersions(runtimeID string) (VersionList, error) {
 
 	return respData.Versions, nil
 }
-
-/*
-query: query GetVersionConfStatus($runtimeId: ID!) {
-  versions(runtimeId: $runtimeId) {
-    id
-    name
-    status
-  }
-}
-
-*/

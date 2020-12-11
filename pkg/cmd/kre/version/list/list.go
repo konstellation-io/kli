@@ -5,31 +5,21 @@ import (
 
 	"github.com/konstellation-io/kli/api"
 	"github.com/konstellation-io/kli/cmdutil"
-	"github.com/konstellation-io/kli/internal/errors"
 	"github.com/konstellation-io/kli/internal/render"
 	"github.com/spf13/cobra"
 )
 
+// NewListCmd creates a new command to list Versions.
 func NewListCmd(f cmdutil.CmdFactory) *cobra.Command {
 	log := f.Logger()
 	cmd := &cobra.Command{
 		Use:     "ls",
 		Aliases: []string{"list"},
+		Args:    cmdutil.CheckServerFlag,
 		Short:   "List all available Versions",
 		RunE: func(cmd *cobra.Command, args []string) error {
-			cfg := f.Config()
 			s, _ := cmd.Flags().GetString("server")
-
-			if s == "" {
-				s = cfg.DefaultServer
-			}
-
-			server := cfg.GetByServerName(s)
-			if server == nil {
-				return errors.ErrUnknownServerName
-			}
-
-			c, err := f.ServerClient(server.Name)
+			c, err := f.ServerClient(s)
 			if err != nil {
 				return err
 			}
