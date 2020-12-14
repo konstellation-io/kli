@@ -2,6 +2,7 @@ package kre
 
 import (
 	"github.com/MakeNowJust/heredoc"
+	"github.com/konstellation-io/kli/pkg/cmd/kre/version"
 	"github.com/spf13/cobra"
 
 	"github.com/konstellation-io/kli/cmdutil"
@@ -20,9 +21,8 @@ func NewKRECmd(f cmdutil.CmdFactory) *cobra.Command {
 
 	cmd.AddCommand(
 		kre.NewRuntimeCmd(f),
+		version.NewVersionCmd(f),
 	)
-
-	cmd.PersistentFlags().StringP("server", "s", f.Config().DefaultServer, "KRE server to use")
 
 	return cmd
 }

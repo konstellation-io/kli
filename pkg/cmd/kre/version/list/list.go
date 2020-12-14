@@ -3,21 +3,20 @@ package list
 import (
 	"fmt"
 
-	"github.com/spf13/cobra"
-
 	"github.com/konstellation-io/kli/api"
 	"github.com/konstellation-io/kli/cmdutil"
 	"github.com/konstellation-io/kli/internal/render"
+	"github.com/spf13/cobra"
 )
 
-// NewListCmd creates a new command to list Runtimes.
+// NewListCmd creates a new command to list Versions.
 func NewListCmd(f cmdutil.CmdFactory) *cobra.Command {
 	log := f.Logger()
 	cmd := &cobra.Command{
 		Use:     "ls",
 		Aliases: []string{"list"},
-		Short:   "List all available runtimes",
 		Args:    cmdutil.CheckServerFlag,
+		Short:   "List all available Versions",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			s, _ := cmd.Flags().GetString("server")
 			c, err := f.ServerClient(s)
@@ -25,18 +24,23 @@ func NewListCmd(f cmdutil.CmdFactory) *cobra.Command {
 				return err
 			}
 
-			list, err := c.ListRuntimes()
+			runtime, err := cmd.Flags().GetString("runtime")
+			if err != nil {
+				return err
+			}
+
+			list, err := c.ListVersions(runtime)
 			if err != nil {
 				return err
 			}
 
 			if len(list) == 0 {
-				log.Info("No runtimes found.")
+				log.Info("No versions found.")
 				return nil
 			}
 
 			r := render.DefaultRenderer(cmd.OutOrStdout())
-			listRuntimes(r, list)
+			listVersions(r, list)
 
 			return nil
 		},
@@ -45,18 +49,18 @@ func NewListCmd(f cmdutil.CmdFactory) *cobra.Command {
 	return cmd
 }
 
-func listRuntimes(r render.Renderer, list api.RuntimeList) {
+func listVersions(r render.Renderer, list api.VersionList) {
 	r.SetHeader([]string{
 		"",
-		"ID",
 		"Name",
+		"Status",
 	})
 
 	for i, rn := range list {
 		r.Append([]string{
 			fmt.Sprint(i + 1),
-			rn.ID,
 			rn.Name,
+			rn.Status,
 		})
 	}
 
