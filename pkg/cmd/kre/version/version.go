@@ -17,8 +17,6 @@ func NewVersionCmd(f cmdutil.CmdFactory) *cobra.Command {
 	}
 
 	cmd.PersistentFlags().StringP("server", "s", f.Config().DefaultServer, "KRE server to use")
-	cmd.PersistentFlags().StringP("runtime", "r", "", "Filter for specific runtime")
-	_ = cmd.MarkPersistentFlagRequired("runtime")
 
 	cmd.AddCommand(
 		NewListCmd(f),

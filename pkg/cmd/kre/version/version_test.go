@@ -86,7 +86,7 @@ func TestVersionStartCmd(t *testing.T) {
 		return cmd.NewVersionCmd(f)
 	})
 
-	r.Runf("version start 12345 --runtime runtime1234 --message \"%s\"", comment).
+	r.Runf("version start 12345 --message \"%s\"", comment).
 		Contains(heredoc.Doc(`
       [✔] Starting version '12345'.
 		`))
@@ -105,7 +105,7 @@ func TestVersionStopCmd(t *testing.T) {
 		return cmd.NewVersionCmd(f)
 	})
 
-	r.Runf("version stop 12345 --runtime runtime1234 --message \"%s\"", comment).
+	r.Runf("version stop 12345 --message \"%s\"", comment).
 		Contains(heredoc.Doc(`
       [✔] Stopping version '12345'.
 		`))
@@ -124,7 +124,7 @@ func TestVersionPublishCmd(t *testing.T) {
 		return cmd.NewVersionCmd(f)
 	})
 
-	r.Runf("version publish 12345 --runtime runtime1234 --message \"%s\"", comment).
+	r.Runf("version publish 12345 --message \"%s\"", comment).
 		Contains(heredoc.Doc(`
       [✔] Publishing version '12345'.
 		`))
@@ -143,7 +143,7 @@ func TestVersionUnpublishCmd(t *testing.T) {
 		return cmd.NewVersionCmd(f)
 	})
 
-	r.Runf("version unpublish 12345 --runtime runtime1234 --message \"%s\"", comment).
+	r.Runf("version unpublish 12345 --message \"%s\"", comment).
 		Contains(heredoc.Doc(`
       [✔] Unpublishing version '12345'.
 		`))

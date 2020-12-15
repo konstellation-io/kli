@@ -46,6 +46,8 @@ func NewListCmd(f cmdutil.CmdFactory) *cobra.Command {
 			return nil
 		},
 	}
+	cmd.Flags().StringP("runtime", "r", "", "Filter for specific runtime")
+	_ = cmd.MarkFlagRequired("runtime")
 
 	return cmd
 }
