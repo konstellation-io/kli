@@ -4,6 +4,7 @@ import (
 	"github.com/MakeNowJust/heredoc"
 	"github.com/konstellation-io/kli/cmdutil"
 	"github.com/konstellation-io/kli/pkg/cmd/kre/version/list"
+	"github.com/konstellation-io/kli/pkg/cmd/kre/version/start"
 	"github.com/spf13/cobra"
 )
 
@@ -23,6 +24,7 @@ func NewVersionCmd(f cmdutil.CmdFactory) *cobra.Command {
 
 	cmd.AddCommand(
 		list.NewListCmd(f),
+		start.NewStartCmd(f),
 	)
 
 	return cmd

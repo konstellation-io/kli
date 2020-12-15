@@ -2,6 +2,7 @@ package testhelpers
 
 import (
 	"bytes"
+	"encoding/csv"
 	"fmt"
 	"io/ioutil"
 	"strings"
@@ -102,7 +103,7 @@ func (c *cmdRunner) Run(cmd string) Runner {
 	c.out = ""
 	c.root.SetOut(b)
 
-	args := strings.Split(cmd, " ")
+	args := splitArgs(c.t, cmd)
 	args = args[1:]
 
 	c.root.SetArgs(args)
@@ -143,4 +144,18 @@ func (c *cmdRunner) RunE(cmd string, expectedErr error) Runner {
 	c.out = "\n" + string(out)
 
 	return c
+}
+
+func splitArgs(t *testing.T, s string) []string {
+	t.Helper()
+	// Split string
+	r := csv.NewReader(strings.NewReader(s))
+	r.Comma = ' ' // space
+
+	fields, err := r.Read()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	return fields
 }

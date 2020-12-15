@@ -43,8 +43,37 @@ func TestVersionListCmd(t *testing.T) {
 
 	r.Run("version ls --runtime runtime1234 ").
 		Contains(heredoc.Doc(`
-        NAME       STATUS
-			1 greeter-v1 STARTED
-			2 greeter-v2 STOPPED
+        ID   NAME       STATUS
+			1 1234 greeter-v1 STARTED
+			2 6578 greeter-v2 STOPPED
+		`))
+}
+
+func TestVersionStartCmd(t *testing.T) {
+	comment := "test comment"
+	r := testhelpers.NewRunner(t, func(f *mocks.MockCmdFactory) *cobra.Command {
+		ctrl := gomock.NewController(t)
+		cfg := f.Config()
+
+		err := cfg.AddServer(config.ServerConfig{
+			Name:     "test",
+			URL:      "http://test.local",
+			APIToken: "12346",
+		})
+		require.NoError(t, err)
+		err = cfg.SetDefaultServer("test")
+		require.NoError(t, err)
+
+		c := mocks.NewMockServerClienter(ctrl)
+		f.EXPECT().ServerClient("test").Return(c, nil)
+		c.EXPECT().StartVersion("12345", comment).Return(nil)
+
+		cmd := version.NewVersionCmd(f)
+		return cmd
+	})
+
+	r.Runf("version start 12345 --runtime runtime1234 --message \"%s\"", comment).
+		Contains(heredoc.Doc(`
+		 [✔] Version '12345' starting.
 		`))
 }

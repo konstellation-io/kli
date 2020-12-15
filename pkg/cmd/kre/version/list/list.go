@@ -53,6 +53,7 @@ func NewListCmd(f cmdutil.CmdFactory) *cobra.Command {
 func listVersions(r render.Renderer, list version.List) {
 	r.SetHeader([]string{
 		"",
+		"ID",
 		"Name",
 		"Status",
 	})
@@ -60,6 +61,7 @@ func listVersions(r render.Renderer, list version.List) {
 	for i, rn := range list {
 		r.Append([]string{
 			fmt.Sprint(i + 1),
+			rn.ID,
 			rn.Name,
 			rn.Status,
 		})
