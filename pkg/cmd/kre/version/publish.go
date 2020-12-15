@@ -1,4 +1,4 @@
-package publish
+package version
 
 import (
 	"github.com/konstellation-io/kli/cmdutil"

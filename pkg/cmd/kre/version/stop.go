@@ -1,18 +1,18 @@
-package start
+package version
 
 import (
 	"github.com/konstellation-io/kli/cmdutil"
 	"github.com/spf13/cobra"
 )
 
-// NewStartCmd starts an existing version.
-func NewStartCmd(f cmdutil.CmdFactory) *cobra.Command {
+// NewStopCmd stop an existing version.
+func NewStopCmd(f cmdutil.CmdFactory) *cobra.Command {
 	log := f.Logger()
 	cmd := &cobra.Command{
-		Use:     "start",
-		Aliases: []string{"start"},
+		Use:     "stop",
+		Aliases: []string{"stop"},
 		Args:    cmdutil.ComposeArgsCheck(cmdutil.CheckServerFlag, cobra.ExactArgs(1)),
-		Short:   "Start a version",
+		Short:   "Stop a version",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			s, _ := cmd.Flags().GetString("server")
 			c, err := f.KreClient(s)
@@ -26,17 +26,17 @@ func NewStartCmd(f cmdutil.CmdFactory) *cobra.Command {
 			}
 
 			versionID := args[0]
-			err = c.Version().Start(versionID, comment)
+			err = c.Version().Stop(versionID, comment)
 			if err != nil {
 				return err
 			}
 
-			log.Success("Starting version '%s'.", versionID)
+			log.Success("Stopping version '%s'.", versionID)
 			return nil
 		},
 	}
 
-	cmd.Flags().StringP("message", "m", "", "Adds audit message to start")
+	cmd.Flags().StringP("message", "m", "", "Adds audit message to stop")
 	_ = cmd.MarkPersistentFlagRequired("message")
 
 	return cmd
