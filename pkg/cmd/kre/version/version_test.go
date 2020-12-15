@@ -110,3 +110,41 @@ func TestVersionStopCmd(t *testing.T) {
       [✔] Stopping version '12345'.
 		`))
 }
+
+func TestVersionPublishCmd(t *testing.T) {
+	comment := "test publish comment"
+	s := newTestVersionSuite(t)
+	r := testhelpers.NewRunner(t, func(f *mocks.MockCmdFactory) *cobra.Command {
+		setupVersionConfig(t, f)
+
+		f.EXPECT().KreClient("test").Return(s.mocks.kreClient, nil)
+		s.mocks.kreClient.EXPECT().Version().Return(s.mocks.version)
+		s.mocks.version.EXPECT().Publish("12345", comment).Return(nil)
+
+		return cmd.NewVersionCmd(f)
+	})
+
+	r.Runf("version publish 12345 --runtime runtime1234 --message \"%s\"", comment).
+		Contains(heredoc.Doc(`
+      [✔] Publishing version '12345'.
+		`))
+}
+
+func TestVersionUnpublishCmd(t *testing.T) {
+	comment := "test unpublish comment"
+	s := newTestVersionSuite(t)
+	r := testhelpers.NewRunner(t, func(f *mocks.MockCmdFactory) *cobra.Command {
+		setupVersionConfig(t, f)
+
+		f.EXPECT().KreClient("test").Return(s.mocks.kreClient, nil)
+		s.mocks.kreClient.EXPECT().Version().Return(s.mocks.version)
+		s.mocks.version.EXPECT().Unpublish("12345", comment).Return(nil)
+
+		return cmd.NewVersionCmd(f)
+	})
+
+	r.Runf("version unpublish 12345 --runtime runtime1234 --message \"%s\"", comment).
+		Contains(heredoc.Doc(`
+      [✔] Unpublishing version '12345'.
+		`))
+}

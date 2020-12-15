@@ -4,8 +4,10 @@ import (
 	"github.com/MakeNowJust/heredoc"
 	"github.com/konstellation-io/kli/cmdutil"
 	"github.com/konstellation-io/kli/pkg/cmd/kre/version/list"
+	"github.com/konstellation-io/kli/pkg/cmd/kre/version/publish"
 	"github.com/konstellation-io/kli/pkg/cmd/kre/version/start"
 	"github.com/konstellation-io/kli/pkg/cmd/kre/version/stop"
+	"github.com/konstellation-io/kli/pkg/cmd/kre/version/unpublish"
 	"github.com/spf13/cobra"
 )
 
@@ -27,6 +29,8 @@ func NewVersionCmd(f cmdutil.CmdFactory) *cobra.Command {
 		list.NewListCmd(f),
 		start.NewStartCmd(f),
 		stop.NewStopCmd(f),
+		publish.NewPublishCmd(f),
+		unpublish.NewUnpublishCmd(f),
 	)
 
 	return cmd

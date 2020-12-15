@@ -75,3 +75,31 @@ func (mr *MockVersionInterfaceMockRecorder) Stop(versionID, comment interface{})
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Stop", reflect.TypeOf((*MockVersionInterface)(nil).Stop), versionID, comment)
 }
+
+// Publish mocks base method
+func (m *MockVersionInterface) Publish(versionID, comment string) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Publish", versionID, comment)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// Publish indicates an expected call of Publish
+func (mr *MockVersionInterfaceMockRecorder) Publish(versionID, comment interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Publish", reflect.TypeOf((*MockVersionInterface)(nil).Publish), versionID, comment)
+}
+
+// Unpublish mocks base method
+func (m *MockVersionInterface) Unpublish(versionID, comment string) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Unpublish", versionID, comment)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// Unpublish indicates an expected call of Unpublish
+func (mr *MockVersionInterfaceMockRecorder) Unpublish(versionID, comment interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Unpublish", reflect.TypeOf((*MockVersionInterface)(nil).Unpublish), versionID, comment)
+}
