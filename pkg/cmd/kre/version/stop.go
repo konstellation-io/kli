@@ -9,10 +9,9 @@ import (
 func NewStopCmd(f cmdutil.CmdFactory) *cobra.Command {
 	log := f.Logger()
 	cmd := &cobra.Command{
-		Use:     "stop",
-		Aliases: []string{"stop"},
-		Args:    cmdutil.ComposeArgsCheck(cmdutil.CheckServerFlag, cobra.ExactArgs(1)),
-		Short:   "Stop a version",
+		Use:   "stop",
+		Args:  cmdutil.ComposeArgsCheck(cmdutil.CheckServerFlag, cobra.ExactArgs(1)),
+		Short: "Stop a version",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			s, _ := cmd.Flags().GetString("server")
 			c, err := f.KreClient(s)

@@ -9,10 +9,9 @@ import (
 func NewStartCmd(f cmdutil.CmdFactory) *cobra.Command {
 	log := f.Logger()
 	cmd := &cobra.Command{
-		Use:     "start",
-		Aliases: []string{"start"},
-		Args:    cmdutil.ComposeArgsCheck(cmdutil.CheckServerFlag, cobra.ExactArgs(1)),
-		Short:   "Start a version",
+		Use:   "start",
+		Args:  cmdutil.ComposeArgsCheck(cmdutil.CheckServerFlag, cobra.ExactArgs(1)),
+		Short: "Start a version",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			s, _ := cmd.Flags().GetString("server")
 			c, err := f.KreClient(s)
