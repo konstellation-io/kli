@@ -1,4 +1,4 @@
-package api
+package version
 
 import (
 	"context"
@@ -14,11 +14,11 @@ type Version struct {
 	Status string
 }
 
-// VersionList contains a list of  Version.
-type VersionList []Version
+// List contains a list of  Version.
+type List []Version
 
 // ListVersions calls to KRE API and returns a list of Version entities.
-func (s *ServerClient) ListVersions(runtimeID string) (VersionList, error) {
+func (c *Client) List(runtimeID string) (List, error) {
 	req := graphql.NewRequest(`
 	query GetVersions($runtimeId: ID!) {
 		versions(runtimeId: $runtimeId) {
@@ -31,15 +31,15 @@ func (s *ServerClient) ListVersions(runtimeID string) (VersionList, error) {
 	req.Var("runtimeId", runtimeID)
 
 	var respData struct {
-		Versions VersionList
+		Versions List
 	}
 
-	ctx, cancel := context.WithTimeout(context.Background(), s.cfg.DefaultRequestTimeout)
+	ctx, cancel := context.WithTimeout(context.Background(), c.cfg.DefaultRequestTimeout)
 	defer cancel()
 
-	err := s.client.Run(ctx, req, &respData)
+	err := c.gql.Run(ctx, req, &respData)
 	if err != nil {
-		return nil, fmt.Errorf("error calling GraphQL: %s", err) //nolint:goerr113
+		return nil, fmt.Errorf("error calling GraphQL: %c", err) //nolint:goerr113
 	}
 
 	return respData.Versions, nil

@@ -5,7 +5,7 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/konstellation-io/kli/api"
+	"github.com/konstellation-io/kli/api/kre/runtime"
 	"github.com/konstellation-io/kli/cmdutil"
 	"github.com/konstellation-io/kli/internal/render"
 )
@@ -20,12 +20,12 @@ func NewListCmd(f cmdutil.CmdFactory) *cobra.Command {
 		Args:    cmdutil.CheckServerFlag,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			s, _ := cmd.Flags().GetString("server")
-			c, err := f.ServerClient(s)
+			c, err := f.KreClient(s)
 			if err != nil {
 				return err
 			}
 
-			list, err := c.ListRuntimes()
+			list, err := c.Runtime().List()
 			if err != nil {
 				return err
 			}
@@ -45,7 +45,7 @@ func NewListCmd(f cmdutil.CmdFactory) *cobra.Command {
 	return cmd
 }
 
-func listRuntimes(r render.Renderer, list api.RuntimeList) {
+func listRuntimes(r render.Renderer, list runtime.List) {
 	r.SetHeader([]string{
 		"",
 		"ID",

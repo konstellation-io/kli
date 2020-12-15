@@ -3,10 +3,11 @@ package list
 import (
 	"fmt"
 
-	"github.com/konstellation-io/kli/api"
+	"github.com/spf13/cobra"
+
+	"github.com/konstellation-io/kli/api/kre/version"
 	"github.com/konstellation-io/kli/cmdutil"
 	"github.com/konstellation-io/kli/internal/render"
-	"github.com/spf13/cobra"
 )
 
 // NewListCmd creates a new command to list Versions.
@@ -19,7 +20,7 @@ func NewListCmd(f cmdutil.CmdFactory) *cobra.Command {
 		Short:   "List all available Versions",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			s, _ := cmd.Flags().GetString("server")
-			c, err := f.ServerClient(s)
+			c, err := f.KreClient(s)
 			if err != nil {
 				return err
 			}
@@ -29,7 +30,7 @@ func NewListCmd(f cmdutil.CmdFactory) *cobra.Command {
 				return err
 			}
 
-			list, err := c.ListVersions(runtime)
+			list, err := c.Version().List(runtime)
 			if err != nil {
 				return err
 			}
@@ -49,7 +50,7 @@ func NewListCmd(f cmdutil.CmdFactory) *cobra.Command {
 	return cmd
 }
 
-func listVersions(r render.Renderer, list api.VersionList) {
+func listVersions(r render.Renderer, list version.List) {
 	r.SetHeader([]string{
 		"",
 		"Name",

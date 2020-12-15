@@ -5,13 +5,14 @@ import (
 
 	"github.com/MakeNowJust/heredoc"
 	"github.com/golang/mock/gomock"
-	"github.com/konstellation-io/kli/api"
+	"github.com/spf13/cobra"
+	"github.com/stretchr/testify/require"
+
+	"github.com/konstellation-io/kli/api/kre/version"
 	"github.com/konstellation-io/kli/internal/config"
 	"github.com/konstellation-io/kli/internal/testhelpers"
 	"github.com/konstellation-io/kli/mocks"
-	"github.com/konstellation-io/kli/pkg/cmd/kre/version"
-	"github.com/spf13/cobra"
-	"github.com/stretchr/testify/require"
+	cmd "github.com/konstellation-io/kli/pkg/cmd/kre/version"
 )
 
 func TestVersionListCmd(t *testing.T) {
@@ -28,15 +29,16 @@ func TestVersionListCmd(t *testing.T) {
 		err = cfg.SetDefaultServer("test")
 		require.NoError(t, err)
 
-		c := mocks.NewMockServerClienter(ctrl)
-		f.EXPECT().ServerClient("test").Return(c, nil)
-		c.EXPECT().ListVersions("runtime1234").Return(api.VersionList{
+		c := mocks.NewMockKreInterface(ctrl)
+		v := mocks.NewMockVersionInterface(ctrl)
+		f.EXPECT().KreClient("test").Return(c, nil)
+		c.EXPECT().Version().Return(v)
+		v.EXPECT().List("runtime1234").Return(version.List{
 			{ID: "1234", Name: "greeter-v1", Status: "STARTED"},
 			{ID: "6578", Name: "greeter-v2", Status: "STOPPED"},
 		}, nil)
 
-		cmd := version.NewVersionCmd(f)
-		return cmd
+		return cmd.NewVersionCmd(f)
 	})
 
 	r.Run("version ls --runtime runtime1234 ").

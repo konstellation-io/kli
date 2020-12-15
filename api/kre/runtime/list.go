@@ -1,4 +1,4 @@
-package api
+package runtime
 
 import (
 	"context"
@@ -14,11 +14,11 @@ type Runtime struct {
 	Status string
 }
 
-// RuntimeList contains a list of  Runtime.
-type RuntimeList []Runtime
+// List contains a list of  Runtime.
+type List []Runtime
 
 // ListRuntimes calls to KRE API and returns a list of Runtime entities.
-func (s *ServerClient) ListRuntimes() (RuntimeList, error) {
+func (s *Client) List() (List, error) {
 	req := graphql.NewRequest(`
 	query GetRuntimes {
 		runtimes {
@@ -30,7 +30,7 @@ func (s *ServerClient) ListRuntimes() (RuntimeList, error) {
 `)
 
 	var respData struct {
-		Runtimes RuntimeList
+		Runtimes List
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), s.cfg.DefaultRequestTimeout)

@@ -1,4 +1,4 @@
-package http
+package graphql
 
 import (
 	"bytes"
@@ -15,8 +15,8 @@ type accessTokenResponse struct {
 	Token string `json:"access_token"`
 }
 
-// GetAccessToken call to sign-in endpoint and get an access_token to use in later API calls.
-func GetAccessToken(cfg *config.Config, server *config.ServerConfig) (string, error) {
+// getAccessToken call to sign-in endpoint and get an access_token to use in later API calls.
+func getAccessToken(cfg *config.Config, server *config.ServerConfig) (string, error) {
 	client := &http.Client{}
 	url := fmt.Sprintf("%s/api/v1/auth/token/signin", server.URL)
 

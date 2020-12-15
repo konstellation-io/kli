@@ -6,7 +6,7 @@ package mocks
 
 import (
 	gomock "github.com/golang/mock/gomock"
-	api "github.com/konstellation-io/kli/api"
+	kre "github.com/konstellation-io/kli/api/kre"
 	cmdutil "github.com/konstellation-io/kli/cmdutil"
 	config "github.com/konstellation-io/kli/internal/config"
 	logger "github.com/konstellation-io/kli/internal/logger"
@@ -78,17 +78,17 @@ func (mr *MockCmdFactoryMockRecorder) Logger() *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Logger", reflect.TypeOf((*MockCmdFactory)(nil).Logger))
 }
 
-// ServerClient mocks base method
-func (m *MockCmdFactory) ServerClient(arg0 string) (api.ServerClienter, error) {
+// KreClient mocks base method
+func (m *MockCmdFactory) KreClient(arg0 string) (kre.KreInterface, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ServerClient", arg0)
-	ret0, _ := ret[0].(api.ServerClienter)
+	ret := m.ctrl.Call(m, "KreClient", arg0)
+	ret0, _ := ret[0].(kre.KreInterface)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// ServerClient indicates an expected call of ServerClient
-func (mr *MockCmdFactoryMockRecorder) ServerClient(arg0 interface{}) *gomock.Call {
+// KreClient indicates an expected call of KreClient
+func (mr *MockCmdFactoryMockRecorder) KreClient(arg0 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ServerClient", reflect.TypeOf((*MockCmdFactory)(nil).ServerClient), arg0)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "KreClient", reflect.TypeOf((*MockCmdFactory)(nil).KreClient), arg0)
 }
