@@ -22,10 +22,10 @@ func NewVersionCmd(f cmdutil.CmdFactory) *cobra.Command {
 
 	cmd.AddCommand(
 		NewListCmd(f),
-		NewStartCmd(f),
-		NewStopCmd(f),
-		NewPublishCmd(f),
-		NewUnpublishCmd(f),
+		NewActionCmd(f, "start"),
+		NewActionCmd(f, "stop"),
+		NewActionCmd(f, "publish"),
+		NewActionCmd(f, "unpublish"),
 	)
 
 	return cmd
