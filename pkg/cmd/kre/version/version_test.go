@@ -15,25 +15,49 @@ import (
 	cmd "github.com/konstellation-io/kli/pkg/cmd/kre/version"
 )
 
+type testVersionSuite struct {
+	ctrl  *gomock.Controller
+	mocks versionSuiteMocks
+}
+
+type versionSuiteMocks struct {
+	kreClient *mocks.MockKreInterface
+	version   *mocks.MockVersionInterface
+}
+
+func newTestVersionSuite(t *testing.T) *testVersionSuite {
+	ctrl := gomock.NewController(t)
+
+	return &testVersionSuite{
+		ctrl,
+		versionSuiteMocks{
+			kreClient: mocks.NewMockKreInterface(ctrl),
+			version:   mocks.NewMockVersionInterface(ctrl),
+		},
+	}
+}
+
+func setupVersionConfig(t *testing.T, f *mocks.MockCmdFactory) {
+	cfg := f.Config()
+
+	err := cfg.AddServer(config.ServerConfig{
+		Name:     "test",
+		URL:      "http://test.local",
+		APIToken: "12346",
+	})
+	require.NoError(t, err)
+	err = cfg.SetDefaultServer("test")
+	require.NoError(t, err)
+}
+
 func TestVersionListCmd(t *testing.T) {
+	s := newTestVersionSuite(t)
 	r := testhelpers.NewRunner(t, func(f *mocks.MockCmdFactory) *cobra.Command {
-		ctrl := gomock.NewController(t)
-		cfg := f.Config()
+		setupVersionConfig(t, f)
 
-		err := cfg.AddServer(config.ServerConfig{
-			Name:     "test",
-			URL:      "http://test.local",
-			APIToken: "12346",
-		})
-		require.NoError(t, err)
-		err = cfg.SetDefaultServer("test")
-		require.NoError(t, err)
-
-		c := mocks.NewMockKreInterface(ctrl)
-		v := mocks.NewMockVersionInterface(ctrl)
-		f.EXPECT().KreClient("test").Return(c, nil)
-		c.EXPECT().Version().Return(v)
-		v.EXPECT().List("runtime1234").Return(version.List{
+		f.EXPECT().KreClient("test").Return(s.mocks.kreClient, nil)
+		s.mocks.kreClient.EXPECT().Version().Return(s.mocks.version)
+		s.mocks.version.EXPECT().List("runtime1234").Return(version.List{
 			{ID: "1234", Name: "greeter-v1", Status: "STARTED"},
 			{ID: "6578", Name: "greeter-v2", Status: "STOPPED"},
 		}, nil)
@@ -51,24 +75,13 @@ func TestVersionListCmd(t *testing.T) {
 
 func TestVersionStartCmd(t *testing.T) {
 	comment := "test start comment"
+	s := newTestVersionSuite(t)
 	r := testhelpers.NewRunner(t, func(f *mocks.MockCmdFactory) *cobra.Command {
-		ctrl := gomock.NewController(t)
-		cfg := f.Config()
+		setupVersionConfig(t, f)
 
-		err := cfg.AddServer(config.ServerConfig{
-			Name:     "test",
-			URL:      "http://test.local",
-			APIToken: "12346",
-		})
-		require.NoError(t, err)
-		err = cfg.SetDefaultServer("test")
-		require.NoError(t, err)
-
-		c := mocks.NewMockKreInterface(ctrl)
-		v := mocks.NewMockVersionInterface(ctrl)
-		f.EXPECT().KreClient("test").Return(c, nil)
-		c.EXPECT().Version().Return(v)
-		v.EXPECT().Start("12345", comment).Return(nil)
+		f.EXPECT().KreClient("test").Return(s.mocks.kreClient, nil)
+		s.mocks.kreClient.EXPECT().Version().Return(s.mocks.version)
+		s.mocks.version.EXPECT().Start("12345", comment).Return(nil)
 
 		return cmd.NewVersionCmd(f)
 	})
@@ -81,24 +94,13 @@ func TestVersionStartCmd(t *testing.T) {
 
 func TestVersionStopCmd(t *testing.T) {
 	comment := "test stop comment"
+	s := newTestVersionSuite(t)
 	r := testhelpers.NewRunner(t, func(f *mocks.MockCmdFactory) *cobra.Command {
-		ctrl := gomock.NewController(t)
-		cfg := f.Config()
+		setupVersionConfig(t, f)
 
-		err := cfg.AddServer(config.ServerConfig{
-			Name:     "test",
-			URL:      "http://test.local",
-			APIToken: "12346",
-		})
-		require.NoError(t, err)
-		err = cfg.SetDefaultServer("test")
-		require.NoError(t, err)
-
-		c := mocks.NewMockKreInterface(ctrl)
-		v := mocks.NewMockVersionInterface(ctrl)
-		f.EXPECT().KreClient("test").Return(c, nil)
-		c.EXPECT().Version().Return(v)
-		v.EXPECT().Stop("12345", comment).Return(nil)
+		f.EXPECT().KreClient("test").Return(s.mocks.kreClient, nil)
+		s.mocks.kreClient.EXPECT().Version().Return(s.mocks.version)
+		s.mocks.version.EXPECT().Stop("12345", comment).Return(nil)
 
 		return cmd.NewVersionCmd(f)
 	})
