@@ -11,6 +11,8 @@ import (
 //nolint: golint
 type VersionInterface interface {
 	List(string) (List, error)
+	Start(versionID, comment string) error
+	Stop(versionID, comment string) error
 }
 
 type Client struct {

@@ -5,6 +5,7 @@ import (
 	"github.com/konstellation-io/kli/cmdutil"
 	"github.com/konstellation-io/kli/pkg/cmd/kre/version/list"
 	"github.com/konstellation-io/kli/pkg/cmd/kre/version/start"
+	"github.com/konstellation-io/kli/pkg/cmd/kre/version/stop"
 	"github.com/spf13/cobra"
 )
 
@@ -25,6 +26,7 @@ func NewVersionCmd(f cmdutil.CmdFactory) *cobra.Command {
 	cmd.AddCommand(
 		list.NewListCmd(f),
 		start.NewStartCmd(f),
+		stop.NewStopCmd(f),
 	)
 
 	return cmd

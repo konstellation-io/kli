@@ -1,4 +1,4 @@
-package api
+package version
 
 import (
 	"context"
@@ -7,7 +7,7 @@ import (
 	"github.com/machinebox/graphql"
 )
 
-func (s *ServerClient) StartVersion(versionID, comment string) error {
+func (c *Client) Start(versionID, comment string) error {
 	req := graphql.NewRequest(`
 	mutation StartVersion($input: StartVersionInput!) {
 		startVersion(input: $input) {
@@ -22,10 +22,10 @@ func (s *ServerClient) StartVersion(versionID, comment string) error {
 		Status string
 	}
 
-	ctx, cancel := context.WithTimeout(context.Background(), s.cfg.DefaultRequestTimeout)
+	ctx, cancel := context.WithTimeout(context.Background(), c.cfg.DefaultRequestTimeout)
 	defer cancel()
 
-	err := s.client.Run(ctx, req, &respData)
+	err := c.gql.Run(ctx, req, &respData)
 	if err != nil {
 		return fmt.Errorf("error calling GraphQL: %s", err) //nolint:goerr113
 	}

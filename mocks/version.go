@@ -47,3 +47,31 @@ func (mr *MockVersionInterfaceMockRecorder) List(arg0 interface{}) *gomock.Call 
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "List", reflect.TypeOf((*MockVersionInterface)(nil).List), arg0)
 }
+
+// Start mocks base method
+func (m *MockVersionInterface) Start(versionID, comment string) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Start", versionID, comment)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// Start indicates an expected call of Start
+func (mr *MockVersionInterfaceMockRecorder) Start(versionID, comment interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Start", reflect.TypeOf((*MockVersionInterface)(nil).Start), versionID, comment)
+}
+
+// Stop mocks base method
+func (m *MockVersionInterface) Stop(versionID, comment string) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Stop", versionID, comment)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// Stop indicates an expected call of Stop
+func (mr *MockVersionInterfaceMockRecorder) Stop(versionID, comment interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Stop", reflect.TypeOf((*MockVersionInterface)(nil).Stop), versionID, comment)
+}

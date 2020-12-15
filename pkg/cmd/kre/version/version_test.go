@@ -50,7 +50,7 @@ func TestVersionListCmd(t *testing.T) {
 }
 
 func TestVersionStartCmd(t *testing.T) {
-	comment := "test comment"
+	comment := "test start comment"
 	r := testhelpers.NewRunner(t, func(f *mocks.MockCmdFactory) *cobra.Command {
 		ctrl := gomock.NewController(t)
 		cfg := f.Config()
@@ -64,16 +64,47 @@ func TestVersionStartCmd(t *testing.T) {
 		err = cfg.SetDefaultServer("test")
 		require.NoError(t, err)
 
-		c := mocks.NewMockServerClienter(ctrl)
-		f.EXPECT().ServerClient("test").Return(c, nil)
-		c.EXPECT().StartVersion("12345", comment).Return(nil)
+		c := mocks.NewMockKreInterface(ctrl)
+		v := mocks.NewMockVersionInterface(ctrl)
+		f.EXPECT().KreClient("test").Return(c, nil)
+		c.EXPECT().Version().Return(v)
+		v.EXPECT().Start("12345", comment).Return(nil)
 
-		cmd := version.NewVersionCmd(f)
-		return cmd
+		return cmd.NewVersionCmd(f)
 	})
 
 	r.Runf("version start 12345 --runtime runtime1234 --message \"%s\"", comment).
 		Contains(heredoc.Doc(`
-		 [✔] Version '12345' starting.
+      [✔] Starting version '12345'.
+		`))
+}
+
+func TestVersionStopCmd(t *testing.T) {
+	comment := "test stop comment"
+	r := testhelpers.NewRunner(t, func(f *mocks.MockCmdFactory) *cobra.Command {
+		ctrl := gomock.NewController(t)
+		cfg := f.Config()
+
+		err := cfg.AddServer(config.ServerConfig{
+			Name:     "test",
+			URL:      "http://test.local",
+			APIToken: "12346",
+		})
+		require.NoError(t, err)
+		err = cfg.SetDefaultServer("test")
+		require.NoError(t, err)
+
+		c := mocks.NewMockKreInterface(ctrl)
+		v := mocks.NewMockVersionInterface(ctrl)
+		f.EXPECT().KreClient("test").Return(c, nil)
+		c.EXPECT().Version().Return(v)
+		v.EXPECT().Stop("12345", comment).Return(nil)
+
+		return cmd.NewVersionCmd(f)
+	})
+
+	r.Runf("version stop 12345 --runtime runtime1234 --message \"%s\"", comment).
+		Contains(heredoc.Doc(`
+      [✔] Stopping version '12345'.
 		`))
 }

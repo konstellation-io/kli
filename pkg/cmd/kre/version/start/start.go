@@ -15,7 +15,7 @@ func NewStartCmd(f cmdutil.CmdFactory) *cobra.Command {
 		Short:   "Start a version",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			s, _ := cmd.Flags().GetString("server")
-			c, err := f.ServerClient(s)
+			c, err := f.KreClient(s)
 			if err != nil {
 				return err
 			}
@@ -26,12 +26,12 @@ func NewStartCmd(f cmdutil.CmdFactory) *cobra.Command {
 			}
 
 			versionID := args[0]
-			err = c.StartVersion(versionID, comment)
+			err = c.Version().Start(versionID, comment)
 			if err != nil {
 				return err
 			}
 
-			log.Success("Version '%s' starting.", versionID)
+			log.Success("Starting version '%s'.", versionID)
 			return nil
 		},
 	}
