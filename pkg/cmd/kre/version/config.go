@@ -4,12 +4,14 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/spf13/cobra"
+
 	"github.com/konstellation-io/kli/api/kre/version"
 	"github.com/konstellation-io/kli/cmdutil"
 	"github.com/konstellation-io/kli/internal/render"
-	"github.com/spf13/cobra"
 )
 
+// NewConfigCmd manage config command for version.
 func NewConfigCmd(f cmdutil.CmdFactory) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "config",
@@ -29,7 +31,6 @@ func NewConfigCmd(f cmdutil.CmdFactory) *cobra.Command {
 			}
 
 			return getConfig(f, cmd, serverName, versionID)
-
 		},
 	}
 	cmd.Flags().StringSlice("set", []string{}, "Set new key value pair key=value")
@@ -39,6 +40,7 @@ func NewConfigCmd(f cmdutil.CmdFactory) *cobra.Command {
 
 func getConfig(f cmdutil.CmdFactory, cmd *cobra.Command, serverName, versionID string) error {
 	log := f.Logger()
+
 	c, err := f.KreClient(serverName)
 	if err != nil {
 		return err
@@ -56,17 +58,21 @@ func getConfig(f cmdutil.CmdFactory, cmd *cobra.Command, serverName, versionID s
 
 	r := render.DefaultRenderer(cmd.OutOrStdout())
 	renderVariables(r, config)
+
 	_, _ = fmt.Fprintln(cmd.OutOrStdout())
+
 	if config.Completed {
 		log.Success("Version config complete")
 	} else {
 		log.Warning("Version config incomplete")
 	}
+
 	return nil
 }
 
 func updateConfig(f cmdutil.CmdFactory, serverName, versionID string, vars []string) error {
 	log := f.Logger()
+
 	c, err := f.KreClient(serverName)
 	if err != nil {
 		return err
@@ -76,6 +82,7 @@ func updateConfig(f cmdutil.CmdFactory, serverName, versionID string, vars []str
 
 	for _, v := range vars {
 		arr := strings.Split(v, "=")
+
 		config = append(config, version.ConfigVariableInput{
 			Key:   arr[0],
 			Value: arr[1],

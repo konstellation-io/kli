@@ -3,12 +3,11 @@ package version
 //go:generate mockgen -source=${GOFILE} -destination=$PWD/mocks/${GOFILE} -package=mocks
 
 import (
-	"github.com/machinebox/graphql"
-
+	"github.com/konstellation-io/kli/api/graphql"
 	"github.com/konstellation-io/kli/internal/config"
 )
 
-//nolint: golint
+// VersionInterface method to interact with Versions.
 type VersionInterface interface {
 	List(string) (List, error)
 	Start(versionID, comment string) error
@@ -20,11 +19,12 @@ type VersionInterface interface {
 }
 
 type versionClient struct {
-	cfg *config.Config
-	gql *graphql.Client
+	cfg    *config.Config
+	client *graphql.GqlManager
 }
 
-func New(cfg *config.Config, gql *graphql.Client) VersionInterface {
+// New creates a new struct to access Versions methods.
+func New(cfg *config.Config, gql *graphql.GqlManager) VersionInterface {
 	return &versionClient{
 		cfg,
 		gql,

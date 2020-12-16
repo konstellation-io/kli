@@ -1,8 +1,9 @@
 package cmdutil
 
 import (
-	"github.com/konstellation-io/kli/internal/errors"
 	"github.com/spf13/cobra"
+
+	"github.com/konstellation-io/kli/internal/errors"
 )
 
 // ComposeArgsCheck gets multiple checker functions and composes a new check.

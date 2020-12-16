@@ -53,7 +53,7 @@ func (f *Factory) Logger() logger.Logger {
 	return f.logger
 }
 
-// ServerClient generates a new ServerClient specific for the given server name.
+// KreClient generates a new ServerClient specific for the given server name.
 func (f *Factory) KreClient(serverName string) (kre.KreInterface, error) {
 	server := f.cfg.GetByServerName(serverName)
 	if server == nil {

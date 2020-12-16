@@ -2,8 +2,9 @@ package version
 
 import (
 	"github.com/MakeNowJust/heredoc"
-	"github.com/konstellation-io/kli/cmdutil"
 	"github.com/spf13/cobra"
+
+	"github.com/konstellation-io/kli/cmdutil"
 )
 
 // NewVersionCmd creates a new command to handle 'version' subcommands.

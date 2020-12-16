@@ -10,11 +10,11 @@ var (
 	ErrResponseEmpty = errors.New("response body is empty")
 )
 
-// ClientOption represents an argument to NewClient.
-type Option = func(http.RoundTripper) http.RoundTripper
+// option represents an argument to NewClient.
+type option = func(http.RoundTripper) http.RoundTripper
 
 // newHTTPClient initializes an http.Client with options.
-func newHTTPClient(opts ...Option) *http.Client {
+func newHTTPClient(opts ...option) *http.Client {
 	tr := http.DefaultTransport
 	for _, opt := range opts {
 		tr = opt(tr)
@@ -24,7 +24,7 @@ func newHTTPClient(opts ...Option) *http.Client {
 }
 
 // addHeader turns a RoundTripper into one that adds a request header.
-func addHeader(name, value string) Option {
+func addHeader(name, value string) option {
 	return func(tr http.RoundTripper) http.RoundTripper {
 		return &funcTripper{
 			roundTrip: func(req *http.Request) (*http.Response, error) {

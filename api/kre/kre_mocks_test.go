@@ -9,14 +9,13 @@ import (
 	"strings"
 	"testing"
 
-	gql "github.com/machinebox/graphql"
 	"github.com/stretchr/testify/require"
 
 	"github.com/konstellation-io/kli/api/graphql"
 	"github.com/konstellation-io/kli/internal/config"
 )
 
-func gqlMockServer(t *testing.T, requestVars, mockResponse string) (*httptest.Server, *config.Config, *gql.Client) {
+func gqlMockServer(t *testing.T, requestVars, mockResponse string) (*httptest.Server, *config.Config, *graphql.GqlManager) {
 	t.Helper()
 
 	auth := false
@@ -61,7 +60,7 @@ func gqlMockServer(t *testing.T, requestVars, mockResponse string) (*httptest.Se
 		APIToken: "12345",
 	}
 
-	client, err := graphql.NewGqlClient(cfg, srvCfg, "test")
+	client, err := graphql.NewGqlManager(cfg, srvCfg, "test")
 	require.NoError(t, err)
 
 	return srv, cfg, client

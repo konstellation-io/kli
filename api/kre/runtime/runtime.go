@@ -3,23 +3,24 @@ package runtime
 //go:generate mockgen -source=${GOFILE} -destination=$PWD/mocks/${GOFILE} -package=mocks
 
 import (
-	"github.com/machinebox/graphql"
-
+	"github.com/konstellation-io/kli/api/graphql"
 	"github.com/konstellation-io/kli/internal/config"
 )
 
-//nolint: golint
+// RuntimeInterface method to interact with Runtimes.
 type RuntimeInterface interface {
 	List() (List, error)
 }
 
-type Client struct {
+// runtimeClient struct to implement methods to interact with Runtimes.
+type runtimeClient struct {
 	cfg    *config.Config
-	client *graphql.Client
+	client *graphql.GqlManager
 }
 
-func New(cfg *config.Config, client *graphql.Client) RuntimeInterface {
-	return &Client{
+// New creates a new struct to access Runtimes methods.
+func New(cfg *config.Config, client *graphql.GqlManager) RuntimeInterface {
+	return &runtimeClient{
 		cfg,
 		client,
 	}
