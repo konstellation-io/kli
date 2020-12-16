@@ -190,8 +190,8 @@ func TestVersionGetConfigCmd(t *testing.T) {
 func TestVersionSetConfigCmd(t *testing.T) {
 	s := newTestVersionSuite(t)
 	configVars := []version.ConfigVariableInput{
-		{Key: "key1", Value: "value1"},
-		{Key: "key2", Value: "value2"},
+		{"key": "key1", "value": "value1"},
+		{"key": "key2", "value": "value2"},
 	}
 
 	r := testhelpers.NewRunner(t, func(f *mocks.MockCmdFactory) *cobra.Command {
@@ -204,8 +204,8 @@ func TestVersionSetConfigCmd(t *testing.T) {
 		return cmd.NewVersionCmd(f)
 	})
 
-	pair1 := fmt.Sprintf("%s=%s", configVars[0].Key, configVars[0].Value)
-	pair2 := fmt.Sprintf("%s=%s", configVars[1].Key, configVars[1].Value)
+	pair1 := fmt.Sprintf("%s=%s", configVars[0]["key"], configVars[0]["value"])
+	pair2 := fmt.Sprintf("%s=%s", configVars[1]["key"], configVars[1]["value"])
 	r.Runf("version config 12345 --set %s --set %s", pair1, pair2).
 		Contains(heredoc.Doc(`
       [✔] Config completed for version '12345'.

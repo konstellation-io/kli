@@ -14,10 +14,7 @@ type ConfigVariable struct {
 }
 
 // ConfigVariableInput struct to collect key/values to update Version config.
-type ConfigVariableInput struct {
-	Key   string
-	Value string
-}
+type ConfigVariableInput map[string]string
 
 // ConfigVariableType enum to represent variable types.
 type ConfigVariableType string
@@ -46,7 +43,7 @@ func (e ConfigVariableType) String() string {
 // UpdateConfig update a Version config values.
 func (c *versionClient) UpdateConfig(versionID string, configVars []ConfigVariableInput) (bool, error) {
 	query := `
-		mutation StartVersion($input: UpdateConfigurationInput!) {
+		mutation UpdateConfig($input: UpdateConfigurationInput!) {
 			updateVersionConfiguration(input: $input) {
 				config {
 					completed

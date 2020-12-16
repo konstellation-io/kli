@@ -84,8 +84,8 @@ func updateConfig(f cmdutil.CmdFactory, serverName, versionID string, vars []str
 		arr := strings.Split(v, "=")
 
 		config = append(config, version.ConfigVariableInput{
-			Key:   arr[0],
-			Value: arr[1],
+			"key":   arr[0],
+			"value": arr[1],
 		})
 	}
 

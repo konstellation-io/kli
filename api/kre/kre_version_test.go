@@ -173,15 +173,15 @@ func TestVersionGetConfig(t *testing.T) {
 func TestVersionUpdateConfig(t *testing.T) {
 	configVars := []version.ConfigVariableInput{
 		{
-			Key:   "KEY2",
-			Value: "newValue",
+			"key":   "KEY2",
+			"value": "newValue",
 		},
 	}
 	requestVars := `
 		{
 			"input": {
 					"configurationVariables": [
-						{ "Key": "KEY2", "Value": "newValue" }
+						{ "key": "KEY2", "value": "newValue" }
 					],
 					"versionId": "test-v1"
 			}
