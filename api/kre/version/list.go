@@ -18,7 +18,7 @@ type Version struct {
 type List []Version
 
 // ListVersions calls to KRE API and returns a list of Version entities.
-func (c *Client) List(runtimeID string) (List, error) {
+func (c *versionClient) List(runtimeID string) (List, error) {
 	req := graphql.NewRequest(`
 	query GetVersions($runtimeId: ID!) {
 		versions(runtimeId: $runtimeId) {

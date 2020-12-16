@@ -7,7 +7,7 @@ import (
 	"github.com/machinebox/graphql"
 )
 
-func (c *Client) Stop(versionID, comment string) error {
+func (c *versionClient) Stop(versionID, comment string) error {
 	req := graphql.NewRequest(`
 	mutation StopVersion($input: StopVersionInput!) {
 		stopVersion(input: $input) {

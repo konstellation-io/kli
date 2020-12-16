@@ -6,7 +6,6 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
-	"reflect"
 	"strings"
 	"testing"
 
@@ -43,7 +42,7 @@ func gqlMockServer(t *testing.T, requestVars, mockResponse string) (*httptest.Se
 			err = json.NewDecoder(strings.NewReader(requestVars)).Decode(&expectedVars)
 			require.NoError(t, err)
 
-			reflect.DeepEqual(actualBody, expectedVars)
+			require.EqualValues(t, actualBody["variables"], expectedVars)
 		}
 
 		if mockResponse == "" {

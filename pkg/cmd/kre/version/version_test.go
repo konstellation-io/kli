@@ -1,6 +1,7 @@
 package version_test
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/MakeNowJust/heredoc"
@@ -146,5 +147,67 @@ func TestVersionUnpublishCmd(t *testing.T) {
 	r.Runf("version unpublish 12345 --message \"%s\"", comment).
 		Contains(heredoc.Doc(`
       [✔] Unpublishing version '12345'.
+		`))
+}
+
+func TestVersionGetConfigCmd(t *testing.T) {
+	s := newTestVersionSuite(t)
+	versionConfig := &version.Config{
+		Completed: true,
+		Vars: []*version.ConfigVariable{
+			{
+				Key:   "key1",
+				Value: "value1",
+				Type:  version.ConfigVariableTypeVariable,
+			},
+			{
+				Key:   "key2",
+				Value: "value2",
+				Type:  version.ConfigVariableTypeVariable,
+			},
+		},
+	}
+	r := testhelpers.NewRunner(t, func(f *mocks.MockCmdFactory) *cobra.Command {
+		setupVersionConfig(t, f)
+
+		f.EXPECT().KreClient("test").Return(s.mocks.kreClient, nil)
+		s.mocks.kreClient.EXPECT().Version().Return(s.mocks.version)
+		s.mocks.version.EXPECT().GetConfig("12345").Return(versionConfig, nil)
+
+		return cmd.NewVersionCmd(f)
+	})
+
+	r.Run("version config 12345").
+		Contains(heredoc.Doc(`
+				TYPE     KEY  VALUE
+			1 VARIABLE key1 value1
+			2 VARIABLE key2 value2
+
+      [✔] Version config complete
+		`))
+}
+
+func TestVersionSetConfigCmd(t *testing.T) {
+	s := newTestVersionSuite(t)
+	configVars := []version.ConfigVariableInput{
+		{Key: "key1", Value: "value1"},
+		{Key: "key2", Value: "value2"},
+	}
+
+	r := testhelpers.NewRunner(t, func(f *mocks.MockCmdFactory) *cobra.Command {
+		setupVersionConfig(t, f)
+
+		f.EXPECT().KreClient("test").Return(s.mocks.kreClient, nil)
+		s.mocks.kreClient.EXPECT().Version().Return(s.mocks.version)
+		s.mocks.version.EXPECT().UpdateConfig("12345", configVars).Return(true, nil)
+
+		return cmd.NewVersionCmd(f)
+	})
+
+	pair1 := fmt.Sprintf("%s=%s", configVars[0].Key, configVars[0].Value)
+	pair2 := fmt.Sprintf("%s=%s", configVars[1].Key, configVars[1].Value)
+	r.Runf("version config 12345 --set %s --set %s", pair1, pair2).
+		Contains(heredoc.Doc(`
+      [✔] Config completed for version '12345'.
 		`))
 }

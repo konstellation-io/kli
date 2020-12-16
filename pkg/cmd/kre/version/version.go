@@ -24,6 +24,7 @@ func NewVersionCmd(f cmdutil.CmdFactory) *cobra.Command {
 		NewActionCmd(f, "stop"),
 		NewActionCmd(f, "publish"),
 		NewActionCmd(f, "unpublish"),
+		NewConfigCmd(f),
 	)
 
 	return cmd
