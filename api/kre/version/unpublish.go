@@ -7,7 +7,7 @@ import (
 	"github.com/machinebox/graphql"
 )
 
-func (c *Client) Unpublish(versionID, comment string) error {
+func (c *versionClient) Unpublish(versionID, comment string) error {
 	req := graphql.NewRequest(`
 	mutation UnpublishVersion($input: UnpublishVersionInput!) {
 		unpublishVersion(input: $input) {

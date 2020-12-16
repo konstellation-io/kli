@@ -10,6 +10,7 @@ import (
 
 	"github.com/golang/mock/gomock"
 	"github.com/guumaster/cligger"
+	"github.com/sergi/go-diff/diffmatchpatch"
 	"github.com/spf13/cobra"
 	"github.com/stretchr/testify/require"
 
@@ -78,14 +79,28 @@ func (c *cmdRunner) Equal(expected string) Runner {
 }
 
 func (c *cmdRunner) Contains(expected string) Runner {
-	require.Contains(c.t, text.LinesTrim(c.out), text.LinesTrim(expected))
+	actualClean := text.LinesTrim(c.out)
+	expectedClean := text.LinesTrim(expected)
+
+	dmp := diffmatchpatch.New()
+	diffs := dmp.DiffMain(actualClean, expectedClean, true)
+	formatDiff := dmp.DiffPrettyText(diffs)
+
+	require.Contains(c.t, actualClean, expectedClean, formatDiff)
 
 	return c
 }
 
 func (c *cmdRunner) Containsf(expected string, args ...interface{}) Runner {
 	expected = fmt.Sprintf(expected, args...)
-	require.Contains(c.t, text.LinesTrim(c.out), text.LinesTrim(expected))
+	actualClean := text.LinesTrim(c.out)
+	expectedClean := text.LinesTrim(expected)
+
+	dmp := diffmatchpatch.New()
+	diffs := dmp.DiffMain(actualClean, expectedClean, true)
+	formatDiff := dmp.DiffPrettyText(diffs)
+
+	require.Contains(c.t, actualClean, expectedClean, formatDiff)
 
 	return c
 }

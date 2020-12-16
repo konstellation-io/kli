@@ -120,3 +120,52 @@ func TestVersionUnpublish(t *testing.T) {
 	err := c.Unpublish(versionID, comment)
 	require.NoError(t, err)
 }
+
+func TestVersionGetConfig(t *testing.T) {
+	srv, cfg, client := gqlMockServer(t, "", `
+		{
+			"data": {
+				"version": {
+					"config": {
+						"completed": false,
+						"vars": [
+							{
+								"key": "KEY1",
+								"value": "value",
+								"type": "VARIABLE"
+							},
+							{
+								"key": "KEY2",
+								"value": "",
+								"type": "VARIABLE"
+							}
+						]
+					}
+				}
+			}
+		}
+	`)
+	defer srv.Close()
+
+	c := version.New(cfg, client)
+
+	config, err := c.GetConfig("test-v1")
+	require.NoError(t, err)
+	require.False(t, config.Completed)
+	require.Len(t, config.Vars, 2)
+	require.EqualValues(t, config, &version.Config{
+		Completed: false,
+		Vars: []*version.ConfigVariable{
+			{
+				Key:   "KEY1",
+				Value: "value",
+				Type:  version.ConfigVariableTypeVariable,
+			},
+			{
+				Key:   "KEY2",
+				Value: "",
+				Type:  version.ConfigVariableTypeVariable,
+			},
+		},
+	})
+}

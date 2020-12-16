@@ -15,15 +15,17 @@ type VersionInterface interface {
 	Stop(versionID, comment string) error
 	Publish(versionID, comment string) error
 	Unpublish(versionID, comment string) error
+	GetConfig(versionID string) (*Config, error)
+	UpdateConfig(versionID string, configVars []ConfigVariableInput) (bool, error)
 }
 
-type Client struct {
+type versionClient struct {
 	cfg *config.Config
 	gql *graphql.Client
 }
 
 func New(cfg *config.Config, gql *graphql.Client) VersionInterface {
-	return &Client{
+	return &versionClient{
 		cfg,
 		gql,
 	}
