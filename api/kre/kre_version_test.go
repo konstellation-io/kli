@@ -169,3 +169,41 @@ func TestVersionGetConfig(t *testing.T) {
 		},
 	})
 }
+
+func TestVersionUpdateConfig(t *testing.T) {
+	configVars := []version.ConfigVariableInput{
+		{
+			Key:   "KEY2",
+			Value: "newValue",
+		},
+	}
+	requestVars := `
+		{
+			"input": {
+					"configurationVariables": [
+						{ "Key": "KEY2", "Value": "newValue" }
+					],
+					"versionId": "test-v1"
+			}
+		}
+	`
+	srv, cfg, client := gqlMockServer(t, requestVars, `
+		{
+			"data": {
+				"updateVersionConfiguration": {
+					"config": {
+						"completed": true
+					}
+				}
+			}
+		}
+	`)
+	defer srv.Close()
+
+	c := version.New(cfg, client)
+
+	completed, err := c.UpdateConfig("test-v1", configVars)
+	require.NoError(t, err)
+	require.True(t, completed)
+
+}

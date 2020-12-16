@@ -62,14 +62,16 @@ func (c *versionClient) UpdateConfig(versionID string, configVars []ConfigVariab
 	}
 
 	var respData struct {
-		config struct {
-			completed bool
+		UpdateVersionConfiguration struct {
+			Config struct {
+				Completed bool
+			}
 		}
 	}
 
 	err := c.client.MakeRequest(query, vars, &respData)
 
-	return respData.config.completed, err
+	return respData.UpdateVersionConfiguration.Config.Completed, err
 }
 
 func (c *versionClient) GetConfig(versionID string) (*Config, error) {

@@ -8,6 +8,7 @@ import (
 	"net/http/httptest"
 	"strings"
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/require"
 
@@ -52,7 +53,7 @@ func gqlMockServer(t *testing.T, requestVars, mockResponse string) (*httptest.Se
 	}))
 
 	cfg := &config.Config{
-		DefaultRequestTimeout: 999999,
+		DefaultRequestTimeout: 999999 * time.Second,
 	}
 	srvCfg := &config.ServerConfig{
 		Name:     "test",
