@@ -2,8 +2,9 @@ package kre
 
 import (
 	"github.com/MakeNowJust/heredoc"
-	"github.com/konstellation-io/kli/pkg/cmd/kre/version"
 	"github.com/spf13/cobra"
+
+	"github.com/konstellation-io/kli/pkg/cmd/kre/version"
 
 	"github.com/konstellation-io/kli/cmdutil"
 	kre "github.com/konstellation-io/kli/pkg/cmd/kre/runtime"

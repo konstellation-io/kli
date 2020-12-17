@@ -8,11 +8,11 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/stretchr/testify/require"
 
-	"github.com/konstellation-io/kli/api"
+	"github.com/konstellation-io/kli/api/kre/runtime"
 	"github.com/konstellation-io/kli/internal/config"
 	"github.com/konstellation-io/kli/internal/testhelpers"
 	"github.com/konstellation-io/kli/mocks"
-	"github.com/konstellation-io/kli/pkg/cmd/kre/runtime"
+	cmd "github.com/konstellation-io/kli/pkg/cmd/kre/runtime"
 )
 
 func TestRuntimeListCmd(t *testing.T) {
@@ -29,14 +29,16 @@ func TestRuntimeListCmd(t *testing.T) {
 		err = cfg.SetDefaultServer("test")
 		require.NoError(t, err)
 
-		c := mocks.NewMockServerClienter(ctrl)
-		f.EXPECT().ServerClient("test").Return(c, nil)
-		c.EXPECT().ListRuntimes().Return(api.RuntimeList{
+		c := mocks.NewMockKreInterface(ctrl)
+		r := mocks.NewMockRuntimeInterface(ctrl)
+		f.EXPECT().KreClient("test").Return(c, nil)
+		c.EXPECT().Runtime().Return(r)
+		r.EXPECT().List().Return(runtime.List{
 			{ID: "greetings", Name: "greetings", Status: ""},
 			{ID: "int-tests", Name: "Integration Tests", Status: ""},
 		}, nil)
 
-		return runtime.NewRuntimeCmd(f)
+		return cmd.NewRuntimeCmd(f)
 	})
 
 	r.Run("runtime ls").
@@ -60,11 +62,13 @@ func TestRuntimeListEmptyCmd(t *testing.T) {
 		err = cfg.SetDefaultServer("test")
 		require.NoError(t, err)
 
-		c := mocks.NewMockServerClienter(ctrl)
-		f.EXPECT().ServerClient("test").Return(c, nil)
-		c.EXPECT().ListRuntimes().Return(api.RuntimeList{}, nil)
+		c := mocks.NewMockKreInterface(ctrl)
+		r := mocks.NewMockRuntimeInterface(ctrl)
+		f.EXPECT().KreClient("test").Return(c, nil)
+		c.EXPECT().Runtime().Return(r)
+		r.EXPECT().List().Return(runtime.List{}, nil)
 
-		return runtime.NewRuntimeCmd(f)
+		return cmd.NewRuntimeCmd(f)
 	})
 
 	r.Run("runtime ls").

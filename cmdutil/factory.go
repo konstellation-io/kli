@@ -4,6 +4,7 @@ package cmdutil
 
 import (
 	"github.com/konstellation-io/kli/api"
+	"github.com/konstellation-io/kli/api/kre"
 	"github.com/konstellation-io/kli/internal/config"
 	"github.com/konstellation-io/kli/internal/errors"
 	"github.com/konstellation-io/kli/internal/logger"
@@ -14,7 +15,7 @@ type CmdFactory interface {
 	IOStreams() *IOStreams
 	Config() *config.Config
 	Logger() logger.Logger
-	ServerClient(string) (api.ServerClienter, error)
+	KreClient(string) (kre.KreInterface, error)
 }
 
 // Factory contains all data needed during commands execution.
@@ -52,17 +53,12 @@ func (f *Factory) Logger() logger.Logger {
 	return f.logger
 }
 
-// ServerClient generates a new ServerClient specific for the given server name.
-func (f *Factory) ServerClient(serverName string) (api.ServerClienter, error) {
+// KreClient generates a new ServerClient specific for the given server name.
+func (f *Factory) KreClient(serverName string) (kre.KreInterface, error) {
 	server := f.cfg.GetByServerName(serverName)
 	if server == nil {
 		return nil, errors.ErrUnknownServerName
 	}
 
-	c, err := api.NewServerClient(f.cfg, server, f.appVersion)
-	if err != nil {
-		return nil, err
-	}
-
-	return c, nil
+	return api.NewKreClient(f.cfg, server, f.appVersion)
 }

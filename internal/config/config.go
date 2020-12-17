@@ -29,6 +29,7 @@ type Config struct {
 	DefaultRequestTimeout time.Duration  `yaml:"defaultRequestTimeout"`
 	DefaultServer         string         `yaml:"defaultServer"`
 	ServerList            []ServerConfig `yaml:"servers"`
+	Debug                 bool
 }
 
 // ServerConfig contains data to represent a Konstellation server.

@@ -106,3 +106,4 @@ issues:
       linters:
         - gomnd
         - goconst
+        - dupl

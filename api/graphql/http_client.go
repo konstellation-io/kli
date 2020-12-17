@@ -1,4 +1,4 @@
-package http
+package graphql
 
 import (
 	"errors"
@@ -10,11 +10,11 @@ var (
 	ErrResponseEmpty = errors.New("response body is empty")
 )
 
-// ClientOption represents an argument to NewClient.
-type ClientOption = func(http.RoundTripper) http.RoundTripper
+// option represents an argument to NewClient.
+type option = func(http.RoundTripper) http.RoundTripper
 
-// NewHTTPClient initializes an http.Client with options.
-func NewHTTPClient(opts ...ClientOption) *http.Client {
+// newHTTPClient initializes an http.Client with options.
+func newHTTPClient(opts ...option) *http.Client {
 	tr := http.DefaultTransport
 	for _, opt := range opts {
 		tr = opt(tr)
@@ -23,8 +23,8 @@ func NewHTTPClient(opts ...ClientOption) *http.Client {
 	return &http.Client{Transport: tr}
 }
 
-// AddHeader turns a RoundTripper into one that adds a request header.
-func AddHeader(name, value string) ClientOption {
+// addHeader turns a RoundTripper into one that adds a request header.
+func addHeader(name, value string) option {
 	return func(tr http.RoundTripper) http.RoundTripper {
 		return &funcTripper{
 			roundTrip: func(req *http.Request) (*http.Response, error) {

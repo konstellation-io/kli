@@ -2,6 +2,7 @@ package testhelpers
 
 import (
 	"bytes"
+	"encoding/csv"
 	"fmt"
 	"io/ioutil"
 	"strings"
@@ -9,6 +10,7 @@ import (
 
 	"github.com/golang/mock/gomock"
 	"github.com/guumaster/cligger"
+	"github.com/sergi/go-diff/diffmatchpatch"
 	"github.com/spf13/cobra"
 	"github.com/stretchr/testify/require"
 
@@ -77,14 +79,28 @@ func (c *cmdRunner) Equal(expected string) Runner {
 }
 
 func (c *cmdRunner) Contains(expected string) Runner {
-	require.Contains(c.t, text.LinesTrim(c.out), text.LinesTrim(expected))
+	actualClean := text.LinesTrim(c.out)
+	expectedClean := text.LinesTrim(expected)
+
+	dmp := diffmatchpatch.New()
+	diffs := dmp.DiffMain(actualClean, expectedClean, true)
+	formatDiff := dmp.DiffPrettyText(diffs)
+
+	require.Contains(c.t, actualClean, expectedClean, formatDiff)
 
 	return c
 }
 
 func (c *cmdRunner) Containsf(expected string, args ...interface{}) Runner {
 	expected = fmt.Sprintf(expected, args...)
-	require.Contains(c.t, text.LinesTrim(c.out), text.LinesTrim(expected))
+	actualClean := text.LinesTrim(c.out)
+	expectedClean := text.LinesTrim(expected)
+
+	dmp := diffmatchpatch.New()
+	diffs := dmp.DiffMain(actualClean, expectedClean, true)
+	formatDiff := dmp.DiffPrettyText(diffs)
+
+	require.Contains(c.t, actualClean, expectedClean, formatDiff)
 
 	return c
 }
@@ -102,7 +118,7 @@ func (c *cmdRunner) Run(cmd string) Runner {
 	c.out = ""
 	c.root.SetOut(b)
 
-	args := strings.Split(cmd, " ")
+	args := splitArgs(c.t, cmd)
 	args = args[1:]
 
 	c.root.SetArgs(args)
@@ -143,4 +159,18 @@ func (c *cmdRunner) RunE(cmd string, expectedErr error) Runner {
 	c.out = "\n" + string(out)
 
 	return c
+}
+
+func splitArgs(t *testing.T, s string) []string {
+	t.Helper()
+	// Split string
+	r := csv.NewReader(strings.NewReader(s))
+	r.Comma = ' ' // space
+
+	fields, err := r.Read()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	return fields
 }

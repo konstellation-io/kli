@@ -2,9 +2,9 @@ package version
 
 import (
 	"github.com/MakeNowJust/heredoc"
-	"github.com/konstellation-io/kli/cmdutil"
-	"github.com/konstellation-io/kli/pkg/cmd/kre/version/list"
 	"github.com/spf13/cobra"
+
+	"github.com/konstellation-io/kli/cmdutil"
 )
 
 // NewVersionCmd creates a new command to handle 'version' subcommands.
@@ -18,11 +18,14 @@ func NewVersionCmd(f cmdutil.CmdFactory) *cobra.Command {
 	}
 
 	cmd.PersistentFlags().StringP("server", "s", f.Config().DefaultServer, "KRE server to use")
-	cmd.PersistentFlags().StringP("runtime", "r", "", "Filter for specific runtime")
-	_ = cmd.MarkPersistentFlagRequired("runtime")
 
 	cmd.AddCommand(
-		list.NewListCmd(f),
+		NewListCmd(f),
+		NewActionCmd(f, "start"),
+		NewActionCmd(f, "stop"),
+		NewActionCmd(f, "publish"),
+		NewActionCmd(f, "unpublish"),
+		NewConfigCmd(f),
 	)
 
 	return cmd
