@@ -10,7 +10,7 @@ type Version struct {
 // List contains a list of  Version.
 type List []Version
 
-// ListVersions calls to KRE API and returns a list of Version entities.
+// List calls to KRE API and returns a list of Version entities.
 func (c *versionClient) List(runtimeID string) (List, error) {
 	query := `
 		query GetVersions($runtimeId: ID!) {

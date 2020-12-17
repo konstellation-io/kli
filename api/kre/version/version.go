@@ -9,7 +9,7 @@ import (
 
 // VersionInterface method to interact with Versions.
 type VersionInterface interface { // nolint: golint
-	List(string) (List, error)
+	List(runtimeID string) (List, error)
 	Start(versionID, comment string) error
 	Stop(versionID, comment string) error
 	Publish(versionID, comment string) error
