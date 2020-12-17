@@ -8,7 +8,7 @@ import (
 )
 
 // KreInterface first level methods.
-type KreInterface interface {
+type KreInterface interface { // nolint: golint
 	Runtime() runtime.RuntimeInterface
 	Version() version.VersionInterface
 }

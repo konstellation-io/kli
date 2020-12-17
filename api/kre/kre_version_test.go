@@ -198,6 +198,7 @@ func TestVersionUpdateConfig(t *testing.T) {
 			}
 		}
 	`)
+
 	defer srv.Close()
 
 	c := version.New(cfg, client)
@@ -205,5 +206,4 @@ func TestVersionUpdateConfig(t *testing.T) {
 	completed, err := c.UpdateConfig("test-v1", configVars)
 	require.NoError(t, err)
 	require.True(t, completed)
-
 }

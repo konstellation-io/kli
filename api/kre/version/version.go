@@ -8,7 +8,7 @@ import (
 )
 
 // VersionInterface method to interact with Versions.
-type VersionInterface interface {
+type VersionInterface interface { // nolint: golint
 	List(string) (List, error)
 	Start(versionID, comment string) error
 	Stop(versionID, comment string) error

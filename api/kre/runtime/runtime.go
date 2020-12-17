@@ -8,7 +8,7 @@ import (
 )
 
 // RuntimeInterface method to interact with Runtimes.
-type RuntimeInterface interface {
+type RuntimeInterface interface { // nolint: golint
 	List() (List, error)
 }
 

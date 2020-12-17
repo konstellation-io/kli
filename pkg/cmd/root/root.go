@@ -12,9 +12,17 @@ import (
 // NewRootCmd creates the base command where all subcommands are added.
 func NewRootCmd(f cmdutil.CmdFactory, version, buildDate string) *cobra.Command {
 	cmd := &cobra.Command{
-		Use:           "kli [command] [subcommand] [flags]",
-		Short:         "Konstellation CLI",
-		Long:          `Use Konstellation API from the command line.`,
+		Use:   "kli [command] [subcommand] [flags]",
+		Short: "Konstellation CLI",
+		Long:  `Use Konstellation API from the command line.`,
+		PersistentPreRunE: func(cmd *cobra.Command, args []string) error {
+			d, err := cmd.Flags().GetBool("debug")
+			if d {
+				f.Config().Debug = true
+			}
+
+			return err
+		},
 		SilenceErrors: true,
 		SilenceUsage:  true,
 	}
@@ -26,6 +34,8 @@ func NewRootCmd(f cmdutil.CmdFactory, version, buildDate string) *cobra.Command 
 	cmd.SetHelpCommand(&cobra.Command{
 		Hidden: true,
 	})
+
+	cmd.PersistentFlags().Bool("debug", false, "Set debug mode")
 
 	// Child commands
 	cmd.AddCommand(versionCmd.NewVersionCmd(f, version, buildDate))

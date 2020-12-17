@@ -3,6 +3,7 @@ package graphql
 import (
 	"context"
 	"fmt"
+	"log"
 
 	"github.com/machinebox/graphql"
 
@@ -49,6 +50,10 @@ func NewGqlManager(cfg *config.Config, server *config.ServerConfig, appVersion s
 	}...)
 
 	gql := graphql.NewClient(fmt.Sprintf("%s/graphql", server.URL), graphql.WithHTTPClient(c))
+
+	if cfg.Debug {
+		gql.Log = func(s string) { log.Println(s) }
+	}
 
 	return &GqlManager{
 		cfg,
