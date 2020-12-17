@@ -179,6 +179,43 @@ func TestVersionGetConfigCmd(t *testing.T) {
 
 	r.Run("version config 12345").
 		Contains(heredoc.Doc(`
+				TYPE     KEY
+			1 VARIABLE key1
+			2 VARIABLE key2
+
+      [✔] Version config complete
+		`))
+}
+
+func TestVersionGetConfigWithValuesCmd(t *testing.T) {
+	s := newTestVersionSuite(t)
+	versionConfig := &version.Config{
+		Completed: true,
+		Vars: []*version.ConfigVariable{
+			{
+				Key:   "key1",
+				Value: "value1",
+				Type:  version.ConfigVariableTypeVariable,
+			},
+			{
+				Key:   "key2",
+				Value: "value2",
+				Type:  version.ConfigVariableTypeVariable,
+			},
+		},
+	}
+	r := testhelpers.NewRunner(t, func(f *mocks.MockCmdFactory) *cobra.Command {
+		setupVersionConfig(t, f)
+
+		f.EXPECT().KreClient("test").Return(s.mocks.kreClient, nil)
+		s.mocks.kreClient.EXPECT().Version().Return(s.mocks.version)
+		s.mocks.version.EXPECT().GetConfig("12345").Return(versionConfig, nil)
+
+		return cmd.NewVersionCmd(f)
+	})
+
+	r.Run("version config 12345 --show-values").
+		Contains(heredoc.Doc(`
 				TYPE     KEY  VALUE
 			1 VARIABLE key1 value1
 			2 VARIABLE key2 value2

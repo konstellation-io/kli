@@ -34,6 +34,7 @@ func NewConfigCmd(f cmdutil.CmdFactory) *cobra.Command {
 		},
 	}
 	cmd.Flags().StringSlice("set", []string{}, "Set new key value pair key=value")
+	cmd.Flags().Bool("show-values", false, "Show configuration variables")
 
 	return cmd
 }
@@ -56,8 +57,13 @@ func getConfig(f cmdutil.CmdFactory, cmd *cobra.Command, serverName, versionID s
 		return nil
 	}
 
+	show, err := cmd.Flags().GetBool("show-values")
+	if err != nil {
+		return err
+	}
+
 	r := render.DefaultRenderer(cmd.OutOrStdout())
-	renderVariables(r, config)
+	renderVariables(r, config, show)
 
 	_, _ = fmt.Fprintln(cmd.OutOrStdout())
 
@@ -104,21 +110,31 @@ func updateConfig(f cmdutil.CmdFactory, serverName, versionID string, vars []str
 	return nil
 }
 
-func renderVariables(r render.Renderer, config *version.Config) {
-	r.SetHeader([]string{
+func renderVariables(r render.Renderer, config *version.Config, showValues bool) {
+	h := []string{
 		"",
 		"TYPE",
 		"KEY",
-		"VALUE",
-	})
+	}
+
+	if showValues {
+		h = append(h, "VALUE")
+	}
+
+	r.SetHeader(h)
 
 	for i, v := range config.Vars {
-		r.Append([]string{
+		s := []string{
 			fmt.Sprint(i + 1),
 			string(v.Type),
 			v.Key,
-			v.Value,
-		})
+		}
+
+		if showValues {
+			s = append(s, v.Value)
+		}
+
+		r.Append(s)
 	}
 
 	r.Render()
