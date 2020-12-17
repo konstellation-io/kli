@@ -47,3 +47,89 @@ func (mr *MockVersionInterfaceMockRecorder) List(arg0 interface{}) *gomock.Call 
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "List", reflect.TypeOf((*MockVersionInterface)(nil).List), arg0)
 }
+
+// Start mocks base method
+func (m *MockVersionInterface) Start(versionID, comment string) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Start", versionID, comment)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// Start indicates an expected call of Start
+func (mr *MockVersionInterfaceMockRecorder) Start(versionID, comment interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Start", reflect.TypeOf((*MockVersionInterface)(nil).Start), versionID, comment)
+}
+
+// Stop mocks base method
+func (m *MockVersionInterface) Stop(versionID, comment string) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Stop", versionID, comment)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// Stop indicates an expected call of Stop
+func (mr *MockVersionInterfaceMockRecorder) Stop(versionID, comment interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Stop", reflect.TypeOf((*MockVersionInterface)(nil).Stop), versionID, comment)
+}
+
+// Publish mocks base method
+func (m *MockVersionInterface) Publish(versionID, comment string) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Publish", versionID, comment)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// Publish indicates an expected call of Publish
+func (mr *MockVersionInterfaceMockRecorder) Publish(versionID, comment interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Publish", reflect.TypeOf((*MockVersionInterface)(nil).Publish), versionID, comment)
+}
+
+// Unpublish mocks base method
+func (m *MockVersionInterface) Unpublish(versionID, comment string) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Unpublish", versionID, comment)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// Unpublish indicates an expected call of Unpublish
+func (mr *MockVersionInterfaceMockRecorder) Unpublish(versionID, comment interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Unpublish", reflect.TypeOf((*MockVersionInterface)(nil).Unpublish), versionID, comment)
+}
+
+// GetConfig mocks base method
+func (m *MockVersionInterface) GetConfig(versionID string) (*version.Config, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetConfig", versionID)
+	ret0, _ := ret[0].(*version.Config)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetConfig indicates an expected call of GetConfig
+func (mr *MockVersionInterfaceMockRecorder) GetConfig(versionID interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetConfig", reflect.TypeOf((*MockVersionInterface)(nil).GetConfig), versionID)
+}
+
+// UpdateConfig mocks base method
+func (m *MockVersionInterface) UpdateConfig(versionID string, configVars []version.ConfigVariableInput) (bool, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UpdateConfig", versionID, configVars)
+	ret0, _ := ret[0].(bool)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// UpdateConfig indicates an expected call of UpdateConfig
+func (mr *MockVersionInterfaceMockRecorder) UpdateConfig(versionID, configVars interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateConfig", reflect.TypeOf((*MockVersionInterface)(nil).UpdateConfig), versionID, configVars)
+}

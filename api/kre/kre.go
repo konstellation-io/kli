@@ -7,8 +7,8 @@ import (
 	"github.com/konstellation-io/kli/api/kre/version"
 )
 
-//nolint: golint
-type KreInterface interface {
+// KreInterface first level methods.
+type KreInterface interface { // nolint: golint
 	Runtime() runtime.RuntimeInterface
 	Version() version.VersionInterface
 }
