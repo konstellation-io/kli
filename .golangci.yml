@@ -107,3 +107,4 @@ issues:
         - gomnd
         - goconst
         - dupl
+        - goerr113
