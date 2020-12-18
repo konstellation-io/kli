@@ -57,7 +57,7 @@ func NewActionCmd(f cmdutil.CmdFactory, action string) *cobra.Command {
 	}
 
 	cmd.Flags().StringP("message", "m", "", fmt.Sprintf("Adds audit message to %s", action))
-	_ = cmd.MarkPersistentFlagRequired("message")
+	_ = cmd.MarkFlagRequired("message")
 
 	return cmd
 }
