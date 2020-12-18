@@ -6,6 +6,7 @@ import (
 
 	"github.com/MakeNowJust/heredoc"
 	"github.com/golang/mock/gomock"
+	"github.com/guumaster/logsymbols"
 	"github.com/spf13/cobra"
 	"github.com/stretchr/testify/require"
 
@@ -79,13 +80,13 @@ func TestVersionGetConfigCmd(t *testing.T) {
 	})
 
 	r.Run("version config 12345").
-		Contains(heredoc.Doc(`
+		Containsf(heredoc.Doc(`
 				TYPE     KEY
 			1 VARIABLE key1
 			2 VARIABLE key2
 
-      [✔] Version config complete
-		`))
+      [%s] Version config complete
+		`), logsymbols.CurrentSymbols().Success)
 }
 
 func TestVersionGetConfigWithValuesCmd(t *testing.T) {
@@ -116,13 +117,13 @@ func TestVersionGetConfigWithValuesCmd(t *testing.T) {
 	})
 
 	r.Run("version config 12345 --show-values").
-		Contains(heredoc.Doc(`
+		Containsf(heredoc.Doc(`
 				TYPE     KEY  VALUE
 			1 VARIABLE key1 value1
 			2 VARIABLE key2 value2
 
-      [✔] Version config complete
-		`))
+      [%s] Version config complete
+		`), logsymbols.CurrentSymbols().Success)
 }
 
 func TestVersionSetConfigCmd(t *testing.T) {
@@ -145,9 +146,9 @@ func TestVersionSetConfigCmd(t *testing.T) {
 	pair1 := fmt.Sprintf("%s=%s", configVars[0]["key"], configVars[0]["value"])
 	pair2 := fmt.Sprintf("%s=%s", configVars[1]["key"], configVars[1]["value"])
 	r.Runf("version config 12345 --set %s --set %s", pair1, pair2).
-		Contains(heredoc.Doc(`
-      [✔] Config completed for version '12345'.
-		`))
+		Containsf(heredoc.Doc(`
+      [%s] Config completed for version '12345'.
+		`), logsymbols.CurrentSymbols().Success)
 }
 
 func TestVersionSetConfigErrorEdgeCasesCmd(t *testing.T) {
@@ -211,8 +212,8 @@ func TestVersionSetConfigEdgeCasesCmd(t *testing.T) {
 
 	for _, extraArgs := range testCases {
 		r.RunArgs("version config 12345", extraArgs...).
-			Contains(heredoc.Doc(`
-      [✔] Config completed for version '12345'.
-		`))
+			Containsf(heredoc.Doc(`
+      [%s] Config completed for version '12345'.
+		`), logsymbols.CurrentSymbols().Success)
 	}
 }
