@@ -2,6 +2,7 @@ package config
 
 import (
 	"path"
+	"path/filepath"
 	"testing"
 
 	"github.com/stretchr/testify/require"
@@ -16,7 +17,7 @@ func TestNewConfig(t *testing.T) {
 	cfg := NewConfig()
 
 	expected := &Config{
-		filename:              path.Join(dir, "konstellation-io", "kli", "config.yml"),
+		filename:              filepath.FromSlash(path.Join(dir, "konstellation-io", "kli", "config.yml")),
 		DefaultRequestTimeout: DefaultRequestTimeout,
 		DefaultServer:         "",
 		ServerList:            []ServerConfig{},
