@@ -52,6 +52,8 @@ type Runner interface {
 	Run(string) Runner
 	RunE(string, error) Runner
 	Runf(string, ...interface{}) Runner
+	RunArgs(string, ...string) Runner
+	RunArgsE(string, error, ...string) Runner
 
 	Equal(string) Runner
 	Contains(string) Runner
@@ -138,6 +140,30 @@ func (c *cmdRunner) Runf(format string, args ...interface{}) Runner {
 	return c.Run(fmt.Sprintf(format, args...))
 }
 
+func (c *cmdRunner) RunArgs(cmd string, extraArgs ...string) Runner {
+	assert := require.New(c.t)
+	b := c.NewBuffer()
+
+	c.out = ""
+	c.root.SetOut(b)
+
+	args := splitArgs(c.t, cmd)
+	args = args[1:]
+	args = append(args, extraArgs...)
+
+	c.root.SetArgs(args)
+
+	err := c.root.Execute()
+	assert.NoError(err)
+
+	out, err := ioutil.ReadAll(b)
+	assert.NoError(err)
+
+	c.out = "\n" + string(out)
+
+	return c
+}
+
 func (c *cmdRunner) RunE(cmd string, expectedErr error) Runner {
 	assert := require.New(c.t)
 	b := c.NewBuffer()
@@ -161,6 +187,35 @@ func (c *cmdRunner) RunE(cmd string, expectedErr error) Runner {
 	return c
 }
 
+func (c *cmdRunner) RunArgsE(cmd string, expectedErr error, extraArgs ...string) Runner {
+	assert := require.New(c.t)
+	b := c.NewBuffer()
+
+	c.out = ""
+	c.root.SetOut(b)
+
+	args := strings.Split(cmd, " ")
+	args = args[1:]
+	args = append(args, extraArgs...)
+
+	c.root.SetArgs(args)
+
+	actualErr := c.root.Execute()
+	assert.EqualError(actualErr, expectedErr.Error())
+
+	out, err := ioutil.ReadAll(b)
+	assert.NoError(err)
+
+	c.out = "\n" + string(out)
+
+	return c
+}
+
+// This only accepts simple and well formatted arguments
+// this commands will fail:
+//   "version start 12345 --comment \"test test\""
+//   "version config --set key=\"test\""
+// Use RunArgs and RunArgsE instead.
 func splitArgs(t *testing.T, s string) []string {
 	t.Helper()
 	// Split string

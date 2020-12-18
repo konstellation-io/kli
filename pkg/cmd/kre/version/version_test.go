@@ -211,3 +211,70 @@ func TestVersionSetConfigCmd(t *testing.T) {
       [✔] Config completed for version '12345'.
 		`))
 }
+
+func TestVersionSetConfigErrorEdgeCasesCmd(t *testing.T) {
+	s := newTestVersionSuite(t)
+
+	r := testhelpers.NewRunner(t, func(f *mocks.MockCmdFactory) *cobra.Command {
+		setupVersionConfig(t, f)
+
+		f.EXPECT().KreClient("test").Return(s.mocks.kreClient, nil)
+
+		return cmd.NewVersionCmd(f)
+	})
+
+	type testCase struct {
+		extraArgs     []string
+		expectedError string
+	}
+
+	testCases := []testCase{
+		{
+			[]string{"--set", fmt.Sprintf("%s=%s", "key", "\"test")},
+			`invalid argument "key=\"test" for "--set" flag: parse error on line 1, column 4: bare " in non-quoted-field`,
+		},
+		{
+			[]string{"--set", fmt.Sprintf("%s=%s", "key", "\"test test\"")},
+			`invalid argument "key=\"test test\"" for "--set" flag: parse error on line 1, column 4: bare " in non-quoted-field`,
+		},
+		{
+			[]string{"--set", fmt.Sprintf("\"%s\"=\"%s\"", "key", `test`)},
+			`invalid argument "\"key\"=\"test\"" for "--set" flag: parse error on line 1, column 4: extraneous or missing " in quoted-field`,
+		},
+	}
+
+	for _, pair := range testCases {
+		err := fmt.Errorf(pair.expectedError) // nolint: goerr113
+		r.RunArgsE("version config 12345", err, pair.extraArgs...)
+	}
+}
+
+func TestVersionSetConfigEdgeCasesCmd(t *testing.T) {
+	s := newTestVersionSuite(t)
+
+	r := testhelpers.NewRunner(t, func(f *mocks.MockCmdFactory) *cobra.Command {
+		setupVersionConfig(t, f)
+
+		f.EXPECT().KreClient("test").Return(s.mocks.kreClient, nil).AnyTimes()
+		s.mocks.kreClient.EXPECT().Version().Return(s.mocks.version).AnyTimes()
+		s.mocks.version.EXPECT().UpdateConfig("12345", gomock.Any()).Return(true, nil).AnyTimes()
+
+		return cmd.NewVersionCmd(f)
+	})
+
+	testCases := [][]string{
+		{"--set", fmt.Sprintf("%s=%s", "key", "test test")},
+		{"--set", fmt.Sprintf("%s=%s", "key", "test\n test")},
+		{"--set", fmt.Sprintf("%s=%s", "key", `test`)},
+		{"--set", fmt.Sprintf("%s=%s", "key", "test=")},
+		// This test does not work
+		// {"--set", fmt.Sprintf("%s=%s", "key", "test \"test")},
+	}
+
+	for _, extraArgs := range testCases {
+		r.RunArgs("version config 12345", extraArgs...).
+			Contains(heredoc.Doc(`
+      [✔] Config completed for version '12345'.
+		`))
+	}
+}
