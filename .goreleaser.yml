@@ -16,18 +16,18 @@ builds:
 
   - <<: *build_defaults
     id: macos
-    goos: [darwin]
-    goarch: [amd64]
+    goos: [ darwin ]
+    goarch: [ amd64 ]
 
   - <<: *build_defaults
     id: linux
-    goos: [linux]
-    goarch: [amd64, arm64]
+    goos: [ linux ]
+    goarch: [ amd64, arm64 ]
 
   - <<: *build_defaults
     id: windows
-    goos: [windows]
-    goarch: [amd64]
+    goos: [ windows ]
+    goarch: [ amd64 ]
 
 changelog:
   sort: desc
@@ -43,7 +43,7 @@ changelog:
 
 archives:
   - id: nix
-    builds: [macos, linux]
+    builds: [ macos, linux ]
     <<: &archive_defaults
       name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}{{ if .Arm }}v{{ .Arm }}{{ end }}"
     wrap_in_directory: true
@@ -53,7 +53,7 @@ archives:
     files:
       - LICENSE
   - id: windows
-    builds: [windows]
+    builds: [ windows ]
     <<: *archive_defaults
     wrap_in_directory: false
     format: zip
