@@ -6,6 +6,7 @@ import (
 
 	"github.com/MakeNowJust/heredoc"
 	"github.com/golang/mock/gomock"
+	"github.com/guumaster/logsymbols"
 	"github.com/spf13/cobra"
 	"github.com/stretchr/testify/require"
 
@@ -101,9 +102,9 @@ func TestVersionStartCmd(t *testing.T) {
 	})
 
 	r.Runf("version start 12345 --message \"%s\"", comment).
-		Contains(heredoc.Doc(`
-      [✔] Starting version '12345'.
-		`))
+		Containsf(heredoc.Doc(`
+      [%s] Starting version '12345'.
+		`), logsymbols.CurrentSymbols().Success)
 }
 
 func TestVersionStopCmd(t *testing.T) {
@@ -120,9 +121,9 @@ func TestVersionStopCmd(t *testing.T) {
 	})
 
 	r.Runf("version stop 12345 --message \"%s\"", comment).
-		Contains(heredoc.Doc(`
-      [✔] Stopping version '12345'.
-		`))
+		Containsf(heredoc.Doc(`
+      [%s] Stopping version '12345'.
+		`), logsymbols.CurrentSymbols().Success)
 }
 
 func TestVersionPublishCmd(t *testing.T) {
@@ -139,9 +140,9 @@ func TestVersionPublishCmd(t *testing.T) {
 	})
 
 	r.Runf("version publish 12345 --message \"%s\"", comment).
-		Contains(heredoc.Doc(`
-      [✔] Publishing version '12345'.
-		`))
+		Containsf(heredoc.Doc(`
+      [%s] Publishing version '12345'.
+		`), logsymbols.CurrentSymbols().Success)
 }
 
 func TestVersionUnpublishCmd(t *testing.T) {
@@ -158,7 +159,7 @@ func TestVersionUnpublishCmd(t *testing.T) {
 	})
 
 	r.Runf("version unpublish 12345 --message \"%s\"", comment).
-		Contains(heredoc.Doc(`
-      [✔] Unpublishing version '12345'.
-		`))
+		Containsf(heredoc.Doc(`
+      [%s] Unpublishing version '12345'.
+		`), logsymbols.CurrentSymbols().Success)
 }

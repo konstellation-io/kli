@@ -4,6 +4,7 @@ import (
 	"testing"
 
 	"github.com/MakeNowJust/heredoc"
+	"github.com/guumaster/logsymbols"
 	"github.com/spf13/cobra"
 	"github.com/stretchr/testify/require"
 
@@ -59,9 +60,9 @@ func TestServerDefaultCmd(t *testing.T) {
 			SERVER	URL
 			test*   http://test.local
 		`)).
-		Contains(heredoc.Doc(`
-			[✔] Server 'test' is now default.
-		`))
+		Containsf(heredoc.Doc(`
+			[%s] Server 'test' is now default.
+		`), logsymbols.CurrentSymbols().Success)
 }
 
 func TestServerAddCmd(t *testing.T) {
@@ -69,9 +70,9 @@ func TestServerAddCmd(t *testing.T) {
 		return server.NewServerCmd(f)
 	})
 	r.Run("server add test http://test.local 12345").
-		Contains(heredoc.Doc(`
-			[✔] Server 'test' added.
-		`)).
+		Containsf(heredoc.Doc(`
+			[%s] Server 'test' added.
+		`), logsymbols.CurrentSymbols().Success).
 		Run("server ls").
 		Contains(heredoc.Doc(`
 			SERVER	URL
@@ -85,7 +86,7 @@ func TestNoServerCmd(t *testing.T) {
 	})
 	r.
 		Run("server ls").
-		Contains(heredoc.Doc(`
-			[ℹ] No servers found.
-		`))
+		Containsf(heredoc.Doc(`
+			[%s] No servers found.
+		`), logsymbols.CurrentSymbols().Info)
 }
