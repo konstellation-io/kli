@@ -1,8 +1,6 @@
 package config
 
 import (
-	"fmt"
-	"os"
 	"path"
 	"path/filepath"
 	"testing"
@@ -19,7 +17,7 @@ func TestNewConfig(t *testing.T) {
 	cfg := NewConfig()
 
 	// NOTE: This formatting is for testing on windows platform
-	f := fmt.Sprintf("%s%s%s", filepath.FromSlash(path.Join(dir, "konstellation-io", "kli")), string(os.PathSeparator), "config.yml")
+	f := path.Join(filepath.FromSlash(path.Join(dir, "konstellation-io", "kli")), "config.yml")
 	expected := &Config{
 		filename:              f,
 		DefaultRequestTimeout: DefaultRequestTimeout,
@@ -27,7 +25,7 @@ func TestNewConfig(t *testing.T) {
 		ServerList:            []ServerConfig{},
 	}
 
-	require.Equal(t, cfg, expected)
+	require.Equal(t, expected, cfg)
 }
 
 func TestConfig_AddServer(t *testing.T) {
