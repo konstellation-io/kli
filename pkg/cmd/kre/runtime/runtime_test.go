@@ -5,6 +5,7 @@ import (
 
 	"github.com/MakeNowJust/heredoc"
 	"github.com/golang/mock/gomock"
+	"github.com/guumaster/logsymbols"
 	"github.com/spf13/cobra"
 	"github.com/stretchr/testify/require"
 
@@ -72,7 +73,7 @@ func TestRuntimeListEmptyCmd(t *testing.T) {
 	})
 
 	r.Run("runtime ls").
-		Contains(heredoc.Doc(`
-			[ℹ] No runtimes found.
-		`))
+		Containsf(heredoc.Doc(`
+			[%s] No runtimes found.
+		`), logsymbols.CurrentSymbols().Info)
 }

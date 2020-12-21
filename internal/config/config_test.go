@@ -2,6 +2,7 @@ package config
 
 import (
 	"fmt"
+	"os"
 	"path"
 	"path/filepath"
 	"testing"
@@ -18,7 +19,7 @@ func TestNewConfig(t *testing.T) {
 	cfg := NewConfig()
 
 	// NOTE: This formatting is for testing on windows platform
-	f := fmt.Sprintf("%s%s%s", filepath.FromSlash(path.Join(dir, "konstellation-io", "kli")), string(filepath.Separator), "config.yml")
+	f := fmt.Sprintf("%s%s%s", filepath.FromSlash(path.Join(dir, "konstellation-io", "kli")), string(os.PathSeparator), "config.yml")
 	expected := &Config{
 		filename:              f,
 		DefaultRequestTimeout: DefaultRequestTimeout,
