@@ -1,4 +1,8 @@
-[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=kli&metric=coverage)](https://sonarcloud.io/dashboard?id=kli)
+[![Tests][tests-badge]][tests-link]
+[![GitHub Release][release-badge]][release-link]
+[![Go Report Card][report-badge]][report-link]
+[![License][license-badge]][license-link]
+[![Coverage][coverage-badge]][coverage-link]
 
 # kli
 
@@ -113,3 +117,22 @@ A local release can be created for testing without creating anything official on
 - Run: 
     `goreleaser --skip-validate --skip-publish --rm-dist`
 - Find the built binaries under `dist/` folder.
+
+
+
+
+<!-- JUST BADGES & LINKS -->
+[tests-badge]: https://img.shields.io/github/workflow/status/konstellation-io/kli/Test
+[tests-link]: https://github.com/konstellation-io/kli/actions?query=workflow%3ATest
+
+[release-badge]: https://img.shields.io/github/release/konstellation-io/kli.svg?logo=github&labelColor=262b30
+[release-link]: https://github.com/konstellation-io/kli/releases
+
+[report-badge]: https://goreportcard.com/badge/github.com/konstellation-io/kli
+[report-link]: https://goreportcard.com/report/github.com/konstellation-io/kli
+
+[license-badge]: https://img.shields.io/github/license/konstellation-io/kli
+[license-link]: https://github.com/konstellation-io/kli/blob/master/LICENSE
+
+[coverage-badge]: https://sonarcloud.io/api/project_badges/measure?project=kli&metric=coverage
+[coverage-link]: https://sonarcloud.io/dashboard?id=kli

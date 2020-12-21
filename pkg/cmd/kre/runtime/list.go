@@ -6,18 +6,19 @@ import (
 	"github.com/spf13/cobra"
 
 	"github.com/konstellation-io/kli/api/kre/runtime"
-	"github.com/konstellation-io/kli/cmdutil"
+	"github.com/konstellation-io/kli/cmd/factory"
 	"github.com/konstellation-io/kli/internal/render"
+	"github.com/konstellation-io/kli/pkg/cmd/args"
 )
 
 // NewListCmd creates a new command to list Runtimes.
-func NewListCmd(f cmdutil.CmdFactory) *cobra.Command {
+func NewListCmd(f factory.CmdFactory) *cobra.Command {
 	log := f.Logger()
 	cmd := &cobra.Command{
 		Use:     "ls",
 		Aliases: []string{"list"},
 		Short:   "List all available runtimes",
-		Args:    cmdutil.CheckServerFlag,
+		Args:    args.CheckServerFlag,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			s, _ := cmd.Flags().GetString("server")
 			c, err := f.KreClient(s)

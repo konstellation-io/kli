@@ -1,21 +1,21 @@
-package version
+package root
 
 import (
 	"fmt"
 	"strings"
 
-	"github.com/konstellation-io/kli/cmdutil"
-
 	"github.com/spf13/cobra"
+
+	"github.com/konstellation-io/kli/cmd/factory"
 )
 
-// NewVersionCmd creates a new command to handle 'version' keyword.
-func NewVersionCmd(_ cmdutil.CmdFactory, version, buildDate string) *cobra.Command {
+// newVersionCmd creates a new command to handle 'version' keyword.
+func newVersionCmd(_ factory.CmdFactory, version, buildDate string) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:    "version",
 		Hidden: true,
 		Run: func(cmd *cobra.Command, args []string) {
-			fmt.Fprint(cmd.OutOrStdout(), Format(version, buildDate))
+			_, _ = fmt.Fprint(cmd.OutOrStdout(), Format(version, buildDate))
 		},
 	}
 

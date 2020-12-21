@@ -1,4 +1,4 @@
-package cmdutil
+package iostreams
 
 import (
 	"io"
@@ -112,13 +112,18 @@ func (s *IOStreams) IsStderrTTY() bool {
 }
 
 // StartProgressIndicator creates a new spinner indicator.
-func (s *IOStreams) StartProgressIndicator() {
+func (s *IOStreams) StartProgressIndicator(str string) {
 	if !s.progressIndicatorEnabled {
 		return
 	}
 
 	sp := spinner.New(spinner.CharSets[11], spinnerDuration, spinner.WithWriter(s.ErrOut))
 	sp.Start()
+
+	if str != "" {
+		sp.Suffix = str
+	}
+
 	s.progressIndicator = sp
 }
 

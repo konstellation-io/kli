@@ -1,7 +1,5 @@
 package logger
 
-//go:generate mockgen -source=${GOFILE} -destination=$PWD/mocks/${GOFILE} -package=mocks
-
 import (
 	"io"
 

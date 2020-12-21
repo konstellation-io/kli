@@ -4,11 +4,11 @@ import (
 	"github.com/MakeNowJust/heredoc"
 	"github.com/spf13/cobra"
 
-	"github.com/konstellation-io/kli/cmdutil"
+	"github.com/konstellation-io/kli/cmd/factory"
 )
 
 // NewRuntimeCmd creates a new command to handle 'runtime' subcommands.
-func NewRuntimeCmd(f cmdutil.CmdFactory) *cobra.Command {
+func NewRuntimeCmd(f factory.CmdFactory) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "runtime",
 		Short: "Manage KRE Runtimes",

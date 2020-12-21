@@ -11,6 +11,6 @@ var (
 	ErrNoServerConf = errors.New("no server configured as default or passed as flag")
 	// ErrServerAlreadyExists used when adding a server with duplicated name.
 	ErrServerAlreadyExists = errors.New("server already exists")
-	// ErrVersionNotFound used when version name is not matched.
-	ErrVersionNotFound = errors.New("version not found")
+	// ErrUnknownVersionAction used when the user request an unknown action.
+	ErrUnknownVersionAction = errors.New("version action unknown")
 )

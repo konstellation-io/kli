@@ -27,8 +27,8 @@ func NewRunner(t *testing.T, cmd cmd) Runner {
 	t.Helper()
 	ctrl := gomock.NewController(t)
 
-	dir := setupConfigDir(t)
-	defer cleanConfigDir(t, dir)
+	dir := SetupConfigDir(t)
+	defer CleanConfigDir(t, dir)
 
 	cfg := config.NewConfigTest()
 	runner := &cmdRunner{t, nil, "", cfg, bytes.NewBufferString("")}

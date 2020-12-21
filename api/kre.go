@@ -26,16 +26,13 @@ func (a *KRE) Version() version.VersionInterface {
 }
 
 // NewKreClient creates an API client instance.
-func NewKreClient(cfg *config.Config, server *config.ServerConfig, appVersion string) (*KRE, error) {
-	g, err := graphql.NewGqlManager(cfg, server, appVersion)
-	if err != nil {
-		return nil, err
-	}
+func NewKreClient(cfg *config.Config, server *config.ServerConfig, appVersion string) *KRE {
+	g := graphql.NewGqlManager(cfg, server, appVersion)
 
 	return &KRE{
 		cfg,
 		g,
 		runtime.New(cfg, g),
 		version.New(cfg, g),
-	}, nil
+	}
 }
