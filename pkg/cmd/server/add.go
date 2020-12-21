@@ -1,15 +1,15 @@
-package add
+package server
 
 import (
 	"github.com/spf13/cobra"
 
-	"github.com/konstellation-io/kli/cmdutil"
+	"github.com/konstellation-io/kli/cmd/factory"
 	"github.com/konstellation-io/kli/internal/config"
 	"github.com/konstellation-io/kli/internal/render"
 )
 
 // NewAddCmd creates a new command to add a new server to config file.
-func NewAddCmd(f cmdutil.CmdFactory) *cobra.Command {
+func NewAddCmd(f factory.CmdFactory) *cobra.Command {
 	log := f.Logger()
 	cmd := &cobra.Command{
 		Use:     "add [name] [url] [token]",

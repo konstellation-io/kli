@@ -1,14 +1,14 @@
-package list
+package server
 
 import (
 	"github.com/spf13/cobra"
 
-	"github.com/konstellation-io/kli/cmdutil"
+	"github.com/konstellation-io/kli/cmd/factory"
 	"github.com/konstellation-io/kli/internal/render"
 )
 
 // NewListCmd creates a new command to list servers existing in config file.
-func NewListCmd(f cmdutil.CmdFactory) *cobra.Command {
+func NewListCmd(f factory.CmdFactory) *cobra.Command {
 	log := f.Logger()
 	cmd := &cobra.Command{
 		Use:     "ls",

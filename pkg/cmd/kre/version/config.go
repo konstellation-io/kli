@@ -7,15 +7,16 @@ import (
 	"github.com/spf13/cobra"
 
 	"github.com/konstellation-io/kli/api/kre/version"
-	"github.com/konstellation-io/kli/cmdutil"
+	"github.com/konstellation-io/kli/cmd/factory"
 	"github.com/konstellation-io/kli/internal/render"
+	"github.com/konstellation-io/kli/pkg/cmd/args"
 )
 
 // NewConfigCmd manage config command for version.
-func NewConfigCmd(f cmdutil.CmdFactory) *cobra.Command {
+func NewConfigCmd(f factory.CmdFactory) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "config",
-		Args:  cmdutil.ComposeArgsCheck(cmdutil.CheckServerFlag, cobra.ExactArgs(1)),
+		Args:  args.ComposeArgsCheck(args.CheckServerFlag, cobra.ExactArgs(1)),
 		Short: "Get or set config values",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			serverName, _ := cmd.Flags().GetString("server")
@@ -39,7 +40,7 @@ func NewConfigCmd(f cmdutil.CmdFactory) *cobra.Command {
 	return cmd
 }
 
-func getConfig(f cmdutil.CmdFactory, cmd *cobra.Command, serverName, versionID string) error {
+func getConfig(f factory.CmdFactory, cmd *cobra.Command, serverName, versionID string) error {
 	log := f.Logger()
 
 	c, err := f.KreClient(serverName)
@@ -76,7 +77,7 @@ func getConfig(f cmdutil.CmdFactory, cmd *cobra.Command, serverName, versionID s
 	return nil
 }
 
-func updateConfig(f cmdutil.CmdFactory, serverName, versionID string, vars []string) error {
+func updateConfig(f factory.CmdFactory, serverName, versionID string, vars []string) error {
 	log := f.Logger()
 
 	c, err := f.KreClient(serverName)

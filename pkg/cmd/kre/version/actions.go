@@ -6,15 +6,17 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/konstellation-io/kli/cmdutil"
+	"github.com/konstellation-io/kli/cmd/factory"
+	"github.com/konstellation-io/kli/pkg/cmd/args"
+	"github.com/konstellation-io/kli/pkg/errors"
 )
 
 // NewActionCmd manages all the actions of the version command.
-func NewActionCmd(f cmdutil.CmdFactory, action string) *cobra.Command {
+func NewActionCmd(f factory.CmdFactory, action string) *cobra.Command {
 	log := f.Logger()
 	cmd := &cobra.Command{
 		Use:   action,
-		Args:  cmdutil.ComposeArgsCheck(cmdutil.CheckServerFlag, cobra.ExactArgs(1)),
+		Args:  args.ComposeArgsCheck(args.CheckServerFlag, cobra.ExactArgs(1)),
 		Short: fmt.Sprintf("%s a version", strings.Title(action)),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			s, _ := cmd.Flags().GetString("server")
@@ -45,7 +47,7 @@ func NewActionCmd(f cmdutil.CmdFactory, action string) *cobra.Command {
 				err = version.Unpublish(versionID, comment)
 				actionResult = "Unpublishing"
 			default:
-				log.Fatal("Unknown version action")
+				return errors.ErrUnknownVersionAction
 			}
 			if err != nil {
 				return err

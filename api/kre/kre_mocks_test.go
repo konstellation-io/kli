@@ -61,8 +61,7 @@ func gqlMockServer(t *testing.T, requestVars, mockResponse string) (*httptest.Se
 		APIToken: "12345",
 	}
 
-	client, err := graphql.NewGqlManager(cfg, srvCfg, "test")
-	require.NoError(t, err)
+	client := graphql.NewGqlManager(cfg, srvCfg, "test")
 
 	return srv, cfg, client
 }

@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/konstellation-io/kli/cmdutil"
+	"github.com/konstellation-io/kli/cmd/factory"
 	"github.com/konstellation-io/kli/internal/build"
 	"github.com/konstellation-io/kli/pkg/cmd/root"
 )
@@ -10,7 +10,7 @@ func main() {
 	buildDate := build.Date
 	buildVersion := build.Version
 
-	cmdFactory := cmdutil.NewCmdFactory(buildVersion)
+	cmdFactory := factory.NewCmdFactory(buildVersion)
 
 	rootCmd := root.NewRootCmd(cmdFactory, buildVersion, buildDate)
 

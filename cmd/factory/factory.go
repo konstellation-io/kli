@@ -1,18 +1,19 @@
-package cmdutil
+package factory
 
 //go:generate mockgen -source=${GOFILE} -destination=$PWD/mocks/${GOFILE} -package=mocks
 
 import (
 	"github.com/konstellation-io/kli/api"
 	"github.com/konstellation-io/kli/api/kre"
+	"github.com/konstellation-io/kli/cmd/iostreams"
 	"github.com/konstellation-io/kli/internal/config"
-	"github.com/konstellation-io/kli/internal/errors"
 	"github.com/konstellation-io/kli/internal/logger"
+	"github.com/konstellation-io/kli/pkg/errors"
 )
 
 // CmdFactory interface to define all methods needed during commands creation.
 type CmdFactory interface {
-	IOStreams() *IOStreams
+	IOStreams() *iostreams.IOStreams
 	Config() *config.Config
 	Logger() logger.Logger
 	KreClient(string) (kre.KreInterface, error)
@@ -21,14 +22,14 @@ type CmdFactory interface {
 // Factory contains all data needed during commands execution.
 type Factory struct {
 	appVersion string
-	ioStreams  *IOStreams
+	ioStreams  *iostreams.IOStreams
 	cfg        *config.Config
 	logger     logger.Logger
 }
 
 // NewCmdFactory returns a new Factory object used during commands execution.
 func NewCmdFactory(appVersion string) *Factory {
-	io := System()
+	io := iostreams.System()
 
 	return &Factory{
 		appVersion: appVersion,
@@ -39,7 +40,7 @@ func NewCmdFactory(appVersion string) *Factory {
 }
 
 // IOStreams access to IOStreams object.
-func (f *Factory) IOStreams() *IOStreams {
+func (f *Factory) IOStreams() *iostreams.IOStreams {
 	return f.ioStreams
 }
 
@@ -60,5 +61,5 @@ func (f *Factory) KreClient(serverName string) (kre.KreInterface, error) {
 		return nil, errors.ErrUnknownServerName
 	}
 
-	return api.NewKreClient(f.cfg, server, f.appVersion)
+	return api.NewKreClient(f.cfg, server, f.appVersion), nil
 }

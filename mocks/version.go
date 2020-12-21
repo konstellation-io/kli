@@ -34,18 +34,18 @@ func (m *MockVersionInterface) EXPECT() *MockVersionInterfaceMockRecorder {
 }
 
 // List mocks base method
-func (m *MockVersionInterface) List(arg0 string) (version.List, error) {
+func (m *MockVersionInterface) List(runtimeID string) (version.List, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "List", arg0)
+	ret := m.ctrl.Call(m, "List", runtimeID)
 	ret0, _ := ret[0].(version.List)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // List indicates an expected call of List
-func (mr *MockVersionInterfaceMockRecorder) List(arg0 interface{}) *gomock.Call {
+func (mr *MockVersionInterfaceMockRecorder) List(runtimeID interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "List", reflect.TypeOf((*MockVersionInterface)(nil).List), arg0)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "List", reflect.TypeOf((*MockVersionInterface)(nil).List), runtimeID)
 }
 
 // Start mocks base method

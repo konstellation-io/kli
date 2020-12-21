@@ -4,14 +4,11 @@ import (
 	"github.com/MakeNowJust/heredoc"
 	"github.com/spf13/cobra"
 
-	"github.com/konstellation-io/kli/cmdutil"
-	"github.com/konstellation-io/kli/pkg/cmd/server/add"
-	"github.com/konstellation-io/kli/pkg/cmd/server/list"
-	"github.com/konstellation-io/kli/pkg/cmd/server/set"
+	"github.com/konstellation-io/kli/cmd/factory"
 )
 
 // NewServerCmd creates a new command to handle 'server' subcommands.
-func NewServerCmd(f cmdutil.CmdFactory) *cobra.Command {
+func NewServerCmd(f factory.CmdFactory) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "server <command>",
 		Short: "Manage servers for kli",
@@ -23,9 +20,9 @@ func NewServerCmd(f cmdutil.CmdFactory) *cobra.Command {
 	}
 
 	cmd.AddCommand(
-		list.NewListCmd(f),
-		set.NewDefaultCmd(f),
-		add.NewAddCmd(f),
+		NewListCmd(f),
+		NewDefaultCmd(f),
+		NewAddCmd(f),
 	)
 
 	return cmd

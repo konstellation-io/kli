@@ -1,14 +1,14 @@
-package set
+package server
 
 import (
 	"github.com/spf13/cobra"
 
-	"github.com/konstellation-io/kli/cmdutil"
+	"github.com/konstellation-io/kli/cmd/factory"
 	"github.com/konstellation-io/kli/internal/render"
 )
 
 // NewDefaultCmd creates a new command to handle 'default' keyword.
-func NewDefaultCmd(f cmdutil.CmdFactory) *cobra.Command {
+func NewDefaultCmd(f factory.CmdFactory) *cobra.Command {
 	log := f.Logger()
 	cmd := &cobra.Command{
 		Use:   "default <server_name>",

@@ -4,11 +4,11 @@ import (
 	"github.com/MakeNowJust/heredoc"
 	"github.com/spf13/cobra"
 
-	"github.com/konstellation-io/kli/cmdutil"
+	"github.com/konstellation-io/kli/cmd/factory"
 )
 
 // NewVersionCmd creates a new command to handle 'version' subcommands.
-func NewVersionCmd(f cmdutil.CmdFactory) *cobra.Command {
+func NewVersionCmd(f factory.CmdFactory) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "version",
 		Short: "Manage KRE Version",

@@ -8,7 +8,7 @@ import (
 	"github.com/OpenPeeDeeP/xdg"
 	"github.com/guumaster/cligger"
 
-	"github.com/konstellation-io/kli/internal/errors"
+	"github.com/konstellation-io/kli/pkg/errors"
 	"github.com/konstellation-io/kli/text"
 )
 

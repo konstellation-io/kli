@@ -1,6 +1,8 @@
 package config
 
 import (
+	"io/ioutil"
+	"os"
 	"path"
 	"path/filepath"
 	"testing"
@@ -83,4 +85,23 @@ func TestConfig_SetDefaultServer(t *testing.T) {
 	require.NoError(t, err)
 
 	require.Equal(t, cfg.DefaultServer, text.Normalize(newServer.Name))
+}
+
+func setupConfigDir(t *testing.T) string {
+	t.Helper()
+
+	dir, err := ioutil.TempDir("", "kli-test")
+	require.NoError(t, err)
+
+	err = os.Setenv("XDG_CONFIG_HOME", dir)
+	require.NoError(t, err)
+
+	return dir
+}
+
+func cleanConfigDir(t *testing.T, dir string) {
+	t.Helper()
+
+	err := os.RemoveAll(dir)
+	require.NoError(t, err)
 }

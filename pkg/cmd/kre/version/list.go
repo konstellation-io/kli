@@ -6,17 +6,18 @@ import (
 	"github.com/spf13/cobra"
 
 	"github.com/konstellation-io/kli/api/kre/version"
-	"github.com/konstellation-io/kli/cmdutil"
+	"github.com/konstellation-io/kli/cmd/factory"
 	"github.com/konstellation-io/kli/internal/render"
+	"github.com/konstellation-io/kli/pkg/cmd/args"
 )
 
 // NewListCmd creates a new command to list Versions.
-func NewListCmd(f cmdutil.CmdFactory) *cobra.Command {
+func NewListCmd(f factory.CmdFactory) *cobra.Command {
 	log := f.Logger()
 	cmd := &cobra.Command{
 		Use:     "ls",
 		Aliases: []string{"list"},
-		Args:    cmdutil.CheckServerFlag,
+		Args:    args.CheckServerFlag,
 		Short:   "List all available Versions",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			s, _ := cmd.Flags().GetString("server")
