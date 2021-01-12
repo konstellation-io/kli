@@ -2,8 +2,10 @@ package version
 
 import (
 	"fmt"
+	"os"
 	"strings"
 
+	"github.com/joho/godotenv"
 	"github.com/spf13/cobra"
 
 	"github.com/konstellation-io/kli/api/kre/version"
@@ -22,22 +24,76 @@ func NewConfigCmd(f factory.CmdFactory) *cobra.Command {
 			serverName, _ := cmd.Flags().GetString("server")
 
 			versionID := args[0]
-			vars, err := cmd.Flags().GetStringSlice("set")
+
+			// read key=value pairs
+			keyValuePairs, err := cmd.Flags().GetStringSlice("set")
 			if err != nil {
 				return err
 			}
 
-			if len(vars) > 0 {
-				return updateConfig(f, serverName, versionID, vars)
+			// read values from env
+			envVars, err := cmd.Flags().GetStringSlice("set-from-env")
+			if err != nil {
+				return err
+			}
+			if len(envVars) > 0 {
+				keyValuePairs = addEnvVars(keyValuePairs, envVars)
+			}
+
+			// read values from file
+			envFiles, err := cmd.Flags().GetStringSlice("set-from-file")
+			if err != nil {
+				return err
+			}
+			if len(envFiles) > 0 {
+				keyValuePairs, err = addEnvFromFiles(keyValuePairs, envFiles)
+				if err != nil {
+					return err
+				}
+			}
+
+			// Update config
+			if len(keyValuePairs) > 0 {
+				return updateConfig(f, serverName, versionID, keyValuePairs)
 			}
 
 			return getConfig(f, cmd, serverName, versionID)
 		},
 	}
 	cmd.Flags().StringSlice("set", []string{}, "Set new key value pair key=value")
+	cmd.Flags().StringSlice("set-from-env", []string{}, "Set new variable with value existing on current env")
+	cmd.Flags().StringSlice("set-from-file", []string{}, "Set variables from a file with key/value pairs")
 	cmd.Flags().Bool("show-values", false, "Show configuration variables")
 
 	return cmd
+}
+
+func addEnvFromFiles(pairs, envFiles []string) ([]string, error) {
+	merged := pairs
+
+	for _, file := range envFiles {
+		fileVars, err := godotenv.Read(file)
+		if err != nil {
+			return nil, fmt.Errorf("error reading env file: %w", err)
+		}
+
+		for key, value := range fileVars {
+			merged = append(merged, fmt.Sprintf("%s=%v", key, value))
+		}
+	}
+
+	return merged, nil
+}
+
+func addEnvVars(pairs, envKeys []string) []string {
+	merged := pairs
+
+	for _, key := range envKeys {
+		value := os.Getenv(key)
+		merged = append(merged, fmt.Sprintf("%s=%v", key, value))
+	}
+
+	return merged
 }
 
 func getConfig(f factory.CmdFactory, cmd *cobra.Command, serverName, versionID string) error {

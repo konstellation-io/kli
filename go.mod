@@ -9,6 +9,7 @@ require (
 	github.com/golang/mock v1.4.4
 	github.com/guumaster/cligger v0.1.1
 	github.com/guumaster/logsymbols v0.3.1
+	github.com/joho/godotenv v1.3.0
 	github.com/machinebox/graphql v0.2.2
 	github.com/matryer/is v1.4.0 // indirect
 	github.com/mattn/go-colorable v0.1.8
