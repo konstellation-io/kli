@@ -90,24 +90,21 @@ To run `golangci-lint` execute:
 golangci-lint run
 ```
 
-## Creating Releases
+## Versioning lifecycle
 
-The build system automatically compiles cross-platform binaries to any git tag named vX.Y.Z. 
+In the development lifecycle of KLI there are three main stages depend if we are going to add a new feature, release a new version with some features or apply a fix to a current release.
 
-To test out the build system, publish a prerelease tag with a name such as vX.Y.Z-pre.0 or vX.Y.Z-rc.1. 
-Note that such a release will still be public, but it will be marked as a "prerelease", meaning that it won't show up as
-a "latest" release.
+### Alphas
 
+In order to add new features just create a feature branch from master, and after merger the Pull Request a workflow will run the tests and if everything pass a new alpha tag will be created (like *v0.0-alpha.0*) and a new release will be generaged with this tag.
 
-### Tagging a new release
+### Releases
 
-`git tag v1.2.3 && git push origin v1.2.3`
+After some alpha versions we can create what we call a release, and to do that we have to run manual the Release Action. This workflow will create a new release branch and a new tag like *v0.0.0*. With this tag a new release will be generated.
 
-Wait several minutes for builds to run: https://github.com/konstellation-io/kli/actions
-Verify release is displayed and has correct assets: https://github.com/konstellation-io/kli/releases
+### Fixes
 
-(Optional) Delete any pre-releases related to this release
-
+If we find out a bug in a release, we can apply a bugfix just creating a fix branch from the specific release branch, and createing a Pull Request to the same release branc. When the Pull Request is merged, after pass the tests, a new fix tag will be created just increasing the patch number of the version, and a new release will be build and released.
 
 ### Release locally for debugging
 
