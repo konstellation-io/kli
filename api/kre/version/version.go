@@ -16,6 +16,7 @@ type VersionInterface interface { // nolint: golint
 	Unpublish(versionID, comment string) error
 	GetConfig(versionID string) (*Config, error)
 	UpdateConfig(versionID string, configVars []ConfigVariableInput) (bool, error)
+	Create(runtimeID, krtFile string) error
 }
 
 type versionClient struct {
