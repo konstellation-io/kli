@@ -24,4 +24,3 @@ jobs:
           mode: 'fix'
         env:
           GITHUB_TOKEN: ${{ secrets.PATNAME }}
-          
