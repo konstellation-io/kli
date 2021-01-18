@@ -5,6 +5,7 @@ import (
 
 	"github.com/konstellation-io/kli/cmd/factory"
 	"github.com/konstellation-io/kli/pkg/cmd/kre"
+	"github.com/konstellation-io/kli/pkg/cmd/krt"
 	"github.com/konstellation-io/kli/pkg/cmd/server"
 )
 
@@ -40,6 +41,7 @@ func NewRootCmd(f factory.CmdFactory, version, buildDate string) *cobra.Command 
 	cmd.AddCommand(newVersionCmd(f, version, buildDate))
 	cmd.AddCommand(server.NewServerCmd(f))
 	cmd.AddCommand(kre.NewKRECmd(f))
+	cmd.AddCommand(krt.NewKRTCmd(f))
 
 	return cmd
 }
