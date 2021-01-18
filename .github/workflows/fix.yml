@@ -1,26 +1,27 @@
-name: Pre Release
+name: Fix
 
 on:
   workflow_run:
     workflows:
       - "Quality"
-    branches: [master]
+
+    branches: ["release-*"]
     types: 
       - completed
 
 jobs:
-  generate-prerelease:
+  create-fix:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Generate a pre-release
+        with:
+          fetch-depth: 0
+      - name: Generate a fix
         uses: intelygenz/action-product-version-tags@v0.1.8
         with:
-          current-major: 0
           prefix: "release-"
-          mode: 'pre-release'
-          pre-release: 'alpha'
-          default-branch: 'master'
+          mode: 'fix'
         env:
           GITHUB_TOKEN: ${{ secrets.PATNAME }}
+          
