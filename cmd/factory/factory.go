@@ -6,6 +6,7 @@ import (
 	"github.com/konstellation-io/kli/api"
 	"github.com/konstellation-io/kli/api/kre"
 	"github.com/konstellation-io/kli/cmd/iostreams"
+	"github.com/konstellation-io/kli/cmd/krttools"
 	"github.com/konstellation-io/kli/internal/config"
 	"github.com/konstellation-io/kli/internal/logger"
 	"github.com/konstellation-io/kli/pkg/errors"
@@ -17,6 +18,7 @@ type CmdFactory interface {
 	Config() *config.Config
 	Logger() logger.Logger
 	KreClient(string) (kre.KreInterface, error)
+	Krt() krttools.KrtTooler
 }
 
 // Factory contains all data needed during commands execution.
@@ -62,4 +64,9 @@ func (f *Factory) KreClient(serverName string) (kre.KreInterface, error) {
 	}
 
 	return api.NewKreClient(f.cfg, server, f.appVersion), nil
+}
+
+// Krt tools to build and validate.
+func (f *Factory) Krt() krttools.KrtTooler {
+	return krttools.NewKrtTools()
 }

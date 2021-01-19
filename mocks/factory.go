@@ -8,6 +8,7 @@ import (
 	gomock "github.com/golang/mock/gomock"
 	kre "github.com/konstellation-io/kli/api/kre"
 	iostreams "github.com/konstellation-io/kli/cmd/iostreams"
+	krttools "github.com/konstellation-io/kli/cmd/krttools"
 	config "github.com/konstellation-io/kli/internal/config"
 	logger "github.com/konstellation-io/kli/internal/logger"
 	reflect "reflect"
@@ -91,4 +92,18 @@ func (m *MockCmdFactory) KreClient(arg0 string) (kre.KreInterface, error) {
 func (mr *MockCmdFactoryMockRecorder) KreClient(arg0 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "KreClient", reflect.TypeOf((*MockCmdFactory)(nil).KreClient), arg0)
+}
+
+// Krt mocks base method
+func (m *MockCmdFactory) Krt() krttools.KrtTooler {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Krt")
+	ret0, _ := ret[0].(krttools.KrtTooler)
+	return ret0
+}
+
+// Krt indicates an expected call of Krt
+func (mr *MockCmdFactoryMockRecorder) Krt() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Krt", reflect.TypeOf((*MockCmdFactory)(nil).Krt))
 }
