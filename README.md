@@ -13,6 +13,7 @@ This repo contains a CLI to access, query and manage KRE and KDL.
 
 - [gomock](https://github.com/golang/mock) a mock library.
 - [spf13/cobra](https://github.com/spf13/cobra) used as CLI framework.
+- [joho/godotenv](https://github.com/joho/godotenv) used to parse env files.
 - [golangci-lint](https://golangci-lint.run/) as linters runner.
 
 
@@ -55,6 +56,55 @@ SERVER URL
 local* http://api.kre.local                 
 int    https://api.your-domain.com 
 ```
+
+
+### Setting Version variables
+
+1. You can set a Version variable as a key/value pair directly: 
+
+```bash
+./kli kre version config version-id-123456 --set SOME_VAR="any value"
+# Output:
+# [✔] Config updated for version 'version-id-123456'.
+```
+
+2. Add a value from an environment variable:
+
+```bash
+export SOME_VAR="any value"
+./kli kre version config version-id-123456 --set-from-env SOME_VAR
+# Output:
+# [✔] Config updated for version 'version-id-123456'.
+```
+
+3. Add multiple variables from a file:
+
+```text
+# variables.env file
+SOME_VAR=12345
+ANOTHER_VAR="some long string... "
+```
+
+```bash
+./kli kre version config version-id-123456 --set-from-file variables.env
+# Output:
+# [✔] Config updated for version 'version-id-123456'.
+```
+
+NOTE: `godotenv` library currently doesn't support multiline variables, as stated in
+[PR #118 @godotenv](https://github.com/joho/godotenv/pull/118). Use next example as a workaround. 
+
+
+4. Add a file as value:
+
+```bash
+export SOME_VAR=$(cat any_file.txt) 
+./kli kre version config version-id-123456 --set-from-env SOME_VAR
+# Output:
+# [✔] Config updated for version 'version-id-123456'.
+```
+
+
 
 ## Testing
 

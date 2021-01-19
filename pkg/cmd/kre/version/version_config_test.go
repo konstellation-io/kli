@@ -2,6 +2,8 @@ package version
 
 import (
 	"fmt"
+	"io/ioutil"
+	"os"
 	"testing"
 
 	"github.com/MakeNowJust/heredoc"
@@ -216,4 +218,100 @@ func TestVersionSetConfigEdgeCasesCmd(t *testing.T) {
       [%s] Config completed for version '12345'.
 		`), logsymbols.CurrentSymbols().Success)
 	}
+}
+
+func TestVersionSetConfigFromEnvCmd(t *testing.T) {
+	s := newTestVersionConfigSuite(t)
+	configVars := []version.ConfigVariableInput{
+		{
+			"key":   "TEST_VAR",
+			"value": "12345\n222",
+		},
+		{
+			"key":   "TEST_VAR2",
+			"value": "test\" test",
+		},
+	}
+	r := testhelpers.NewRunner(t, func(f *mocks.MockCmdFactory) *cobra.Command {
+		setupVersionConfig(t, f)
+
+		f.EXPECT().KreClient("test").Return(s.mocks.kreClient, nil)
+		s.mocks.kreClient.EXPECT().Version().Return(s.mocks.version)
+		s.mocks.version.EXPECT().UpdateConfig("12345", configVars).Return(true, nil)
+
+		return NewVersionCmd(f)
+	})
+
+	err := os.Setenv("TEST_VAR", heredoc.Doc(`12345
+                                                      222`))
+	require.NoError(t, err)
+
+	err = os.Setenv("TEST_VAR2", "test\" test")
+	require.NoError(t, err)
+
+	r.Run("version config 12345 --set-from-env TEST_VAR --set-from-env TEST_VAR2").
+		Containsf(heredoc.Doc(`
+      [%s] Config completed for version '12345'.
+		`), logsymbols.CurrentSymbols().Success)
+}
+
+func TestVersionSetConfigFromEmptyEnvCmd(t *testing.T) {
+	s := newTestVersionConfigSuite(t)
+	configVars := []version.ConfigVariableInput{
+		{
+			"key":   "TEST_VAR",
+			"value": "",
+		},
+	}
+	r := testhelpers.NewRunner(t, func(f *mocks.MockCmdFactory) *cobra.Command {
+		setupVersionConfig(t, f)
+
+		f.EXPECT().KreClient("test").Return(s.mocks.kreClient, nil)
+		s.mocks.kreClient.EXPECT().Version().Return(s.mocks.version)
+		s.mocks.version.EXPECT().UpdateConfig("12345", configVars).Return(false, nil)
+
+		return NewVersionCmd(f)
+	})
+
+	err := os.Unsetenv("TEST_VAR")
+	require.NoError(t, err)
+
+	r.Run("version config 12345 --set-from-env TEST_VAR").
+		Containsf(heredoc.Doc(`
+      [%s] Config updated for version '12345'.
+		`), logsymbols.CurrentSymbols().Success)
+}
+
+func TestVersionSetConfigFromFileCmd(t *testing.T) {
+	s := newTestVersionConfigSuite(t)
+	configVars := []version.ConfigVariableInput{
+		{
+			"key":   "TEST_VAR",
+			"value": "123456",
+		},
+	}
+	r := testhelpers.NewRunner(t, func(f *mocks.MockCmdFactory) *cobra.Command {
+		setupVersionConfig(t, f)
+
+		f.EXPECT().KreClient("test").Return(s.mocks.kreClient, nil)
+		s.mocks.kreClient.EXPECT().Version().Return(s.mocks.version)
+		s.mocks.version.EXPECT().UpdateConfig("12345", configVars).Return(true, nil)
+
+		return NewVersionCmd(f)
+	})
+
+	d := os.TempDir()
+	tempEnvFile, err := ioutil.TempFile(d, "TestVersionSetConfigFromFileCmd")
+	require.NoError(t, err)
+
+	defer os.RemoveAll(tempEnvFile.Name())
+
+	_, _ = tempEnvFile.Write([]byte(heredoc.Doc(`
+		TEST_VAR=123456
+	`)))
+
+	r.Runf("version config 12345 --set-from-file %s", tempEnvFile.Name()).
+		Containsf(heredoc.Doc(`
+      [%s] Config completed for version '12345'.
+		`), logsymbols.CurrentSymbols().Success)
 }

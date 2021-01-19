@@ -9,6 +9,7 @@ require (
 	github.com/golang/mock v1.4.4
 	github.com/guumaster/cligger v0.1.1
 	github.com/guumaster/logsymbols v0.3.1
+	github.com/joho/godotenv v1.3.0
 	github.com/konstellation-io/graphql v0.3.0
 	github.com/konstellation-io/kre/libs/krt-utils v0.0.0-20210119094834-6d373964e814
 	github.com/matryer/is v1.4.0 // indirect
