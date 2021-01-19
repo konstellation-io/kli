@@ -120,6 +120,8 @@ github.com/julienschmidt/httprouter v1.2.0/go.mod h1:SYymIcj16QtmaHHD7aYtjjsJG7V
 github.com/kisielk/errcheck v1.1.0/go.mod h1:EZBBE59ingxPouuu3KfxchcWSUPOHkagtvWXihfKN4Q=
 github.com/kisielk/gotool v1.0.0/go.mod h1:XhKaO+MFFWcvkIS/tQcRk01m1F5IRFswLeQ+oQHNcck=
 github.com/konsorten/go-windows-terminal-sequences v1.0.1/go.mod h1:T0+1ngSBFLxvqU3pZ+m/2kptfBszLMUkC4ZK/EgS/cQ=
+github.com/konstellation-io/graphql v0.3.0 h1:UlHflBVXuQXGMDLJcLSQOOIMMNsyOipsaZc0EeWGMpw=
+github.com/konstellation-io/graphql v0.3.0/go.mod h1:4hJ51N0gnww5eBcNGD4UnH+x9f9zgVO1yWk2cGlznZQ=
 github.com/konstellation-io/kre v0.2.4 h1:UElXcBEKg3LW9hpvOTuL4GgtQhcDBSTHPErFcYSCTxg=
 github.com/konstellation-io/kre/libs/krt-utils v0.0.0-20210119094834-6d373964e814 h1:5UpRCTVEHPr3w0Xl582bFvx1w6qy0HVBM2EnqPXtur0=
 github.com/konstellation-io/kre/libs/krt-utils v0.0.0-20210119094834-6d373964e814/go.mod h1:/yGOZw7u2ihgf1C7NsI+g5xi859zA/NsjpxztREhn3A=

@@ -9,7 +9,7 @@ require (
 	github.com/golang/mock v1.4.4
 	github.com/guumaster/cligger v0.1.1
 	github.com/guumaster/logsymbols v0.3.1
-	github.com/konstellation-io/graphql v0.2.2
+	github.com/konstellation-io/graphql v0.3.0
 	github.com/konstellation-io/kre/libs/krt-utils v0.0.0-20210119094834-6d373964e814
 	github.com/matryer/is v1.4.0 // indirect
 	github.com/mattn/go-colorable v0.1.8
@@ -21,5 +21,3 @@ require (
 	golang.org/x/sys v0.0.0-20200413165638-669c56c373c4 // indirect
 	gopkg.in/yaml.v3 v3.0.0-20200615113413-eeeca48fe776
 )
-
-replace github.com/konstellation-io/graphql => ../graphql

@@ -44,7 +44,7 @@ func (c *versionClient) Create(runtimeID, krtFile string) (string, error) {
 	}
 
 	err = c.client.UploadFile(file, query, vars, &respData)
-	versionId := respData.Data.CreateVersion.ID
+	versionID := respData.Data.CreateVersion.ID
 
-	return versionId, err
+	return versionID, err
 }

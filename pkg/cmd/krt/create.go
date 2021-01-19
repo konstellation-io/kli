@@ -11,7 +11,7 @@ func NewCreateCmd(f factory.CmdFactory) *cobra.Command {
 	log := f.Logger()
 	cmd := &cobra.Command{
 		Use:   "create",
-		Args:  cobra.ExactArgs(2),
+		Args:  cobra.ExactArgs(2), //nolint:gomnd
 		Short: "Create KRT file from a directory",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			src := args[0]
