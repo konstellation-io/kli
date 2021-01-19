@@ -13,6 +13,7 @@ import (
 	"github.com/konstellation-io/kli/internal/config"
 	"github.com/konstellation-io/kli/internal/testhelpers"
 	"github.com/konstellation-io/kli/mocks"
+
 	cmd "github.com/konstellation-io/kli/pkg/cmd/kre/runtime"
 )
 
@@ -49,6 +50,7 @@ func TestRuntimeListCmd(t *testing.T) {
 			2 int-tests Integration Tests
 		`))
 }
+
 func TestRuntimeListEmptyCmd(t *testing.T) {
 	r := testhelpers.NewRunner(t, func(f *mocks.MockCmdFactory) *cobra.Command {
 		ctrl := gomock.NewController(t)
