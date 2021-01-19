@@ -1,6 +1,8 @@
 package version
 
 import (
+	"fmt"
+
 	"github.com/spf13/cobra"
 
 	"github.com/konstellation-io/kli/cmd/factory"
@@ -28,12 +30,12 @@ func NewCreateCmd(f factory.CmdFactory) *cobra.Command {
 
 			krt := args[0]
 
-			err = c.Version().Create(runtime, krt)
+			versionID, err := c.Version().Create(runtime, krt)
 			if err != nil {
 				return err
 			}
 
-			log.Success("Upload KRT completed.")
+			log.Success(fmt.Sprintf("Upload KRT completed, version %s created.", versionID))
 			return nil
 		},
 	}

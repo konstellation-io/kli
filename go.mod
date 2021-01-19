@@ -6,12 +6,11 @@ require (
 	github.com/MakeNowJust/heredoc v1.0.0
 	github.com/OpenPeeDeeP/xdg v1.0.0
 	github.com/briandowns/spinner v1.11.1
-	github.com/go-playground/validator/v10 v10.4.1
 	github.com/golang/mock v1.4.4
 	github.com/guumaster/cligger v0.1.1
 	github.com/guumaster/logsymbols v0.3.1
 	github.com/konstellation-io/graphql v0.2.2
-	github.com/konstellation-io/kre/libs/krt-utils v0.0.0-20201224110624-4acbcfd67547
+	github.com/konstellation-io/kre/libs/krt-utils v0.0.0-20210119094834-6d373964e814
 	github.com/matryer/is v1.4.0 // indirect
 	github.com/mattn/go-colorable v0.1.8
 	github.com/mattn/go-isatty v0.0.12
@@ -23,5 +22,4 @@ require (
 	gopkg.in/yaml.v3 v3.0.0-20200615113413-eeeca48fe776
 )
 
-replace github.com/konstellation-io/kre/libs/krt-utils => ../kre/libs/krt-utils
 replace github.com/konstellation-io/graphql => ../graphql

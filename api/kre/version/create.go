@@ -7,7 +7,7 @@ import (
 	"github.com/konstellation-io/graphql"
 )
 
-func (c *versionClient) Create(runtimeID, krtFile string) error {
+func (c *versionClient) Create(runtimeID, krtFile string) (string, error) {
 	query := `
 		mutation CreateVersion($input: CreateVersionInput!) {
 			createVersion(input: $input) {
@@ -34,7 +34,7 @@ func (c *versionClient) Create(runtimeID, krtFile string) error {
 
 	r, err := os.Open(krtFile)
 	if err != nil {
-		return err
+		return "", err
 	}
 
 	file := graphql.File{
@@ -43,5 +43,8 @@ func (c *versionClient) Create(runtimeID, krtFile string) error {
 		R:     r,
 	}
 
-	return c.client.UploadFile(file, query, vars, &respData)
+	err = c.client.UploadFile(file, query, vars, &respData)
+	versionId := respData.Data.CreateVersion.ID
+
+	return versionId, err
 }

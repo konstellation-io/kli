@@ -135,11 +135,12 @@ func (mr *MockVersionInterfaceMockRecorder) UpdateConfig(versionID, configVars i
 }
 
 // Create mocks base method
-func (m *MockVersionInterface) Create(runtimeID, krtFile string) error {
+func (m *MockVersionInterface) Create(runtimeID, krtFile string) (string, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Create", runtimeID, krtFile)
-	ret0, _ := ret[0].(error)
-	return ret0
+	ret0, _ := ret[0].(string)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
 }
 
 // Create indicates an expected call of Create
