@@ -66,6 +66,7 @@ func (f *Factory) KreClient(serverName string) (kre.KreInterface, error) {
 	return api.NewKreClient(f.cfg, server, f.appVersion), nil
 }
 
+// Krt tools to build and validate.
 func (f *Factory) Krt() krttools.KrtTooler {
 	return krttools.NewKrtTools()
 }

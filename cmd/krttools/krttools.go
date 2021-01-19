@@ -46,7 +46,7 @@ func (krt *KrtTools) Validate(yamlPath string) error {
 	return err
 }
 
-// BuildKrt build utility for the krt command.
+// Build build utility for the krt command.
 func (krt *KrtTools) Build(src, target string) error {
 	err := krt.builder.Build(src, target)
 	return err
