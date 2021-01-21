@@ -27,5 +27,4 @@ func TestNewKreClient(t *testing.T) {
 	k := api.NewKreClient(cfg, &srv, "test-version")
 
 	require.NotEmpty(t, k.Version())
-	require.NotEmpty(t, k.Runtime())
 }

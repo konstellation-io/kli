@@ -11,25 +11,22 @@ type Version struct {
 type List []Version
 
 // List calls to KRE API and returns a list of Version entities.
-func (c *versionClient) List(runtimeID string) (List, error) {
+func (c *versionClient) List() (List, error) {
 	query := `
-		query GetVersions($runtimeId: ID!) {
-			versions(runtimeId: $runtimeId) {
+		query GetVersions() {
+			versions() {
 				id
 				name
 				status
 			}
 		}
 	`
-	vars := map[string]interface{}{
-		"runtimeId": runtimeID,
-	}
 
 	var respData struct {
 		Versions List
 	}
 
-	err := c.client.MakeRequest(query, vars, &respData)
+	err := c.client.MakeRequest(query, nil, &respData)
 
 	return respData.Versions, err
 }

@@ -6,7 +6,6 @@ package mocks
 
 import (
 	gomock "github.com/golang/mock/gomock"
-	runtime "github.com/konstellation-io/kli/api/kre/runtime"
 	version "github.com/konstellation-io/kli/api/kre/version"
 	reflect "reflect"
 )
@@ -32,20 +31,6 @@ func NewMockKreInterface(ctrl *gomock.Controller) *MockKreInterface {
 // EXPECT returns an object that allows the caller to indicate expected use
 func (m *MockKreInterface) EXPECT() *MockKreInterfaceMockRecorder {
 	return m.recorder
-}
-
-// Runtime mocks base method
-func (m *MockKreInterface) Runtime() runtime.RuntimeInterface {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Runtime")
-	ret0, _ := ret[0].(runtime.RuntimeInterface)
-	return ret0
-}
-
-// Runtime indicates an expected call of Runtime
-func (mr *MockKreInterfaceMockRecorder) Runtime() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Runtime", reflect.TypeOf((*MockKreInterface)(nil).Runtime))
 }
 
 // Version mocks base method

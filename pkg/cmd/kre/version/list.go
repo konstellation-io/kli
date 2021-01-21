@@ -26,12 +26,7 @@ func NewListCmd(f factory.CmdFactory) *cobra.Command {
 				return err
 			}
 
-			runtime, err := cmd.Flags().GetString("runtime")
-			if err != nil {
-				return err
-			}
-
-			list, err := c.Version().List(runtime)
+			list, err := c.Version().List()
 			if err != nil {
 				return err
 			}
@@ -47,8 +42,6 @@ func NewListCmd(f factory.CmdFactory) *cobra.Command {
 			return nil
 		},
 	}
-	cmd.Flags().StringP("runtime", "r", "", "Filter for specific runtime")
-	_ = cmd.MarkFlagRequired("runtime")
 
 	return cmd
 }

@@ -36,11 +36,11 @@ func TestNewCreateCmd(t *testing.T) {
 		s := newTestVersionSuite(t)
 		f.EXPECT().KreClient("test").Return(s.mocks.kreClient, nil).AnyTimes()
 		s.mocks.kreClient.EXPECT().Version().Return(s.mocks.version).AnyTimes()
-		s.mocks.version.EXPECT().Create("12345", "test.krt").Return("1234", nil).AnyTimes()
+		s.mocks.version.EXPECT().Create("test.krt").Return("1234", nil).AnyTimes()
 		return NewVersionCmd(f)
 	})
 
-	r.Run("version create -r 12345 test.krt").
+	r.Run("version create test.krt").
 		Containsf(heredoc.Doc(`
       [%s] Upload KRT completed, version 1234 created.
 		`), logsymbols.CurrentSymbols().Success)
