@@ -13,7 +13,7 @@ import (
 func NewCreateCmd(f factory.CmdFactory) *cobra.Command {
 	log := f.Logger()
 	cmd := &cobra.Command{
-		Use:   "create",
+		Use:   "create [krt-file]",
 		Args:  args.ComposeArgsCheck(args.CheckServerFlag, cobra.ExactArgs(1)),
 		Short: "Upload a KRT and create a new version",
 		RunE: func(cmd *cobra.Command, args []string) error {

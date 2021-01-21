@@ -13,6 +13,7 @@ func NewKRTCmd(f factory.CmdFactory) *cobra.Command {
 		Use:   "krt",
 		Short: "Utils for KRT creation and validation",
 		Example: heredoc.Doc(`
+			$ kli krt create source-folder file.krt
 			$ kli krt validate file.krt
 		`),
 	}
