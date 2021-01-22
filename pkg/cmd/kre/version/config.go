@@ -23,7 +23,7 @@ func NewConfigCmd(f factory.CmdFactory) *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			serverName, _ := cmd.Flags().GetString("server")
 
-			versionID := args[0]
+			versionName := args[0]
 
 			// read key=value pairs
 			keyValuePairs, err := cmd.Flags().GetStringSlice("set")
@@ -54,10 +54,10 @@ func NewConfigCmd(f factory.CmdFactory) *cobra.Command {
 
 			// Update config
 			if len(keyValuePairs) > 0 {
-				return updateConfig(f, serverName, versionID, keyValuePairs)
+				return updateConfig(f, serverName, versionName, keyValuePairs)
 			}
 
-			return getConfig(f, cmd, serverName, versionID)
+			return getConfig(f, cmd, serverName, versionName)
 		},
 	}
 	cmd.Flags().StringSlice("set", []string{}, "Set new key value pair key=value")
@@ -96,7 +96,7 @@ func addEnvVars(pairs, envKeys []string) []string {
 	return merged
 }
 
-func getConfig(f factory.CmdFactory, cmd *cobra.Command, serverName, versionID string) error {
+func getConfig(f factory.CmdFactory, cmd *cobra.Command, serverName, versionName string) error {
 	log := f.Logger()
 
 	c, err := f.KreClient(serverName)
@@ -104,7 +104,7 @@ func getConfig(f factory.CmdFactory, cmd *cobra.Command, serverName, versionID s
 		return err
 	}
 
-	config, err := c.Version().GetConfig(versionID)
+	config, err := c.Version().GetConfig(versionName)
 	if err != nil {
 		return err
 	}
@@ -133,7 +133,7 @@ func getConfig(f factory.CmdFactory, cmd *cobra.Command, serverName, versionID s
 	return nil
 }
 
-func updateConfig(f factory.CmdFactory, serverName, versionID string, vars []string) error {
+func updateConfig(f factory.CmdFactory, serverName, versionName string, vars []string) error {
 	log := f.Logger()
 
 	c, err := f.KreClient(serverName)
@@ -152,7 +152,7 @@ func updateConfig(f factory.CmdFactory, serverName, versionID string, vars []str
 		})
 	}
 
-	completed, err := c.Version().UpdateConfig(versionID, config)
+	completed, err := c.Version().UpdateConfig(versionName, config)
 	if err != nil {
 		return err
 	}
@@ -162,7 +162,7 @@ func updateConfig(f factory.CmdFactory, serverName, versionID string, vars []str
 		status = "completed"
 	}
 
-	log.Success(fmt.Sprintf("Config %s for version '%s'.", status, versionID))
+	log.Success(fmt.Sprintf("Config %s for version '%s'.", status, versionName))
 
 	return nil
 }

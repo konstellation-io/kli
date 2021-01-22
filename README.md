@@ -63,18 +63,18 @@ int    https://api.your-domain.com
 1. You can set a Version variable as a key/value pair directly: 
 
 ```bash
-./kli kre version config version-id-123456 --set SOME_VAR="any value"
+./kli kre version config your-version --set SOME_VAR="any value"
 # Output:
-# [✔] Config updated for version 'version-id-123456'.
+# [✔] Config updated for version 'your-version'.
 ```
 
 2. Add a value from an environment variable:
 
 ```bash
 export SOME_VAR="any value"
-./kli kre version config version-id-123456 --set-from-env SOME_VAR
+./kli kre version config your-version --set-from-env SOME_VAR
 # Output:
-# [✔] Config updated for version 'version-id-123456'.
+# [✔] Config updated for version 'your-version'.
 ```
 
 3. Add multiple variables from a file:
@@ -86,9 +86,9 @@ ANOTHER_VAR="some long string... "
 ```
 
 ```bash
-./kli kre version config version-id-123456 --set-from-file variables.env
+./kli kre version config your-version --set-from-file variables.env
 # Output:
-# [✔] Config updated for version 'version-id-123456'.
+# [✔] Config updated for version 'your-version'.
 ```
 
 NOTE: `godotenv` library currently doesn't support multiline variables, as stated in
@@ -99,9 +99,9 @@ NOTE: `godotenv` library currently doesn't support multiline variables, as state
 
 ```bash
 export SOME_VAR=$(cat any_file.txt) 
-./kli kre version config version-id-123456 --set-from-env SOME_VAR
+./kli kre version config your-version --set-from-env SOME_VAR
 # Output:
-# [✔] Config updated for version 'version-id-123456'.
+# [✔] Config updated for version 'your-version'.
 ```
 
 

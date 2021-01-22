@@ -213,7 +213,7 @@ func (c *cmdRunner) RunArgsE(cmd string, expectedErr error, extraArgs ...string)
 
 // This only accepts simple and well formatted arguments
 // this commands will fail:
-//   "version start 12345 --comment \"test test\""
+//   "version start test-v1 --comment \"test test\""
 //   "version config --set key=\"test\""
 // Use RunArgs and RunArgsE instead.
 func splitArgs(t *testing.T, s string) []string {

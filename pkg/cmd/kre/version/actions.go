@@ -30,21 +30,21 @@ func NewActionCmd(f factory.CmdFactory, action string) *cobra.Command {
 				return err
 			}
 
-			versionID := args[0]
+			versionName := args[0]
 			version := c.Version()
 			actionResult := ""
 			switch action {
 			case "start":
-				err = version.Start(versionID, comment)
+				err = version.Start(versionName, comment)
 				actionResult = "Starting"
 			case "stop":
-				err = version.Stop(versionID, comment)
+				err = version.Stop(versionName, comment)
 				actionResult = "Stopping"
 			case "publish":
-				err = version.Publish(versionID, comment)
+				err = version.Publish(versionName, comment)
 				actionResult = "Publishing"
 			case "unpublish":
-				err = version.Unpublish(versionID, comment)
+				err = version.Unpublish(versionName, comment)
 				actionResult = "Unpublishing"
 			default:
 				return errors.ErrUnknownVersionAction
@@ -53,7 +53,7 @@ func NewActionCmd(f factory.CmdFactory, action string) *cobra.Command {
 				return err
 			}
 
-			log.Success(fmt.Sprintf("%s version '%s'.", actionResult, versionID))
+			log.Success(fmt.Sprintf("%s version '%s'.", actionResult, versionName))
 			return nil
 		},
 	}
