@@ -13,7 +13,7 @@ import (
 func NewCreateCmd(f factory.CmdFactory) *cobra.Command {
 	log := f.Logger()
 	cmd := &cobra.Command{
-		Use:   "create",
+		Use:   "create [krt-file]",
 		Args:  args.ComposeArgsCheck(args.CheckServerFlag, cobra.ExactArgs(1)),
 		Short: "Upload a KRT and create a new version",
 		RunE: func(cmd *cobra.Command, args []string) error {
@@ -23,14 +23,9 @@ func NewCreateCmd(f factory.CmdFactory) *cobra.Command {
 				return err
 			}
 
-			runtime, err := cmd.Flags().GetString("runtime")
-			if err != nil {
-				return err
-			}
-
 			krt := args[0]
 
-			versionID, err := c.Version().Create(runtime, krt)
+			versionID, err := c.Version().Create(krt)
 			if err != nil {
 				return err
 			}
@@ -39,8 +34,6 @@ func NewCreateCmd(f factory.CmdFactory) *cobra.Command {
 			return nil
 		},
 	}
-	cmd.Flags().StringP("runtime", "r", "", "Add to specific runtime")
-	_ = cmd.MarkFlagRequired("runtime")
 
 	return cmd
 }

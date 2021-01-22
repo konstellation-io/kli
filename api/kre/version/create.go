@@ -7,7 +7,7 @@ import (
 	"github.com/konstellation-io/graphql"
 )
 
-func (c *versionClient) Create(runtimeID, krtFile string) (string, error) {
+func (c *versionClient) Create(krtFile string) (string, error) {
 	query := `
 		mutation CreateVersion($input: CreateVersionInput!) {
 			createVersion(input: $input) {
@@ -18,8 +18,7 @@ func (c *versionClient) Create(runtimeID, krtFile string) (string, error) {
 		`
 	vars := map[string]interface{}{
 		"input": map[string]interface{}{
-			"runtimeId": runtimeID,
-			"file":      nil,
+			"file": nil,
 		},
 	}
 

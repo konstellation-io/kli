@@ -13,7 +13,8 @@ func NewVersionCmd(f factory.CmdFactory) *cobra.Command {
 		Use:   "version",
 		Short: "Manage KRE Version",
 		Example: heredoc.Doc(`
-			$ kli kre version ls --runtime runtime1234
+			$ kli kre version ls
+			$ kli kre version create file.krt
 		`),
 	}
 

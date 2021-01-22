@@ -59,7 +59,7 @@ func TestVersionListCmd(t *testing.T) {
 
 		f.EXPECT().KreClient("test").Return(s.mocks.kreClient, nil)
 		s.mocks.kreClient.EXPECT().Version().Return(s.mocks.version)
-		s.mocks.version.EXPECT().List("runtime1234").Return(version.List{
+		s.mocks.version.EXPECT().List().Return(version.List{
 			{ID: "1234", Name: "greeter-v1", Status: "STARTED"},
 			{ID: "6578", Name: "greeter-v2", Status: "STOPPED"},
 		}, nil)
@@ -67,7 +67,7 @@ func TestVersionListCmd(t *testing.T) {
 		return cmd.NewVersionCmd(f)
 	})
 
-	r.Run("version ls --runtime runtime1234 ").
+	r.Run("version ls").
 		Contains(heredoc.Doc(`
         ID   NAME       STATUS
 			1 1234 greeter-v1 STARTED

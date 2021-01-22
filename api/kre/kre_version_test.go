@@ -27,7 +27,7 @@ func TestVersionList(t *testing.T) {
 
 	c := version.New(cfg, client)
 
-	list, err := c.List("runtime-1")
+	list, err := c.List()
 	require.NoError(t, err)
 	require.Len(t, list, 1)
 	require.Equal(t, list[0], version.Version{

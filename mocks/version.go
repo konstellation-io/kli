@@ -34,18 +34,18 @@ func (m *MockVersionInterface) EXPECT() *MockVersionInterfaceMockRecorder {
 }
 
 // List mocks base method
-func (m *MockVersionInterface) List(runtimeID string) (version.List, error) {
+func (m *MockVersionInterface) List() (version.List, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "List", runtimeID)
+	ret := m.ctrl.Call(m, "List")
 	ret0, _ := ret[0].(version.List)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // List indicates an expected call of List
-func (mr *MockVersionInterfaceMockRecorder) List(runtimeID interface{}) *gomock.Call {
+func (mr *MockVersionInterfaceMockRecorder) List() *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "List", reflect.TypeOf((*MockVersionInterface)(nil).List), runtimeID)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "List", reflect.TypeOf((*MockVersionInterface)(nil).List))
 }
 
 // Start mocks base method
@@ -135,16 +135,16 @@ func (mr *MockVersionInterfaceMockRecorder) UpdateConfig(versionID, configVars i
 }
 
 // Create mocks base method
-func (m *MockVersionInterface) Create(runtimeID, krtFile string) (string, error) {
+func (m *MockVersionInterface) Create(krtFile string) (string, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Create", runtimeID, krtFile)
+	ret := m.ctrl.Call(m, "Create", krtFile)
 	ret0, _ := ret[0].(string)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // Create indicates an expected call of Create
-func (mr *MockVersionInterfaceMockRecorder) Create(runtimeID, krtFile interface{}) *gomock.Call {
+func (mr *MockVersionInterfaceMockRecorder) Create(krtFile interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockVersionInterface)(nil).Create), runtimeID, krtFile)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockVersionInterface)(nil).Create), krtFile)
 }

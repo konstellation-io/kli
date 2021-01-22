@@ -9,14 +9,14 @@ import (
 
 // VersionInterface method to interact with Versions.
 type VersionInterface interface { // nolint: golint
-	List(runtimeID string) (List, error)
+	List() (List, error)
 	Start(versionID, comment string) error
 	Stop(versionID, comment string) error
 	Publish(versionID, comment string) error
 	Unpublish(versionID, comment string) error
 	GetConfig(versionID string) (*Config, error)
 	UpdateConfig(versionID string, configVars []ConfigVariableInput) (bool, error)
-	Create(runtimeID, krtFile string) (string, error)
+	Create(krtFile string) (string, error)
 }
 
 type versionClient struct {

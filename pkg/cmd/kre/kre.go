@@ -6,8 +6,6 @@ import (
 
 	"github.com/konstellation-io/kli/cmd/factory"
 	"github.com/konstellation-io/kli/pkg/cmd/kre/version"
-
-	kre "github.com/konstellation-io/kli/pkg/cmd/kre/runtime"
 )
 
 // NewKRECmd creates a new command to handle 'kre' keyword.
@@ -21,7 +19,6 @@ func NewKRECmd(f factory.CmdFactory) *cobra.Command {
 	}
 
 	cmd.AddCommand(
-		kre.NewRuntimeCmd(f),
 		version.NewVersionCmd(f),
 	)
 
