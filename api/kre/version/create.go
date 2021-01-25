@@ -22,11 +22,9 @@ func (c *versionClient) Create(krtFile string) (string, error) {
 	}
 
 	var respData struct {
-		Data struct {
-			CreateVersion struct {
-				Name string `json:"name"`
-			} `json:"createVersion"`
-		} `json:"data"`
+		CreateVersion struct {
+			Name string `json:"name"`
+		} `json:"createVersion"`
 	}
 
 	r, err := os.Open(krtFile)
@@ -41,7 +39,7 @@ func (c *versionClient) Create(krtFile string) (string, error) {
 	}
 
 	err = c.client.UploadFile(file, query, vars, &respData)
-	versionName := respData.Data.CreateVersion.Name
+	versionName := respData.CreateVersion.Name
 
 	return versionName, err
 }

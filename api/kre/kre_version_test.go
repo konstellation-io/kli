@@ -2,6 +2,8 @@ package kre_test
 
 import (
 	"fmt"
+	"io/ioutil"
+	"os"
 	"testing"
 
 	"github.com/stretchr/testify/require"
@@ -204,4 +206,28 @@ func TestVersionUpdateConfig(t *testing.T) {
 	completed, err := c.UpdateConfig("test-v1", configVars)
 	require.NoError(t, err)
 	require.True(t, completed)
+}
+
+func TestVersionCreate(t *testing.T) {
+	srv, cfg, client := gqlMockServer(t, "", `
+		{
+				"data": {
+						"createVersion": {
+								"name": "test-v1"
+						}
+				}
+		}
+	`)
+	defer srv.Close()
+
+	c := version.New(cfg, client)
+
+	krtFile, err := ioutil.TempFile("", ".test.krt")
+	require.NoError(t, err)
+
+	defer os.RemoveAll(krtFile.Name())
+
+	versionName, err := c.Create(krtFile.Name())
+	require.NoError(t, err)
+	require.Equal(t, versionName, "test-v1")
 }
