@@ -10,12 +10,12 @@ import (
 // VersionInterface method to interact with Versions.
 type VersionInterface interface { // nolint: golint
 	List() (List, error)
-	Start(versionID, comment string) error
-	Stop(versionID, comment string) error
-	Publish(versionID, comment string) error
-	Unpublish(versionID, comment string) error
-	GetConfig(versionID string) (*Config, error)
-	UpdateConfig(versionID string, configVars []ConfigVariableInput) (bool, error)
+	Start(versionName, comment string) error
+	Stop(versionName, comment string) error
+	Publish(versionName, comment string) error
+	Unpublish(versionName, comment string) error
+	GetConfig(versionName string) (*Config, error)
+	UpdateConfig(versionName string, configVars []ConfigVariableInput) (bool, error)
 	Create(krtFile string) (string, error)
 }
 

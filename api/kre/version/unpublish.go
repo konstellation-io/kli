@@ -1,18 +1,17 @@
 package version
 
-func (c *versionClient) Unpublish(versionID, comment string) error {
+func (c *versionClient) Unpublish(versionName, comment string) error {
 	query := `
 		mutation UnpublishVersion($input: UnpublishVersionInput!) {
 			unpublishVersion(input: $input) {
-				id
 				status
 			}
 		}
 	`
 	vars := map[string]interface{}{
 		"input": map[string]string{
-			"versionId": versionID,
-			"comment":   comment,
+			"versionName": versionName,
+			"comment":     comment,
 		},
 	}
 

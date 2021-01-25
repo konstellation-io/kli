@@ -1,16 +1,15 @@
 package version
 
-func (c *versionClient) Publish(versionID, comment string) error {
+func (c *versionClient) Publish(versionName, comment string) error {
 	query := `
 		mutation PublishVersion($input: PublishVersionInput!) {
 			publishVersion(input: $input) {
-				id
 				status
 			}
 		}
 	`
 	vars := map[string]interface{}{
-		"input": map[string]string{"versionId": versionID, "comment": comment},
+		"input": map[string]string{"versionName": versionName, "comment": comment},
 	}
 
 	var respData struct {

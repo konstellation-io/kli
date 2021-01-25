@@ -60,8 +60,8 @@ func TestVersionListCmd(t *testing.T) {
 		f.EXPECT().KreClient("test").Return(s.mocks.kreClient, nil)
 		s.mocks.kreClient.EXPECT().Version().Return(s.mocks.version)
 		s.mocks.version.EXPECT().List().Return(version.List{
-			{ID: "1234", Name: "greeter-v1", Status: "STARTED"},
-			{ID: "6578", Name: "greeter-v2", Status: "STOPPED"},
+			{Name: "test-v1", Status: "STARTED"},
+			{Name: "test-v2", Status: "STOPPED"},
 		}, nil)
 
 		return cmd.NewVersionCmd(f)
@@ -69,9 +69,9 @@ func TestVersionListCmd(t *testing.T) {
 
 	r.Run("version ls").
 		Contains(heredoc.Doc(`
-        ID   NAME       STATUS
-			1 1234 greeter-v1 STARTED
-			2 6578 greeter-v2 STOPPED
+        NAME       STATUS
+			1 test-v1 STARTED
+			2 test-v2 STOPPED
 		`))
 }
 
@@ -85,7 +85,7 @@ func TestVersionStartNoMessageCmd(t *testing.T) {
 		return cmd.NewVersionCmd(f)
 	})
 
-	r.RunE("version start 12345", fmt.Errorf("required flag(s) \"message\" not set"))
+	r.RunE("version start test-v1", fmt.Errorf("required flag(s) \"message\" not set"))
 }
 
 func TestVersionStartCmd(t *testing.T) {
@@ -96,14 +96,14 @@ func TestVersionStartCmd(t *testing.T) {
 
 		f.EXPECT().KreClient("test").Return(s.mocks.kreClient, nil)
 		s.mocks.kreClient.EXPECT().Version().Return(s.mocks.version)
-		s.mocks.version.EXPECT().Start("12345", comment).Return(nil)
+		s.mocks.version.EXPECT().Start("test-v1", comment).Return(nil)
 
 		return cmd.NewVersionCmd(f)
 	})
 
-	r.Runf("version start 12345 --message \"%s\"", comment).
+	r.Runf("version start test-v1 --message \"%s\"", comment).
 		Containsf(heredoc.Doc(`
-      [%s] Starting version '12345'.
+      [%s] Starting version 'test-v1'.
 		`), logsymbols.CurrentSymbols().Success)
 }
 
@@ -115,14 +115,14 @@ func TestVersionStopCmd(t *testing.T) {
 
 		f.EXPECT().KreClient("test").Return(s.mocks.kreClient, nil)
 		s.mocks.kreClient.EXPECT().Version().Return(s.mocks.version)
-		s.mocks.version.EXPECT().Stop("12345", comment).Return(nil)
+		s.mocks.version.EXPECT().Stop("test-v1", comment).Return(nil)
 
 		return cmd.NewVersionCmd(f)
 	})
 
-	r.Runf("version stop 12345 --message \"%s\"", comment).
+	r.Runf("version stop test-v1 --message \"%s\"", comment).
 		Containsf(heredoc.Doc(`
-      [%s] Stopping version '12345'.
+      [%s] Stopping version 'test-v1'.
 		`), logsymbols.CurrentSymbols().Success)
 }
 
@@ -134,14 +134,14 @@ func TestVersionPublishCmd(t *testing.T) {
 
 		f.EXPECT().KreClient("test").Return(s.mocks.kreClient, nil)
 		s.mocks.kreClient.EXPECT().Version().Return(s.mocks.version)
-		s.mocks.version.EXPECT().Publish("12345", comment).Return(nil)
+		s.mocks.version.EXPECT().Publish("test-v1", comment).Return(nil)
 
 		return cmd.NewVersionCmd(f)
 	})
 
-	r.Runf("version publish 12345 --message \"%s\"", comment).
+	r.Runf("version publish test-v1 --message \"%s\"", comment).
 		Containsf(heredoc.Doc(`
-      [%s] Publishing version '12345'.
+      [%s] Publishing version 'test-v1'.
 		`), logsymbols.CurrentSymbols().Success)
 }
 
@@ -153,13 +153,13 @@ func TestVersionUnpublishCmd(t *testing.T) {
 
 		f.EXPECT().KreClient("test").Return(s.mocks.kreClient, nil)
 		s.mocks.kreClient.EXPECT().Version().Return(s.mocks.version)
-		s.mocks.version.EXPECT().Unpublish("12345", comment).Return(nil)
+		s.mocks.version.EXPECT().Unpublish("test-v1", comment).Return(nil)
 
 		return cmd.NewVersionCmd(f)
 	})
 
-	r.Runf("version unpublish 12345 --message \"%s\"", comment).
+	r.Runf("version unpublish test-v1 --message \"%s\"", comment).
 		Containsf(heredoc.Doc(`
-      [%s] Unpublishing version '12345'.
+      [%s] Unpublishing version 'test-v1'.
 		`), logsymbols.CurrentSymbols().Success)
 }

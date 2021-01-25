@@ -15,7 +15,6 @@ func TestVersionList(t *testing.T) {
 				"data": {
 						"versions": [
 								{
-										"id": "123456",
 										"name": "test-v1",
 										"status": "STOPPED"
 								}
@@ -31,93 +30,92 @@ func TestVersionList(t *testing.T) {
 	require.NoError(t, err)
 	require.Len(t, list, 1)
 	require.Equal(t, list[0], version.Version{
-		ID:     "123456",
 		Name:   "test-v1",
 		Status: "STOPPED",
 	})
 }
 
 func TestVersionStart(t *testing.T) {
-	versionID := "123456"
+	versionName := "123456"
 	comment := "test start comment"
 	expectedVariables := fmt.Sprintf(`
 		{
 			"input": {
-					"versionId": "%s",
+					"versionName": "%s",
 					"comment": "%s"
 			}
 		}
- `, versionID, comment)
+ `, versionName, comment)
 
 	srv, cfg, client := gqlMockServer(t, expectedVariables, "")
 	defer srv.Close()
 
 	c := version.New(cfg, client)
 
-	err := c.Start(versionID, comment)
+	err := c.Start(versionName, comment)
 	require.NoError(t, err)
 }
 
 func TestVersionStop(t *testing.T) {
-	versionID := "123456"
+	versionName := "123456"
 	comment := "test stop comment"
 	expectedVariables := fmt.Sprintf(`
 		{
 			"input": {
-					"versionId": "%s",
+					"versionName": "%s",
 					"comment": "%s"
 			}
 		}
- `, versionID, comment)
+ `, versionName, comment)
 
 	srv, cfg, client := gqlMockServer(t, expectedVariables, "")
 	defer srv.Close()
 
 	c := version.New(cfg, client)
 
-	err := c.Stop(versionID, comment)
+	err := c.Stop(versionName, comment)
 	require.NoError(t, err)
 }
 
 func TestVersionPublish(t *testing.T) {
-	versionID := "123456"
+	versionName := "123456"
 	comment := "test publish comment"
 	expectedVariables := fmt.Sprintf(`
 		{
 			"input": {
-					"versionId": "%s",
+					"versionName": "%s",
 					"comment": "%s"
 			}
 		}
- `, versionID, comment)
+ `, versionName, comment)
 
 	srv, cfg, client := gqlMockServer(t, expectedVariables, "")
 	defer srv.Close()
 
 	c := version.New(cfg, client)
 
-	err := c.Publish(versionID, comment)
+	err := c.Publish(versionName, comment)
 	require.NoError(t, err)
 }
 
 func TestVersionUnpublish(t *testing.T) {
-	versionID := "123456"
+	versionName := "123456"
 	comment := "test unpublish comment"
 	expectedVariables := fmt.Sprintf(`
 		{
 			"input": {
-					"versionId": "%s",
+					"versionName": "%s",
 					"comment": "%s"
 			}
 		}
- `, versionID, comment)
+ `, versionName, comment)
 
 	srv, cfg, client := gqlMockServer(t, expectedVariables, "")
 	defer srv.Close()
 
 	c := version.New(cfg, client)
 
-	err := c.Unpublish(versionID, comment)
+	err := c.Unpublish(versionName, comment)
 	require.NoError(t, err)
 }
 
@@ -183,7 +181,7 @@ func TestVersionUpdateConfig(t *testing.T) {
 					"configurationVariables": [
 						{ "key": "KEY2", "value": "newValue" }
 					],
-					"versionId": "test-v1"
+					"versionName": "test-v1"
 			}
 		}
 	`

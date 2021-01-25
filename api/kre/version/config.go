@@ -41,7 +41,7 @@ func (e ConfigVariableType) String() string {
 }
 
 // UpdateConfig update a Version config values.
-func (c *versionClient) UpdateConfig(versionID string, configVars []ConfigVariableInput) (bool, error) {
+func (c *versionClient) UpdateConfig(versionName string, configVars []ConfigVariableInput) (bool, error) {
 	query := `
 		mutation UpdateConfig($input: UpdateConfigurationInput!) {
 			updateVersionConfiguration(input: $input) {
@@ -53,7 +53,7 @@ func (c *versionClient) UpdateConfig(versionID string, configVars []ConfigVariab
 	`
 	vars := map[string]interface{}{
 		"input": map[string]interface{}{
-			"versionId":              versionID,
+			"versionName":            versionName,
 			"configurationVariables": configVars,
 		},
 	}
@@ -71,10 +71,10 @@ func (c *versionClient) UpdateConfig(versionID string, configVars []ConfigVariab
 	return respData.UpdateVersionConfiguration.Config.Completed, err
 }
 
-func (c *versionClient) GetConfig(versionID string) (*Config, error) {
+func (c *versionClient) GetConfig(versionName string) (*Config, error) {
 	query := `
-    query GetVersionConf($versionId: ID!) {
-      version(id: $versionId) {
+    query GetVersionConf($versionName: versionName!) {
+      version(versionName: $versionName) {
         config {
           completed
           vars{
@@ -87,7 +87,7 @@ func (c *versionClient) GetConfig(versionID string) (*Config, error) {
     }
   `
 	vars := map[string]interface{}{
-		"versionId": versionID,
+		"versionName": versionName,
 	}
 
 	var respData struct {

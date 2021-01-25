@@ -25,12 +25,12 @@ func NewCreateCmd(f factory.CmdFactory) *cobra.Command {
 
 			krt := args[0]
 
-			versionID, err := c.Version().Create(krt)
+			versionName, err := c.Version().Create(krt)
 			if err != nil {
 				return err
 			}
 
-			log.Success(fmt.Sprintf("Upload KRT completed, version %s created.", versionID))
+			log.Success(fmt.Sprintf("Upload KRT completed, version %s created.", versionName))
 			return nil
 		},
 	}

@@ -11,7 +11,6 @@ func (c *versionClient) Create(krtFile string) (string, error) {
 	query := `
 		mutation CreateVersion($input: CreateVersionInput!) {
 			createVersion(input: $input) {
-				id
 				name
 			}
 		}
@@ -25,7 +24,6 @@ func (c *versionClient) Create(krtFile string) (string, error) {
 	var respData struct {
 		Data struct {
 			CreateVersion struct {
-				ID   string `json:"id"`
 				Name string `json:"name"`
 			} `json:"createVersion"`
 		} `json:"data"`
@@ -43,7 +41,7 @@ func (c *versionClient) Create(krtFile string) (string, error) {
 	}
 
 	err = c.client.UploadFile(file, query, vars, &respData)
-	versionID := respData.Data.CreateVersion.ID
+	versionName := respData.Data.CreateVersion.Name
 
-	return versionID, err
+	return versionName, err
 }

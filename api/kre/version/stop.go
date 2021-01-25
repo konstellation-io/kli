@@ -1,18 +1,17 @@
 package version
 
-func (c *versionClient) Stop(versionID, comment string) error {
+func (c *versionClient) Stop(versionName, comment string) error {
 	query := `
 		mutation StopVersion($input: StopVersionInput!) {
 			stopVersion(input: $input) {
-				id
 				status
 			}
 		}
 	`
 	vars := map[string]interface{}{
 		"input": map[string]string{
-			"versionId": versionID,
-			"comment":   comment,
+			"versionName": versionName,
+			"comment":     comment,
 		},
 	}
 

@@ -2,7 +2,6 @@ package version
 
 // Version represents a Version entity in KRE.
 type Version struct {
-	ID     string
 	Name   string
 	Status string
 }
@@ -15,7 +14,6 @@ func (c *versionClient) List() (List, error) {
 	query := `
 		query GetVersions() {
 			versions() {
-				id
 				name
 				status
 			}

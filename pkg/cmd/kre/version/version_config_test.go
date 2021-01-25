@@ -76,12 +76,12 @@ func TestVersionGetConfigCmd(t *testing.T) {
 
 		f.EXPECT().KreClient("test").Return(s.mocks.kreClient, nil)
 		s.mocks.kreClient.EXPECT().Version().Return(s.mocks.version)
-		s.mocks.version.EXPECT().GetConfig("12345").Return(versionConfig, nil)
+		s.mocks.version.EXPECT().GetConfig("test-v1").Return(versionConfig, nil)
 
 		return NewVersionCmd(f)
 	})
 
-	r.Run("version config 12345").
+	r.Run("version config test-v1").
 		Containsf(heredoc.Doc(`
 				TYPE     KEY
 			1 VARIABLE key1
@@ -113,12 +113,12 @@ func TestVersionGetConfigWithValuesCmd(t *testing.T) {
 
 		f.EXPECT().KreClient("test").Return(s.mocks.kreClient, nil)
 		s.mocks.kreClient.EXPECT().Version().Return(s.mocks.version)
-		s.mocks.version.EXPECT().GetConfig("12345").Return(versionConfig, nil)
+		s.mocks.version.EXPECT().GetConfig("test-v1").Return(versionConfig, nil)
 
 		return NewVersionCmd(f)
 	})
 
-	r.Run("version config 12345 --show-values").
+	r.Run("version config test-v1 --show-values").
 		Containsf(heredoc.Doc(`
 				TYPE     KEY  VALUE
 			1 VARIABLE key1 value1
@@ -140,16 +140,16 @@ func TestVersionSetConfigCmd(t *testing.T) {
 
 		f.EXPECT().KreClient("test").Return(s.mocks.kreClient, nil)
 		s.mocks.kreClient.EXPECT().Version().Return(s.mocks.version)
-		s.mocks.version.EXPECT().UpdateConfig("12345", configVars).Return(true, nil)
+		s.mocks.version.EXPECT().UpdateConfig("test-v1", configVars).Return(true, nil)
 
 		return NewVersionCmd(f)
 	})
 
 	pair1 := fmt.Sprintf("%s=%s", configVars[0]["key"], configVars[0]["value"])
 	pair2 := fmt.Sprintf("%s=%s", configVars[1]["key"], configVars[1]["value"])
-	r.Runf("version config 12345 --set %s --set %s", pair1, pair2).
+	r.Runf("version config test-v1 --set %s --set %s", pair1, pair2).
 		Containsf(heredoc.Doc(`
-      [%s] Config completed for version '12345'.
+      [%s] Config completed for version 'test-v1'.
 		`), logsymbols.CurrentSymbols().Success)
 }
 
@@ -186,7 +186,7 @@ func TestVersionSetConfigErrorEdgeCasesCmd(t *testing.T) {
 
 	for _, pair := range testCases {
 		err := fmt.Errorf(pair.expectedError)
-		r.RunArgsE("version config 12345", err, pair.extraArgs...)
+		r.RunArgsE("version config test-v1", err, pair.extraArgs...)
 	}
 }
 
@@ -198,7 +198,7 @@ func TestVersionSetConfigEdgeCasesCmd(t *testing.T) {
 
 		f.EXPECT().KreClient("test").Return(s.mocks.kreClient, nil).AnyTimes()
 		s.mocks.kreClient.EXPECT().Version().Return(s.mocks.version).AnyTimes()
-		s.mocks.version.EXPECT().UpdateConfig("12345", gomock.Any()).Return(true, nil).AnyTimes()
+		s.mocks.version.EXPECT().UpdateConfig("test-v1", gomock.Any()).Return(true, nil).AnyTimes()
 
 		return NewVersionCmd(f)
 	})
@@ -213,9 +213,9 @@ func TestVersionSetConfigEdgeCasesCmd(t *testing.T) {
 	}
 
 	for _, extraArgs := range testCases {
-		r.RunArgs("version config 12345", extraArgs...).
+		r.RunArgs("version config test-v1", extraArgs...).
 			Containsf(heredoc.Doc(`
-      [%s] Config completed for version '12345'.
+      [%s] Config completed for version 'test-v1'.
 		`), logsymbols.CurrentSymbols().Success)
 	}
 }
@@ -225,7 +225,7 @@ func TestVersionSetConfigFromEnvCmd(t *testing.T) {
 	configVars := []version.ConfigVariableInput{
 		{
 			"key":   "TEST_VAR",
-			"value": "12345\n222",
+			"value": "test-v1\n222",
 		},
 		{
 			"key":   "TEST_VAR2",
@@ -237,21 +237,21 @@ func TestVersionSetConfigFromEnvCmd(t *testing.T) {
 
 		f.EXPECT().KreClient("test").Return(s.mocks.kreClient, nil)
 		s.mocks.kreClient.EXPECT().Version().Return(s.mocks.version)
-		s.mocks.version.EXPECT().UpdateConfig("12345", configVars).Return(true, nil)
+		s.mocks.version.EXPECT().UpdateConfig("test-v1", configVars).Return(true, nil)
 
 		return NewVersionCmd(f)
 	})
 
-	err := os.Setenv("TEST_VAR", heredoc.Doc(`12345
+	err := os.Setenv("TEST_VAR", heredoc.Doc(`test-v1
                                                       222`))
 	require.NoError(t, err)
 
 	err = os.Setenv("TEST_VAR2", "test\" test")
 	require.NoError(t, err)
 
-	r.Run("version config 12345 --set-from-env TEST_VAR --set-from-env TEST_VAR2").
+	r.Run("version config test-v1 --set-from-env TEST_VAR --set-from-env TEST_VAR2").
 		Containsf(heredoc.Doc(`
-      [%s] Config completed for version '12345'.
+      [%s] Config completed for version 'test-v1'.
 		`), logsymbols.CurrentSymbols().Success)
 }
 
@@ -268,7 +268,7 @@ func TestVersionSetConfigFromEmptyEnvCmd(t *testing.T) {
 
 		f.EXPECT().KreClient("test").Return(s.mocks.kreClient, nil)
 		s.mocks.kreClient.EXPECT().Version().Return(s.mocks.version)
-		s.mocks.version.EXPECT().UpdateConfig("12345", configVars).Return(false, nil)
+		s.mocks.version.EXPECT().UpdateConfig("test-v1", configVars).Return(false, nil)
 
 		return NewVersionCmd(f)
 	})
@@ -276,9 +276,9 @@ func TestVersionSetConfigFromEmptyEnvCmd(t *testing.T) {
 	err := os.Unsetenv("TEST_VAR")
 	require.NoError(t, err)
 
-	r.Run("version config 12345 --set-from-env TEST_VAR").
+	r.Run("version config test-v1 --set-from-env TEST_VAR").
 		Containsf(heredoc.Doc(`
-      [%s] Config updated for version '12345'.
+      [%s] Config updated for version 'test-v1'.
 		`), logsymbols.CurrentSymbols().Success)
 }
 
@@ -287,7 +287,7 @@ func TestVersionSetConfigFromFileCmd(t *testing.T) {
 	configVars := []version.ConfigVariableInput{
 		{
 			"key":   "TEST_VAR",
-			"value": "123456",
+			"value": "test-v16",
 		},
 	}
 	r := testhelpers.NewRunner(t, func(f *mocks.MockCmdFactory) *cobra.Command {
@@ -295,7 +295,7 @@ func TestVersionSetConfigFromFileCmd(t *testing.T) {
 
 		f.EXPECT().KreClient("test").Return(s.mocks.kreClient, nil)
 		s.mocks.kreClient.EXPECT().Version().Return(s.mocks.version)
-		s.mocks.version.EXPECT().UpdateConfig("12345", configVars).Return(true, nil)
+		s.mocks.version.EXPECT().UpdateConfig("test-v1", configVars).Return(true, nil)
 
 		return NewVersionCmd(f)
 	})
@@ -307,11 +307,11 @@ func TestVersionSetConfigFromFileCmd(t *testing.T) {
 	defer os.RemoveAll(tempEnvFile.Name())
 
 	_, _ = tempEnvFile.Write([]byte(heredoc.Doc(`
-		TEST_VAR=123456
+		TEST_VAR=test-v16
 	`)))
 
-	r.Runf("version config 12345 --set-from-file %s", tempEnvFile.Name()).
+	r.Runf("version config test-v1 --set-from-file %s", tempEnvFile.Name()).
 		Containsf(heredoc.Doc(`
-      [%s] Config completed for version '12345'.
+      [%s] Config completed for version 'test-v1'.
 		`), logsymbols.CurrentSymbols().Success)
 }
