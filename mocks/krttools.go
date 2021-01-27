@@ -47,15 +47,15 @@ func (mr *MockKrtToolerMockRecorder) Validate(yamlPath interface{}) *gomock.Call
 }
 
 // Build mocks base method
-func (m *MockKrtTooler) Build(src, target string) error {
+func (m *MockKrtTooler) Build(src, target, version string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Build", src, target)
+	ret := m.ctrl.Call(m, "Build", src, target, version)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // Build indicates an expected call of Build
-func (mr *MockKrtToolerMockRecorder) Build(src, target interface{}) *gomock.Call {
+func (mr *MockKrtToolerMockRecorder) Build(src, target, version interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Build", reflect.TypeOf((*MockKrtTooler)(nil).Build), src, target)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Build", reflect.TypeOf((*MockKrtTooler)(nil).Build), src, target, version)
 }
