@@ -11,7 +11,7 @@ require (
 	github.com/guumaster/logsymbols v0.3.1
 	github.com/joho/godotenv v1.3.0
 	github.com/konstellation-io/graphql v0.3.0
-	github.com/konstellation-io/kre/libs/krt-utils v0.0.0-20210119094834-6d373964e814
+	github.com/konstellation-io/kre/libs/krt-utils v0.0.0-20210127163202-65666c1e48f8
 	github.com/mattn/go-colorable v0.1.8
 	github.com/mattn/go-isatty v0.0.12
 	github.com/olekukonko/tablewriter v0.0.4
