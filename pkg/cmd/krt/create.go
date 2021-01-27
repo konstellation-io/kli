@@ -14,11 +14,12 @@ func NewCreateCmd(f factory.CmdFactory) *cobra.Command {
 		Args:  cobra.ExactArgs(2), //nolint:gomnd
 		Short: "Create KRT file from a directory",
 		RunE: func(cmd *cobra.Command, args []string) error {
+			version, _ := cmd.Flags().GetString("version")
 			src := args[0]
 			target := args[1]
 
 			krt := f.Krt()
-			err := krt.Build(src, target)
+			err := krt.Build(src, target, version)
 			if err != nil {
 				return err
 			}
@@ -28,6 +29,7 @@ func NewCreateCmd(f factory.CmdFactory) *cobra.Command {
 			return nil
 		},
 	}
+	cmd.Flags().StringP("version", "v", "", "KRT version name")
 
 	return cmd
 }

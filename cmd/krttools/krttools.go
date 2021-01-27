@@ -12,7 +12,7 @@ import (
 // KrtTooler interface with util functions.
 type KrtTooler interface {
 	Validate(yamlPath string) error
-	Build(src, target string) error
+	Build(src, target, version string) error
 }
 
 // KrtTools utils for validating and building krts.
@@ -47,7 +47,15 @@ func (krt *KrtTools) Validate(yamlPath string) error {
 }
 
 // Build build utility for the krt command.
-func (krt *KrtTools) Build(src, target string) error {
+func (krt *KrtTools) Build(src, target, version string) error {
+	if version != "" {
+		err := krt.builder.UpdateVersion(src, version)
+		if err != nil {
+			return err
+		}
+	}
+
 	err := krt.builder.Build(src, target)
+
 	return err
 }

@@ -124,8 +124,9 @@ github.com/kisielk/gotool v1.0.0/go.mod h1:XhKaO+MFFWcvkIS/tQcRk01m1F5IRFswLeQ+o
 github.com/konsorten/go-windows-terminal-sequences v1.0.1/go.mod h1:T0+1ngSBFLxvqU3pZ+m/2kptfBszLMUkC4ZK/EgS/cQ=
 github.com/konstellation-io/graphql v0.3.0 h1:UlHflBVXuQXGMDLJcLSQOOIMMNsyOipsaZc0EeWGMpw=
 github.com/konstellation-io/graphql v0.3.0/go.mod h1:4hJ51N0gnww5eBcNGD4UnH+x9f9zgVO1yWk2cGlznZQ=
-github.com/konstellation-io/kre/libs/krt-utils v0.0.0-20210119094834-6d373964e814 h1:5UpRCTVEHPr3w0Xl582bFvx1w6qy0HVBM2EnqPXtur0=
-github.com/konstellation-io/kre/libs/krt-utils v0.0.0-20210119094834-6d373964e814/go.mod h1:/yGOZw7u2ihgf1C7NsI+g5xi859zA/NsjpxztREhn3A=
+github.com/konstellation-io/kre v1.0.0 h1:Cczh2gSPqswtm5kXrsXpBcNBPsKuM6vYryTwUops+wI=
+github.com/konstellation-io/kre/libs/krt-utils v0.0.0-20210127163202-65666c1e48f8 h1:jbaeGgP1r+0jzdEnwZ5rmKbwNBly1lI0N7Mu5mIiIWc=
+github.com/konstellation-io/kre/libs/krt-utils v0.0.0-20210127163202-65666c1e48f8/go.mod h1:/yGOZw7u2ihgf1C7NsI+g5xi859zA/NsjpxztREhn3A=
 github.com/konstellation-io/kre/libs/simplelogger v0.0.0-20201224090044-7d2e9c2cfd32 h1:EIb8e50MIwKZBed0n+oeXR2Wn6cQTgEEeI/Rx7Z4qZ8=
 github.com/konstellation-io/kre/libs/simplelogger v0.0.0-20201224090044-7d2e9c2cfd32/go.mod h1:NBvrtiOd/pwGYVmJBDwGzr/SiHp5gZToELhUiJ1CmIk=
 github.com/kr/logfmt v0.0.0-20140226030751-b84e30acd515/go.mod h1:+0opPa2QZZtGFBFZlji/RkVcI2GknAs/DXo4wKdlNEc=
@@ -286,9 +287,8 @@ golang.org/x/sys v0.0.0-20190507160741-ecd444e8653b/go.mod h1:h1NjWce9XRLGQEsW7w
 golang.org/x/sys v0.0.0-20190606165138-5da285871e9c/go.mod h1:h1NjWce9XRLGQEsW7wpKNCjG9DtNlClVuFLEZdDNbEs=
 golang.org/x/sys v0.0.0-20190624142023-c5567b49c5d0/go.mod h1:h1NjWce9XRLGQEsW7wpKNCjG9DtNlClVuFLEZdDNbEs=
 golang.org/x/sys v0.0.0-20200116001909-b77594299b42/go.mod h1:h1NjWce9XRLGQEsW7wpKNCjG9DtNlClVuFLEZdDNbEs=
+golang.org/x/sys v0.0.0-20200223170610-d5e6a3e2c0ae h1:/WDfKMnPU+m5M4xB+6x4kaepxRw6jWvR5iDRdvjHgy8=
 golang.org/x/sys v0.0.0-20200223170610-d5e6a3e2c0ae/go.mod h1:h1NjWce9XRLGQEsW7wpKNCjG9DtNlClVuFLEZdDNbEs=
-golang.org/x/sys v0.0.0-20200413165638-669c56c373c4 h1:opSr2sbRXk5X5/givKrrKj9HXxFpW2sdCiP8MJSKLQY=
-golang.org/x/sys v0.0.0-20200413165638-669c56c373c4/go.mod h1:h1NjWce9XRLGQEsW7wpKNCjG9DtNlClVuFLEZdDNbEs=
 golang.org/x/text v0.3.0/go.mod h1:NqM8EUOU14njkJ3fqMW+pc6Ldnwhi/IjpwHt7yyuwOQ=
 golang.org/x/text v0.3.1-0.20180807135948-17ff2d5776d2/go.mod h1:NqM8EUOU14njkJ3fqMW+pc6Ldnwhi/IjpwHt7yyuwOQ=
 golang.org/x/text v0.3.2/go.mod h1:bEr9sfX3Q8Zfm5fL9x+3itogRgK3+ptLWKqgva+5dAk=
